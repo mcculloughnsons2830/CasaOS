@@ -26,6 +26,7 @@ export default function Logo({ className = '' }: { className?: string }) {
       <span className="font-display text-lg font-bold uppercase tracking-wide">
         <span className="text-bone">MsFitZ</span>{' '}
         <span className="text-ember">Society</span>
+        <span className="ml-0.5 align-super text-[0.5em] text-muted">™</span>
       </span>
     </a>
   )

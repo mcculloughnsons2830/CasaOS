@@ -34,7 +34,7 @@ export default function Footer() {
         <div className="mt-12 border-t border-line pt-8">
           <p className="text-xs leading-relaxed text-muted/70">{t.footer.disclaimer}</p>
           <p className="mt-4 text-xs text-muted/60">
-            © {year} MsFitZ Society. {t.footer.rights}
+            © {year} Joshua Reed McCullough · MsFitZ Society™. {t.footer.rights}
           </p>
         </div>
       </div>
