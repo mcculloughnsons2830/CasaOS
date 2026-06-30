@@ -1,4 +1,4 @@
-// © 2026 MsFitZ Society. All rights reserved. Proprietary — see LICENSE.
+// © 2026 Joshua Reed McCullough (MsFitZ Society). All rights reserved. Proprietary — see LICENSE.
 export default function GooglePlayBadge({ label }: { label: string }) {
   return (
     <a href="#download" className="btn-ember group">

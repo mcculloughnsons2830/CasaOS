@@ -1,4 +1,4 @@
-// © 2026 MsFitZ Society. All rights reserved. Proprietary — see LICENSE.
+// © 2026 Joshua Reed McCullough (MsFitZ Society). All rights reserved. Proprietary — see LICENSE.
 import { useEffect, useRef, useState } from 'react'
 import Logo from '../components/Logo'
 import { streamOracle } from '../reading/api'

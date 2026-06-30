@@ -1,4 +1,4 @@
-// © 2026 MsFitZ Society. All rights reserved. Proprietary — see LICENSE.
+// © 2026 Joshua Reed McCullough (MsFitZ Society). All rights reserved. Proprietary — see LICENSE.
 // Validation harness — compute a known chart and print it.
 // Albert Einstein: 1879-03-14, 11:30, Ulm, Germany.
 // Reference (astro databases): Sun Pisces, Moon Sagittarius, Ascendant Cancer.

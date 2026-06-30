@@ -1,4 +1,4 @@
-// © 2026 MsFitZ Society. All rights reserved. Proprietary — see LICENSE.
+// © 2026 Joshua Reed McCullough (MsFitZ Society). All rights reserved. Proprietary — see LICENSE.
 // Shared astrology types — the shape of a computed natal chart.
 
 export type PlanetName =

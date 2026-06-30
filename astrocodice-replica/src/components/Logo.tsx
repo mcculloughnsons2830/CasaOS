@@ -1,4 +1,4 @@
-// © 2026 MsFitZ Society. All rights reserved. Proprietary — see LICENSE.
+// © 2026 Joshua Reed McCullough (MsFitZ Society). All rights reserved. Proprietary — see LICENSE.
 /**
  * MsFitZ Society wordmark — references the brand's bear mascot with glowing
  * ember eyes, rendered in pure CSS/SVG (no copyrighted asset reproduced).

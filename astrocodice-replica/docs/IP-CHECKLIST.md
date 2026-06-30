@@ -21,8 +21,10 @@ licenses).
       written. Nothing to file for that to be true.
 - [x] **Mark it** — `LICENSE` (proprietary, All Rights Reserved) + a `©` header
       on every source file. *(Done.)*
-- [ ] **Set the legal holder** — replace "MsFitZ Society" in `LICENSE` and the
-      `package.json` `author` field with your exact legal name or LLC.
+- [x] **Set the legal holder** — `LICENSE` and `package.json` now name
+      **Joshua Reed McCullough** (d/b/a MsFitZ Society) as the Owner. *(Done.)*
+      If you later form an **LLC**, transfer/assign ownership to the entity and
+      update these to the company name.
 - [ ] **Keep dated records** — the git history timestamps authorship. Keep the
       repo private until you're ready to publish.
 - [ ] **(Optional) Register with the U.S. Copyright Office** — at
@@ -86,7 +88,7 @@ and is what stops a competitor from using your name.
 
 ### Fast path (if you only do four things)
 
-1. Put your **legal name** in `LICENSE` + `package.json`.
+1. ~~Put your **legal name** in `LICENSE` + `package.json`.~~ ✅ Done — Joshua Reed McCullough.
 2. Start using **™** on "MsFitZ Society" and "AENIGMA" today.
 3. Do a **USPTO + web clearance search** on both names.
 4. File the **wordmark** trademark (Class 9/42) — intent-to-use if pre-launch —

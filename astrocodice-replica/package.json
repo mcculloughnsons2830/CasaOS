@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "description": "MsFitZ Society — AI astrology app with the AENIGMA oracle.",
-  "author": "MsFitZ Society",
+  "author": "Joshua Reed McCullough (MsFitZ Society)",
   "license": "UNLICENSED",
   "scripts": {
     "dev": "vite",

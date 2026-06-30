@@ -1,4 +1,4 @@
-// © 2026 MsFitZ Society. All rights reserved. Proprietary — see LICENSE.
+// © 2026 Joshua Reed McCullough (MsFitZ Society). All rights reserved. Proprietary — see LICENSE.
 // AI interpretation engine — the streaming core behind every persona:
 //   - the astrology reader (grounded in a computed natal chart)
 //   - AENIGMA, the oracle of the MisFitZ Codex

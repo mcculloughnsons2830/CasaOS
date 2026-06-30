@@ -1,4 +1,4 @@
-// © 2026 MsFitZ Society. All rights reserved. Proprietary — see LICENSE.
+// © 2026 Joshua Reed McCullough (MsFitZ Society). All rights reserved. Proprietary — see LICENSE.
 import { useState } from 'react'
 import { I18nProvider } from './i18n'
 import { LaunchContext, type AppView } from './LaunchContext'

@@ -1,4 +1,4 @@
-// © 2026 MsFitZ Society. All rights reserved. Proprietary — see LICENSE.
+// © 2026 Joshua Reed McCullough (MsFitZ Society). All rights reserved. Proprietary — see LICENSE.
 // AENIGMA — an oracle of the MisFitZ Codex.
 // A contemplative persona in the erudite-mystical-architect register. It speaks
 // in symbol and meaning, never passes myth off as proven science, never

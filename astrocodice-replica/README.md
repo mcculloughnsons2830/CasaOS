@@ -88,11 +88,10 @@ different.
 
 ## Ownership & license
 
-© 2026 **MsFitZ Society**. All rights reserved. This is **proprietary** software —
-see [`LICENSE`](./LICENSE). The original source, design, written content, and the
-**AENIGMA** persona belong to the Owner; third-party open-source dependencies keep
-their own licenses. (Set your exact legal name/entity in `LICENSE` and the
-`package.json` `author` field whenever you're ready.)
+© 2026 **Joshua Reed McCullough**, doing business as **MsFitZ Society**. All rights
+reserved. This is **proprietary** software — see [`LICENSE`](./LICENSE). The
+original source, design, written content, and the **AENIGMA** persona belong to the
+Owner; third-party open-source dependencies keep their own licenses.
 
 ## Notes
 
