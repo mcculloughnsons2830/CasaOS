@@ -1,9 +1,11 @@
 {
-  "name": "astrocodice-replica",
+  "name": "msfitz-society",
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "A faithful front-end replica of the AstroCode AI (astrocodice.com) marketing landing page.",
+  "description": "MsFitZ Society — AI astrology app with the AENIGMA oracle.",
+  "author": "MsFitZ Society",
+  "license": "UNLICENSED",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

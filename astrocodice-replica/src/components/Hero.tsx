@@ -1,6 +1,5 @@
 import { useI18n } from '../i18n'
 import { useLaunch } from '../LaunchContext'
-import GooglePlayBadge from './GooglePlayBadge'
 
 export default function Hero() {
   const { t } = useI18n()
@@ -25,10 +24,12 @@ export default function Hero() {
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted">{t.hero.sub}</p>
 
           <div className="mt-9 flex flex-wrap items-center gap-4">
-            <button onClick={launch} className="btn-ember">
+            <button onClick={() => launch('reading')} className="btn-ember">
               {t.hero.readingCta} ✦
             </button>
-            <GooglePlayBadge label={t.hero.ctaPrimary} />
+            <button onClick={() => launch('oracle')} className="btn-ghost">
+              ◈ Consult AENIGMA
+            </button>
           </div>
 
           <p className="mt-6 text-xs uppercase tracking-[0.18em] text-muted/80">{t.hero.trust}</p>

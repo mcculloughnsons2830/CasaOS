@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { I18nProvider } from './i18n'
-import { LaunchContext } from './LaunchContext'
+import { LaunchContext, type AppView } from './LaunchContext'
 import Starfield from './components/Starfield'
 import Header from './components/Header'
 import Hero from './components/Hero'
@@ -15,16 +15,17 @@ import FAQ from './components/FAQ'
 import DownloadCTA from './components/DownloadCTA'
 import Footer from './components/Footer'
 import ReadingExperience from './reading/ReadingExperience'
+import OracleExperience from './oracle/OracleExperience'
 
 export default function App() {
-  const [reading, setReading] = useState(false)
+  const [view, setView] = useState<'landing' | AppView>('landing')
 
-  const launch = () => {
-    setReading(true)
+  const launch = (v: AppView) => {
+    setView(v)
     window.scrollTo({ top: 0 })
   }
   const close = () => {
-    setReading(false)
+    setView('landing')
     window.scrollTo({ top: 0 })
   }
 
@@ -32,8 +33,10 @@ export default function App() {
     <I18nProvider>
       <LaunchContext.Provider value={launch}>
         <Starfield />
-        {reading ? (
+        {view === 'reading' ? (
           <ReadingExperience onClose={close} />
+        ) : view === 'oracle' ? (
+          <OracleExperience onClose={close} />
         ) : (
           <>
             <Header />

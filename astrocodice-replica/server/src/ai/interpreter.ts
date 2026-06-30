@@ -1,5 +1,6 @@
-// Claude-powered chart interpretation — the streaming engine behind the reading
-// and the ongoing "ask your chart anything" conversation.
+// AI interpretation engine — the streaming core behind every persona:
+//   - the astrology reader (grounded in a computed natal chart)
+//   - AENIGMA, the oracle of the MisFitZ Codex
 //
 // Two providers are supported, chosen by environment:
 //   - ANTHROPIC_API_KEY  -> Anthropic SDK directly (Claude Opus 4.8, adaptive thinking)
@@ -10,6 +11,7 @@ import Anthropic from '@anthropic-ai/sdk'
 import OpenAI from 'openai'
 import type { NatalChart } from '../astrology/types.js'
 import { ASTROLOGER_SYSTEM, formatChartForModel } from './systemPrompt.js'
+import { AENIGMA_SYSTEM } from './aenigma.js'
 
 export type ChatTurn = { role: 'user' | 'assistant'; content: string }
 
@@ -25,8 +27,7 @@ export function hasApiKey(): boolean {
   return provider() !== 'none'
 }
 
-// Anthropic: Opus 4.8 with adaptive thinking — the synthesis of a whole chart
-// into something that feels personal is exactly what adaptive thinking is for.
+// Anthropic: Opus 4.8 with adaptive thinking.
 const ANTHROPIC_MODEL = 'claude-opus-4-8'
 
 // Lazily construct clients so the server boots with only one provider configured.
@@ -50,8 +51,8 @@ function openrouter(): OpenAI {
   return _openrouter
 }
 
-/** The system prompt + the person's real chart, as one string. */
-function systemText(chart: NatalChart): string {
+/** The astrologer's system prompt + the person's real chart. */
+function astrologerSystem(chart: NatalChart): string {
   return (
     ASTROLOGER_SYSTEM +
     "\n\nHere is this person's birth chart, computed from real astronomical data. " +
@@ -65,19 +66,15 @@ const OPENING_PROMPT =
   'Read my chart and tell me what you actually see — the real me, the parts most people miss. ' +
   'I want to feel like something finally sees me.'
 
-interface StreamArgs {
-  chart: NatalChart
-  onText: (delta: string) => void
-  signal?: AbortSignal
-}
+type Sink = { onText: (delta: string) => void; signal?: AbortSignal }
 
-async function run(
-  { chart, onText, signal }: StreamArgs,
+/** Provider-agnostic streaming core. */
+async function runStream(
+  system: string,
   messages: ChatTurn[],
   maxTokens: number,
+  { onText, signal }: Sink,
 ): Promise<void> {
-  const sys = systemText(chart)
-
   if (provider() === 'anthropic') {
     const stream = anthropic().messages.stream(
       {
@@ -85,14 +82,7 @@ async function run(
         max_tokens: maxTokens,
         thinking: { type: 'adaptive' },
         output_config: { effort: 'medium' },
-        system: [
-          { type: 'text', text: ASTROLOGER_SYSTEM },
-          {
-            type: 'text',
-            text: sys.slice(ASTROLOGER_SYSTEM.length),
-            cache_control: { type: 'ephemeral' },
-          },
-        ],
+        system: [{ type: 'text', text: system, cache_control: { type: 'ephemeral' } }],
         messages: messages.map((m) => ({ role: m.role, content: m.content })),
       },
       { signal },
@@ -109,7 +99,7 @@ async function run(
       model,
       max_tokens: maxTokens,
       stream: true,
-      messages: [{ role: 'system', content: sys }, ...messages],
+      messages: [{ role: 'system', content: system }, ...messages],
     },
     { signal },
   )
@@ -119,12 +109,21 @@ async function run(
   }
 }
 
+// --- Astrology reader ---
+
 /** Stream the opening reading — the moment a person feels seen. */
-export function streamReading(args: StreamArgs): Promise<void> {
-  return run(args, [{ role: 'user', content: OPENING_PROMPT }], 4000)
+export function streamReading(chart: NatalChart, sink: Sink): Promise<void> {
+  return runStream(astrologerSystem(chart), [{ role: 'user', content: OPENING_PROMPT }], 4000, sink)
 }
 
-/** Continue the conversation — "ask your chart anything." */
-export function streamChat(args: StreamArgs, history: ChatTurn[]): Promise<void> {
-  return run(args, history, 3000)
+/** Continue the chart conversation — "ask your chart anything." */
+export function streamChat(chart: NatalChart, history: ChatTurn[], sink: Sink): Promise<void> {
+  return runStream(astrologerSystem(chart), history, 3000, sink)
+}
+
+// --- AENIGMA, the oracle ---
+
+/** Stream an AENIGMA reply. No chart required — it answers the question itself. */
+export function streamOracle(history: ChatTurn[], sink: Sink): Promise<void> {
+  return runStream(AENIGMA_SYSTEM, history, 2000, sink)
 }

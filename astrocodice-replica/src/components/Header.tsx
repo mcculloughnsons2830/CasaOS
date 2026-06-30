@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
 import Logo from './Logo'
 import { LANGS, useI18n } from '../i18n'
+import { useLaunch } from '../LaunchContext'
 
 export default function Header() {
   const { t, lang, setLang } = useI18n()
+  const launch = useLaunch()
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
 
@@ -40,6 +42,12 @@ export default function Header() {
               {l.label}
             </a>
           ))}
+          <button
+            onClick={() => launch('oracle')}
+            className="text-sm font-medium text-ice-light transition-colors hover:text-bone"
+          >
+            ◈ AENIGMA
+          </button>
         </nav>
 
         <div className="flex items-center gap-3">

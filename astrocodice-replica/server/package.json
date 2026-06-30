@@ -4,6 +4,8 @@
   "version": "1.0.0",
   "type": "module",
   "description": "MsFitZ Society — astrology + AI engine (real NASA/JPL-grade ephemeris + Claude interpretation).",
+  "author": "MsFitZ Society",
+  "license": "UNLICENSED",
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "start": "tsx src/index.ts",

@@ -30,9 +30,14 @@ export default function AISpotlight() {
                   </li>
                 ))}
               </ul>
-              <button onClick={launch} className="btn-ember mt-8">
-                {t.ai.cta} ✦
-              </button>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <button onClick={() => launch('reading')} className="btn-ember">
+                  {t.ai.cta} ✦
+                </button>
+                <button onClick={() => launch('oracle')} className="btn-ghost">
+                  ◈ Consult AENIGMA
+                </button>
+              </div>
             </div>
 
             {/* A glimpse of the experience: a "seen" reading moment */}

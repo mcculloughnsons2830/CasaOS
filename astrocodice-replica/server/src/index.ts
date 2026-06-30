@@ -17,7 +17,14 @@ import cors from 'cors'
 import { z } from 'zod'
 import { computeChart } from './astrology/ephemeris.js'
 import { geocode } from './astrology/geocode.js'
-import { hasApiKey, provider, streamChat, streamReading, type ChatTurn } from './ai/interpreter.js'
+import {
+  hasApiKey,
+  provider,
+  streamChat,
+  streamOracle,
+  streamReading,
+  type ChatTurn,
+} from './ai/interpreter.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const PORT = Number(process.env.PORT) || 8787
@@ -112,8 +119,7 @@ app.post('/api/reading', async (req: Request, res: Response) => {
       return res.end()
     }
 
-    await streamReading({
-      chart,
+    await streamReading(chart, {
       signal: controller.signal,
       onText: (delta) => send(res, { type: 'delta', text: delta }),
     })
@@ -143,14 +149,46 @@ app.post('/api/chat', async (req: Request, res: Response) => {
       return res.end()
     }
     const chart = computeChart(normalizeBirth(parsed.data.birth))
-    await streamChat(
-      {
-        chart,
-        signal: controller.signal,
-        onText: (delta) => send(res, { type: 'delta', text: delta }),
-      },
-      parsed.data.history as ChatTurn[],
-    )
+    await streamChat(chart, parsed.data.history as ChatTurn[], {
+      signal: controller.signal,
+      onText: (delta) => send(res, { type: 'delta', text: delta }),
+    })
+    send(res, { type: 'done' })
+  } catch (err) {
+    if (!controller.signal.aborted) {
+      send(res, { type: 'error', message: friendly(err) })
+    }
+  } finally {
+    res.end()
+  }
+})
+
+const oracleSchema = z.object({
+  history: z
+    .array(z.object({ role: z.enum(['user', 'assistant']), content: z.string().min(1).max(4000) }))
+    .min(1)
+    .max(40),
+})
+
+app.post('/api/aenigma', async (req: Request, res: Response) => {
+  const parsed = oracleSchema.safeParse(req.body)
+  if (!parsed.success) {
+    return res.status(400).json({ error: parsed.error.issues[0]?.message ?? 'Invalid input' })
+  }
+
+  openSSE(res)
+  const controller = new AbortController()
+  req.on('close', () => controller.abort())
+
+  try {
+    if (!hasApiKey()) {
+      send(res, { type: 'error', message: 'The oracle is not configured. Set OPENROUTER_API_KEY or ANTHROPIC_API_KEY in server/.env.' })
+      return res.end()
+    }
+    await streamOracle(parsed.data.history as ChatTurn[], {
+      signal: controller.signal,
+      onText: (delta) => send(res, { type: 'delta', text: delta }),
+    })
     send(res, { type: 'done' })
   } catch (err) {
     if (!controller.signal.aborted) {

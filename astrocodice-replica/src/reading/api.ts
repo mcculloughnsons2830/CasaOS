@@ -81,3 +81,7 @@ export function streamReading(birth: BirthInput, h: StreamHandlers): Promise<voi
 export function streamChat(birth: BirthInput, history: ChatTurn[], h: StreamHandlers): Promise<void> {
   return streamSSE('/api/chat', { birth, history }, h)
 }
+
+export function streamOracle(history: ChatTurn[], h: StreamHandlers): Promise<void> {
+  return streamSSE('/api/aenigma', { history }, h)
+}
