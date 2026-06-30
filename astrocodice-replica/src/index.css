@@ -78,4 +78,9 @@
   .section-title {
     @apply headline text-3xl sm:text-4xl md:text-5xl;
   }
+
+  .input {
+    @apply w-full rounded-xl border border-line bg-white/[0.03] px-4 py-3 text-sm text-bone placeholder:text-muted/70 outline-none transition focus:border-ice/50 focus:bg-white/[0.05];
+    color-scheme: dark;
+  }
 }
