@@ -1,3 +1,4 @@
+// © 2026 MsFitZ Society. All rights reserved. Proprietary — see LICENSE.
 // Real astronomical natal-chart computation.
 //
 // Planetary positions come from the `astronomy-engine` library, which implements

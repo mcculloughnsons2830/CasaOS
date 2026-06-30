@@ -1,3 +1,4 @@
+// © 2026 MsFitZ Society. All rights reserved. Proprietary — see LICENSE.
 // MsFitZ Society API server.
 //
 // Endpoints:

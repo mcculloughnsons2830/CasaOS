@@ -1,3 +1,4 @@
+// © 2026 MsFitZ Society. All rights reserved. Proprietary — see LICENSE.
 // Place -> coordinates + IANA timezone, via the free Open-Meteo geocoding API
 // (no API key required). Used to turn "Ulm, Germany" into the numbers the
 // ephemeris needs.

@@ -1,3 +1,4 @@
+// © 2026 MsFitZ Society. All rights reserved. Proprietary — see LICENSE.
 import type { NatalChart } from './types'
 import { PLANET_GLYPHS, SIGN_GLYPHS } from './types'
 

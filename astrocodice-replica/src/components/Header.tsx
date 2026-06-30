@@ -1,3 +1,4 @@
+// © 2026 MsFitZ Society. All rights reserved. Proprietary — see LICENSE.
 import { useEffect, useState } from 'react'
 import Logo from './Logo'
 import { LANGS, useI18n } from '../i18n'

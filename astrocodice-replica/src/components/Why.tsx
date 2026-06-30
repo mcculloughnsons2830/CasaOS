@@ -1,3 +1,4 @@
+// © 2026 MsFitZ Society. All rights reserved. Proprietary — see LICENSE.
 import { useI18n } from '../i18n'
 
 export default function Why() {

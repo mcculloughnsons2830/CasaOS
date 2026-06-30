@@ -1,3 +1,4 @@
+// © 2026 MsFitZ Society. All rights reserved. Proprietary — see LICENSE.
 // Frontend mirror of the server's chart shape.
 
 export type PlanetName =

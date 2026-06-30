@@ -1,3 +1,4 @@
+// © 2026 MsFitZ Society. All rights reserved. Proprietary — see LICENSE.
 import { useEffect, useRef, useState } from 'react'
 import { geocode } from './api'
 import type { BirthInput, GeoResult } from './types'

@@ -1,3 +1,4 @@
+// © 2026 MsFitZ Society. All rights reserved. Proprietary — see LICENSE.
 import { useEffect, useRef, useState } from 'react'
 import { streamChat, streamReading } from './api'
 import BirthForm from './BirthForm'

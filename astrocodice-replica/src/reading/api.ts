@@ -1,3 +1,4 @@
+// © 2026 MsFitZ Society. All rights reserved. Proprietary — see LICENSE.
 import type { BirthInput, ChatTurn, GeoResult, NatalChart } from './types'
 
 export async function geocode(query: string): Promise<GeoResult[]> {

@@ -1,3 +1,4 @@
+// © 2026 MsFitZ Society. All rights reserved. Proprietary — see LICENSE.
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
