@@ -17,7 +17,7 @@ import cors from 'cors'
 import { z } from 'zod'
 import { computeChart } from './astrology/ephemeris.js'
 import { geocode } from './astrology/geocode.js'
-import { hasApiKey, streamChat, streamReading, type ChatTurn } from './ai/interpreter.js'
+import { hasApiKey, provider, streamChat, streamReading, type ChatTurn } from './ai/interpreter.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const PORT = Number(process.env.PORT) || 8787
@@ -45,7 +45,7 @@ const chatSchema = z.object({
 })
 
 app.get('/api/health', (_req, res) => {
-  res.json({ ok: true, ai: hasApiKey() })
+  res.json({ ok: true, ai: hasApiKey(), provider: provider() })
 })
 
 app.post('/api/geocode', async (req, res) => {
@@ -107,7 +107,7 @@ app.post('/api/reading', async (req: Request, res: Response) => {
       send(res, {
         type: 'error',
         message:
-          'The reading engine is not configured yet. Set ANTHROPIC_API_KEY in server/.env to bring the AI to life. Your real chart above was still computed from live astronomy.',
+          'The reading engine is not configured yet. Set OPENROUTER_API_KEY (or ANTHROPIC_API_KEY) in server/.env to bring the AI to life. Your real chart above was still computed from live astronomy.',
       })
       return res.end()
     }
@@ -139,7 +139,7 @@ app.post('/api/chat', async (req: Request, res: Response) => {
 
   try {
     if (!hasApiKey()) {
-      send(res, { type: 'error', message: 'The AI is not configured. Set ANTHROPIC_API_KEY in server/.env.' })
+      send(res, { type: 'error', message: 'The AI is not configured. Set OPENROUTER_API_KEY or ANTHROPIC_API_KEY in server/.env.' })
       return res.end()
     }
     const chart = computeChart(normalizeBirth(parsed.data.birth))
@@ -164,7 +164,7 @@ app.post('/api/chat', async (req: Request, res: Response) => {
 function friendly(err: unknown): string {
   const msg = (err as Error)?.message ?? 'Something went wrong.'
   if (/api[_ ]?key|authentication/i.test(msg)) {
-    return 'The AI could not authenticate. Check ANTHROPIC_API_KEY in server/.env.'
+    return 'The AI could not authenticate. Check OPENROUTER_API_KEY / ANTHROPIC_API_KEY in server/.env.'
   }
   if (/rate|overloaded|529|429/i.test(msg)) {
     return 'The stars are busy right now (rate limit). Give it a moment and try again.'
