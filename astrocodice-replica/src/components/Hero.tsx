@@ -31,6 +31,9 @@ export default function Hero() {
             <button onClick={() => launch('oracle')} className="btn-ghost">
               ◈ Consult AENIGMA
             </button>
+            <button onClick={() => launch('feed')} className="btn-ghost">
+              → Enter the field
+            </button>
           </div>
 
           <p className="mt-6 text-xs uppercase tracking-[0.18em] text-muted/80">{t.hero.trust}</p>

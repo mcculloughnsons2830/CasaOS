@@ -17,6 +17,7 @@ import DownloadCTA from './components/DownloadCTA'
 import Footer from './components/Footer'
 import ReadingExperience from './reading/ReadingExperience'
 import OracleExperience from './oracle/OracleExperience'
+import FeedExperience from './feed/FeedExperience'
 
 export default function App() {
   const [view, setView] = useState<'landing' | AppView>('landing')
@@ -38,6 +39,8 @@ export default function App() {
           <ReadingExperience onClose={close} />
         ) : view === 'oracle' ? (
           <OracleExperience onClose={close} />
+        ) : view === 'feed' ? (
+          <FeedExperience />
         ) : (
           <>
             <Header />
