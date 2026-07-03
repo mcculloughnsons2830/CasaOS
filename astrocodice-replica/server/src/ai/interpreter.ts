@@ -94,7 +94,7 @@ async function runStream(
   }
 
   // OpenRouter (OpenAI-compatible streaming).
-  const model = process.env.OPENROUTER_MODEL || 'anthropic/claude-3.7-sonnet'
+  const model = process.env.OPENROUTER_MODEL || 'deepseek/deepseek-v3.2'
   const opts = signal ? { signal } : {}
   const stream = await openrouter().chat.completions.create(
     {
