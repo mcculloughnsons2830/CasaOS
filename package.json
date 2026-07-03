@@ -4,7 +4,7 @@
   "description": "MsFitZ Society — AI astrology for misfits",
   "private": true,
   "scripts": {
-    "build": "cd astrocodice-replica && npm install && npm run build",
+    "build": "cd astrocodice-replica && npm ci && npm run build && cd server && npm ci",
     "start": "cd astrocodice-replica/server && npm start",
     "dev": "cd astrocodice-replica && npm run dev"
   },
