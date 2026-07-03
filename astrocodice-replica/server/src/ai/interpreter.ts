@@ -115,17 +115,17 @@ async function runStream(
 
 /** Stream the opening reading — the moment a person feels seen. */
 export function streamReading(chart: NatalChart, sink: Sink): Promise<void> {
-  return runStream(astrologerSystem(chart), [{ role: 'user', content: OPENING_PROMPT }], 1200, sink)
+  return runStream(astrologerSystem(chart), [{ role: 'user', content: OPENING_PROMPT }], 4000, sink)
 }
 
 /** Continue the chart conversation — "ask your chart anything." */
 export function streamChat(chart: NatalChart, history: ChatTurn[], sink: Sink): Promise<void> {
-  return runStream(astrologerSystem(chart), history, 1000, sink)
+  return runStream(astrologerSystem(chart), history, 3000, sink)
 }
 
 // --- AENIGMA, the oracle ---
 
 /** Stream an AENIGMA reply. No chart required — it answers the question itself. */
 export function streamOracle(history: ChatTurn[], sink: Sink): Promise<void> {
-  return runStream(AENIGMA_SYSTEM, history, 800, sink)
+  return runStream(AENIGMA_SYSTEM, history, 2000, sink)
 }
