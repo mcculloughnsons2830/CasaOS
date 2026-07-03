@@ -95,6 +95,7 @@ async function runStream(
 
   // OpenRouter (OpenAI-compatible streaming).
   const model = process.env.OPENROUTER_MODEL || 'anthropic/claude-3.7-sonnet'
+  const opts = signal ? { signal } : {}
   const stream = await openrouter().chat.completions.create(
     {
       model,
@@ -102,7 +103,7 @@ async function runStream(
       stream: true,
       messages: [{ role: 'system', content: system }, ...messages],
     },
-    { signal },
+    opts,
   )
   for await (const part of stream) {
     const delta = part.choices?.[0]?.delta?.content
@@ -114,17 +115,17 @@ async function runStream(
 
 /** Stream the opening reading — the moment a person feels seen. */
 export function streamReading(chart: NatalChart, sink: Sink): Promise<void> {
-  return runStream(astrologerSystem(chart), [{ role: 'user', content: OPENING_PROMPT }], 4000, sink)
+  return runStream(astrologerSystem(chart), [{ role: 'user', content: OPENING_PROMPT }], 1200, sink)
 }
 
 /** Continue the chart conversation — "ask your chart anything." */
 export function streamChat(chart: NatalChart, history: ChatTurn[], sink: Sink): Promise<void> {
-  return runStream(astrologerSystem(chart), history, 3000, sink)
+  return runStream(astrologerSystem(chart), history, 1000, sink)
 }
 
 // --- AENIGMA, the oracle ---
 
 /** Stream an AENIGMA reply. No chart required — it answers the question itself. */
 export function streamOracle(history: ChatTurn[], sink: Sink): Promise<void> {
-  return runStream(AENIGMA_SYSTEM, history, 2000, sink)
+  return runStream(AENIGMA_SYSTEM, history, 800, sink)
 }

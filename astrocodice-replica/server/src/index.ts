@@ -104,8 +104,6 @@ app.post('/api/reading', async (req: Request, res: Response) => {
   }
 
   openSSE(res)
-  const controller = new AbortController()
-  req.on('close', () => controller.abort())
 
   try {
     const chart = computeChart(normalizeBirth(parsed.data))
@@ -121,14 +119,14 @@ app.post('/api/reading', async (req: Request, res: Response) => {
     }
 
     await streamReading(chart, {
-      signal: controller.signal,
-      onText: (delta) => send(res, { type: 'delta', text: delta }),
+      onText: (delta) => {
+        send(res, { type: 'delta', text: delta })
+      },
     })
     send(res, { type: 'done' })
   } catch (err) {
-    if (!controller.signal.aborted) {
-      send(res, { type: 'error', message: friendly(err) })
-    }
+    console.error('[/api/reading] Error:', err)
+    send(res, { type: 'error', message: friendly(err) })
   } finally {
     res.end()
   }
