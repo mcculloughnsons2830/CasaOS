@@ -1,6 +1,25 @@
 // © 2026 Joshua Reed McCullough (MsFitZ Society). All rights reserved. Proprietary — see LICENSE.
 import type { BirthInput, ChatTurn, GeoResult, NatalChart } from './types'
 
+export interface MirrorDraw {
+  aphorism: string
+  archetype: string
+  nature: string
+  date: string
+}
+
+/** Fetch the daily resonance draw. Returns null on any failure (callers fall back). */
+export async function fetchMirror(): Promise<MirrorDraw | null> {
+  try {
+    const res = await fetch('/api/mirror')
+    if (!res.ok) return null
+    const data = await res.json()
+    return data.mirror ?? null
+  } catch {
+    return null
+  }
+}
+
 export async function geocode(query: string): Promise<GeoResult[]> {
   const res = await fetch('/api/geocode', {
     method: 'POST',

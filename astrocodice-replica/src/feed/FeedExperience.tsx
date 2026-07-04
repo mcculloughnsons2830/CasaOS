@@ -1,6 +1,7 @@
 // © 2026 Joshua Reed McCullough (MsFitZ Society). All rights reserved. Proprietary — see LICENSE.
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { ARCHETYPES, SIGNALS, DAILY_MIRROR, type Trend } from './data'
+import { fetchMirror, type MirrorDraw } from '../reading/api'
 import ArchetypeDetail from './ArchetypeDetail'
 import SignalCard from './SignalCard'
 
@@ -10,6 +11,11 @@ export default function FeedExperience() {
   const [view, setView] = useState<FeedView>('feed')
   const [selectedSymbol, setSelectedSymbol] = useState<string | null>(null)
   const [trendFilter, setTrendFilter] = useState<Trend | 'all'>('all')
+  const [mirror, setMirror] = useState<MirrorDraw | null>(null)
+
+  useEffect(() => {
+    fetchMirror().then(setMirror)
+  }, [])
 
   const filteredSignals = useMemo(() => {
     if (trendFilter === 'all') return SIGNALS
@@ -176,7 +182,20 @@ export default function FeedExperience() {
           <div className="space-y-6">
             <div className="card bg-bone/5 border-bone/20">
               <h3 className="eyebrow text-muted/60 mb-3">Daily Mirror</h3>
-              <p className="text-sm italic text-bone leading-relaxed">&quot;{DAILY_MIRROR}&quot;</p>
+              <p className="text-sm italic text-bone leading-relaxed">
+                &quot;{mirror?.aphorism ?? DAILY_MIRROR}&quot;
+              </p>
+              {mirror && (
+                <div className="mt-3 flex items-center justify-between text-xs text-muted/60">
+                  <button
+                    onClick={() => handleSelectArchetype(mirror.archetype)}
+                    className="font-mono text-ice-light hover:text-ice transition-colors"
+                  >
+                    ◈ {mirror.archetype}
+                  </button>
+                  <span title={mirror.nature}>today&apos;s draw</span>
+                </div>
+              )}
             </div>
 
             <div>
