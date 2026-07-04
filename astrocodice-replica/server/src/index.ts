@@ -26,6 +26,7 @@ import {
   streamReading,
   type ChatTurn,
 } from './ai/interpreter.js'
+import { dailyMirror } from './mirror.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const PORT = Number(process.env.PORT) || 8787
@@ -54,6 +55,11 @@ const chatSchema = z.object({
 
 app.get('/api/health', (_req, res) => {
   res.json({ ok: true, ai: hasApiKey(), provider: provider() })
+})
+
+// The daily resonance draw — a card pulled by chance from the Codex deck.
+app.get('/api/mirror', (_req, res) => {
+  res.json({ mirror: dailyMirror() })
 })
 
 app.post('/api/geocode', async (req, res) => {
@@ -139,8 +145,6 @@ app.post('/api/chat', async (req: Request, res: Response) => {
   }
 
   openSSE(res)
-  const controller = new AbortController()
-  req.on('close', () => controller.abort())
 
   try {
     if (!hasApiKey()) {
@@ -149,14 +153,12 @@ app.post('/api/chat', async (req: Request, res: Response) => {
     }
     const chart = computeChart(normalizeBirth(parsed.data.birth))
     await streamChat(chart, parsed.data.history as ChatTurn[], {
-      signal: controller.signal,
       onText: (delta) => send(res, { type: 'delta', text: delta }),
     })
     send(res, { type: 'done' })
   } catch (err) {
-    if (!controller.signal.aborted) {
-      send(res, { type: 'error', message: friendly(err) })
-    }
+    console.error('[/api/chat] Error:', err)
+    send(res, { type: 'error', message: friendly(err) })
   } finally {
     res.end()
   }
@@ -176,8 +178,6 @@ app.post('/api/aenigma', async (req: Request, res: Response) => {
   }
 
   openSSE(res)
-  const controller = new AbortController()
-  req.on('close', () => controller.abort())
 
   try {
     if (!hasApiKey()) {
@@ -185,14 +185,12 @@ app.post('/api/aenigma', async (req: Request, res: Response) => {
       return res.end()
     }
     await streamOracle(parsed.data.history as ChatTurn[], {
-      signal: controller.signal,
       onText: (delta) => send(res, { type: 'delta', text: delta }),
     })
     send(res, { type: 'done' })
   } catch (err) {
-    if (!controller.signal.aborted) {
-      send(res, { type: 'error', message: friendly(err) })
-    }
+    console.error('[/api/aenigma] Error:', err)
+    send(res, { type: 'error', message: friendly(err) })
   } finally {
     res.end()
   }
