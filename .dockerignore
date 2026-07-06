@@ -1,0 +1,10 @@
+# Keep the build context lean: only astrocodice-replica/ is copied by the
+# Dockerfile, but excluding the heavy paths speeds up context upload anyway.
+**/node_modules
+**/dist
+**/.env
+.git
+build
+snapshot*.png
+snapshot*.jpg
+astrocodice-replica/docs/codex/sources
