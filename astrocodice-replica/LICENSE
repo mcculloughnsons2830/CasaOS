@@ -1,0 +1,27 @@
+Copyright © 2026 Joshua Reed McCullough, doing business as MsFitZ Society.
+All rights reserved.
+
+This software and its associated source code, design, written content, and the
+AENIGMA persona (collectively, the "Work") are the proprietary property of
+Joshua Reed McCullough ("MsFitZ Society") (the "Owner").
+
+No part of the Work may be reproduced, distributed, modified, publicly
+displayed, sublicensed, or used to create derivative works, in whole or in
+part, by any party other than the Owner, without the Owner's prior written
+permission. All rights not expressly granted are reserved by the Owner.
+
+THE WORK IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE OWNER BE LIABLE
+FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY ARISING FROM, OUT OF, OR IN
+CONNECTION WITH THE WORK OR ITS USE.
+
+--------------------------------------------------------------------------------
+Third-party components
+
+This project depends on open-source libraries (e.g. React, Vite, Express,
+astronomy-engine, luxon, and others listed in the package.json files). Those
+libraries remain the property of their respective authors and are governed by
+their own licenses (MIT and similar). This proprietary license applies only to
+the original code and content of this project — not to those dependencies.
+--------------------------------------------------------------------------------

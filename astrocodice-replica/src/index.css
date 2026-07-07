@@ -1,0 +1,87 @@
+/* © 2026 Joshua Reed McCullough (MsFitZ Society). All rights reserved. Proprietary — see LICENSE. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-ink text-bone font-sans antialiased;
+    background-color: #07080c;
+  }
+
+  ::selection {
+    background: rgba(255, 138, 43, 0.35);
+    color: #fff;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #07080c;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(#3f7ea3, #e8590c);
+    border-radius: 999px;
+  }
+}
+
+@layer components {
+  .container-x {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 rounded-full border border-line bg-white/[0.03] px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.22em] text-ice-light;
+  }
+
+  .headline {
+    @apply font-display font-bold uppercase tracking-tight leading-[0.95];
+  }
+
+  .text-brand {
+    @apply bg-brand-grad bg-clip-text text-transparent;
+  }
+
+  .text-ember {
+    @apply bg-ember-grad bg-clip-text text-transparent;
+  }
+
+  .glass {
+    @apply rounded-2xl border border-line bg-white/[0.025] backdrop-blur-sm;
+  }
+
+  .card {
+    @apply glass p-6 transition-all duration-300 hover:border-ice/40 hover:bg-white/[0.05];
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-ember/60;
+  }
+
+  .btn-ember {
+    @apply btn bg-ember-grad text-ink shadow-glow hover:brightness-110 hover:shadow-[0_0_55px_-6px_rgba(255,138,43,0.7)];
+  }
+
+  .btn-ghost {
+    @apply btn border border-line bg-white/[0.03] text-bone hover:border-ice/50 hover:bg-white/[0.06];
+  }
+
+  .section-title {
+    @apply headline text-3xl sm:text-4xl md:text-5xl;
+  }
+
+  .input {
+    @apply w-full rounded-xl border border-line bg-white/[0.03] px-4 py-3 text-sm text-bone placeholder:text-muted/70 outline-none transition focus:border-ice/50 focus:bg-white/[0.05];
+    color-scheme: dark;
+  }
+}
