@@ -194,7 +194,7 @@
     const pre = params.get("sym") || "EMBER";
     const items = loadRefl().map((r) => `
       <div class="reflection-out">
-        <div class="when">${esc(r.when)} · $${esc(r.sym)}${r.source === "claude" ? " · ✦ ÆNIGMA AI" : ""}</div>
+        <div class="when">${esc(r.when)} · $${esc(r.sym)}${r.source === "claude" || r.source === "openrouter" ? " · ✦ ÆNIGMA AI" : ""}</div>
         <p style="margin:6px 0;color:var(--ink)">${esc(r.text)}</p>
         <p style="margin:0;color:var(--ink-2)"><b style="color:var(--accent)">ÆNIGMA:</b> ${esc(r.read)}</p>
       </div>`).join("") || `<p style="color:var(--ink-3)">No reflections yet. Your entries stay in this browser only.</p>`;
