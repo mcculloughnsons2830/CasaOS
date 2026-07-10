@@ -194,7 +194,7 @@
     const pre = params.get("sym") || "EMBER";
     const items = loadRefl().map((r) => `
       <div class="reflection-out">
-        <div class="when">${esc(r.when)} · $${esc(r.sym)}</div>
+        <div class="when">${esc(r.when)} · $${esc(r.sym)}${r.source === "claude" ? " · ✦ ÆNIGMA AI" : ""}</div>
         <p style="margin:6px 0;color:var(--ink)">${esc(r.text)}</p>
         <p style="margin:0;color:var(--ink-2)"><b style="color:var(--accent)">ÆNIGMA:</b> ${esc(r.read)}</p>
       </div>`).join("") || `<p style="color:var(--ink-3)">No reflections yet. Your entries stay in this browser only.</p>`;
@@ -273,13 +273,26 @@
     wireChartHover();
 
     const go = document.getElementById("refl-go");
-    if (go) go.addEventListener("click", () => {
+    if (go) go.addEventListener("click", async () => {
       const sym = document.getElementById("refl-sym").value;
       const text = document.getElementById("refl-text").value.trim();
       if (!text) return;
+      go.disabled = true;
+      go.textContent = "Consulting the field…";
       const a = bySym(sym);
+      let read, source;
+      try {
+        const r = await fetch("/api/reflect", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ sym, text }),
+        });
+        if (r.ok) ({ read, source } = await r.json());
+        else if (r.status === 429) { const e = await r.json(); read = e.error; source = "busy"; }
+      } catch { /* offline — fall through to local */ }
+      if (!read || source === "busy") { read = oracleRead(a, text); source = "local"; }
       const items = loadRefl();
-      items.unshift({ when: new Date().toLocaleString(), sym, text, read: oracleRead(a, text) });
+      items.unshift({ when: new Date().toLocaleString(), sym, text, read, source });
       saveRefl(items);
       route();
     });
