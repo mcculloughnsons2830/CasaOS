@@ -279,7 +279,12 @@ ${text}
       return res.status(429).json({ error: "the oracle is busy — try again in a minute" });
     }
     // AuthenticationError, APIConnectionError, anything else: degrade gracefully
-    console.error("reflect: falling back to local read:", err.name || err);
+    console.error(
+      "reflect: falling back to local read:",
+      err.constructor && err.constructor.name,
+      "status=" + (err.status || "n/a"),
+      String(err.message || err).slice(0, 300),
+    );
     return res.json({ read: localRead(a, text), source: "local" });
   }
 });
