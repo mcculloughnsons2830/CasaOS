@@ -261,15 +261,17 @@ async function claudeRead(a, text) {
 // Free tier via OpenRouter (OpenAI-compatible API, raw fetch — no SDK).
 // Free-model slugs rotate constantly, so discover them live from the model
 // catalog (cached 6h) and try several: free variants are often congested.
+// Non-reasoning conversational models first — reasoning models can leak
+// their scratchpad into content even when asked not to.
 const PREFERRED_FREE = [
-  "nemotron-3-ultra", "hermes-3-llama-3.1-405b", "gpt-oss-120b",
-  "qwen3-next-80b", "llama-3.3-70b", "gemma-4-31b", "qwen3-coder",
+  "hermes-3-llama-3.1-405b", "llama-3.3-70b", "gemma-4-31b",
+  "qwen3-next-80b", "nemotron-3-ultra", "gpt-oss-120b",
 ];
 const FREE_STATIC_FALLBACK = [
-  "nvidia/nemotron-3-ultra-550b-a55b:free",
-  "openai/gpt-oss-120b:free",
+  "nousresearch/hermes-3-llama-3.1-405b:free",
   "meta-llama/llama-3.3-70b-instruct:free",
-  "qwen/qwen3-next-80b-a3b-instruct:free",
+  "google/gemma-4-31b-it:free",
+  "openai/gpt-oss-120b:free",
 ];
 let freeModelCache = { list: null, at: 0 };
 
@@ -303,6 +305,7 @@ async function openrouterTry(model, a, text) {
     body: JSON.stringify({
       model,
       max_tokens: 900,
+      reasoning: { exclude: true }, // keep reasoning-model scratchpads out of content
       messages: [
         { role: "system", content: ORACLE_SYSTEM },
         { role: "user", content: reflectPrompt(a, text) },
@@ -313,8 +316,14 @@ async function openrouterTry(model, a, text) {
   if (!r.ok) throw new Error(`${model} -> ${r.status}: ${(await r.text()).slice(0, 120)}`);
   const data = await r.json();
   let out = (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content || "").trim();
-  out = out.replace(/<think>[\s\S]*?<\/think>/g, "").trim(); // strip reasoning-model scratch
-  return out || null;
+  out = out.replace(/<think>[\s\S]*?<\/think>/g, "").trim(); // strip tagged scratch
+  if (!out) return null;
+  // Quality gate: reject leaked meta-reasoning or off-spec length; try next model.
+  const words = out.split(/\s+/).length;
+  if (words < 30 || words > 300 || /\b(we need to|the user wants|word count|let'?s (craft|draft|write)|constraints?:|draft:)\b/i.test(out)) {
+    throw new Error(`${model} -> rejected by quality gate (${words} words)`);
+  }
+  return out;
 }
 
 async function openrouterRead(a, text) {
