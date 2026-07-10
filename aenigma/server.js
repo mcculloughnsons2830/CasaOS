@@ -259,14 +259,39 @@ async function claudeRead(a, text) {
 }
 
 // Free tier via OpenRouter (OpenAI-compatible API, raw fetch — no SDK).
-// Free model slugs rotate over time; primary is configurable, with fallbacks.
-const FREE_MODELS = [
-  process.env.ORACLE_FREE_MODEL || "deepseek/deepseek-chat-v3-0324:free",
-  "meta-llama/llama-3.3-70b-instruct:free",
-  "google/gemini-2.0-flash-exp:free",
+// Free-model slugs rotate constantly, so discover them live from the model
+// catalog (cached 6h) and try several: free variants are often congested.
+const PREFERRED_FREE = [
+  "nemotron-3-ultra", "hermes-3-llama-3.1-405b", "gpt-oss-120b",
+  "qwen3-next-80b", "llama-3.3-70b", "gemma-4-31b", "qwen3-coder",
 ];
+const FREE_STATIC_FALLBACK = [
+  "nvidia/nemotron-3-ultra-550b-a55b:free",
+  "openai/gpt-oss-120b:free",
+  "meta-llama/llama-3.3-70b-instruct:free",
+  "qwen/qwen3-next-80b-a3b-instruct:free",
+];
+let freeModelCache = { list: null, at: 0 };
 
-async function openrouterRead(a, text) {
+async function getFreeModels() {
+  if (freeModelCache.list && Date.now() - freeModelCache.at < 6 * 3600 * 1000) {
+    return freeModelCache.list;
+  }
+  try {
+    const r = await fetch("https://openrouter.ai/api/v1/models", { signal: AbortSignal.timeout(15000) });
+    const all = (await r.json()).data.map((m) => m.id).filter((id) => id.endsWith(":free"));
+    const usable = all.filter((id) => !/safety|guard|-vl|omni|1\.2b|3b-instruct/.test(id));
+    const preferred = PREFERRED_FREE.map((p) => usable.find((id) => id.includes(p))).filter(Boolean);
+    const rest = usable.filter((id) => !preferred.includes(id));
+    const list = [...new Set([process.env.ORACLE_FREE_MODEL, ...preferred, ...rest])].filter(Boolean);
+    if (list.length) freeModelCache = { list, at: Date.now() };
+    return list.length ? list : FREE_STATIC_FALLBACK;
+  } catch {
+    return freeModelCache.list || FREE_STATIC_FALLBACK;
+  }
+}
+
+async function openrouterTry(model, a, text) {
   const r = await fetch("https://openrouter.ai/api/v1/chat/completions", {
     method: "POST",
     headers: {
@@ -276,26 +301,38 @@ async function openrouterRead(a, text) {
       "X-Title": "AENIGMA",
     },
     body: JSON.stringify({
-      model: FREE_MODELS[0],
-      models: FREE_MODELS, // OpenRouter fallback routing if the primary is down
-      max_tokens: 500,
+      model,
+      max_tokens: 900,
       messages: [
         { role: "system", content: ORACLE_SYSTEM },
         { role: "user", content: reflectPrompt(a, text) },
       ],
     }),
-    signal: AbortSignal.timeout(45000),
+    signal: AbortSignal.timeout(25000),
   });
-  if (!r.ok) {
-    const body = (await r.text()).slice(0, 200);
-    const err = new Error(`openrouter ${r.status}: ${body}`);
-    err.status = r.status;
-    throw err;
-  }
+  if (!r.ok) throw new Error(`${model} -> ${r.status}: ${(await r.text()).slice(0, 120)}`);
   const data = await r.json();
   let out = (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content || "").trim();
   out = out.replace(/<think>[\s\S]*?<\/think>/g, "").trim(); // strip reasoning-model scratch
   return out || null;
+}
+
+async function openrouterRead(a, text) {
+  const models = (await getFreeModels()).slice(0, 5);
+  const deadline = Date.now() + 70000;
+  for (const model of models) {
+    if (Date.now() > deadline) break;
+    try {
+      const out = await openrouterTry(model, a, text);
+      if (out) {
+        console.log("reflect: openrouter served by", model);
+        return out;
+      }
+    } catch (err) {
+      console.error("reflect: openrouter attempt failed:", String(err.message || err).slice(0, 180));
+    }
+  }
+  return null;
 }
 
 app.post("/api/reflect", async (req, res) => {
