@@ -159,6 +159,42 @@ textarea { min-height: 110px; resize: vertical; }
 .reflection-out { border-left: 2px solid var(--accent); padding: 10px 14px; background: var(--surface-2); border-radius: 0 8px 8px 0; }
 .reflection-out .when { color: var(--ink-3); font-size: 10px; }
 
+/* codex — the shareable archetype card */
+.codex-card {
+  background:
+    radial-gradient(600px 340px at 82% -20%, rgba(18,34,44,.7) 0%, rgba(7,9,12,0) 60%),
+    var(--surface);
+  border: 1px solid var(--border); border-radius: 14px; padding: 22px 24px 18px; margin-bottom: 16px;
+}
+.codex-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+.cx-brand { display: flex; align-items: center; gap: 10px; letter-spacing: .28em; font-weight: 700; font-size: 15px; }
+.cx-active { font-size: 10px; letter-spacing: .2em; color: var(--ink-3); display: flex; align-items: center; gap: 7px; }
+.codex-list { display: flex; flex-direction: column; }
+.codex-row { display: flex; align-items: baseline; gap: 18px; padding: 12px 2px; border-top: 1px solid var(--border); }
+.codex-row:first-child { border-top: 0; }
+.codex-sym { font-weight: 700; font-size: 15px; min-width: 168px; white-space: nowrap; letter-spacing: .02em; }
+.codex-sym .cx-num { color: #3a4652; font-size: 11px; margin-right: 9px; }
+.codex-sym .cx-d { color: var(--ink-3); }
+.codex-sym .cx-val { font-size: 12px; margin-left: 9px; padding: 1px 7px; border: 1px solid var(--border); border-radius: 999px; }
+.codex-epi { font-family: var(--serif); font-style: italic; font-size: 15px; color: #bfeee4; line-height: 1.3; }
+.codex-foot { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); font-size: 11px; color: var(--ink-3); font-style: italic; font-family: var(--serif); }
+.share-row { display: flex; gap: 12px; flex-wrap: wrap; }
+
+#toast {
+  position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 20px);
+  background: #0a0f14; border: 1px solid var(--accent); color: var(--ink);
+  padding: 11px 18px; border-radius: 10px; font-size: 13px; z-index: 95;
+  box-shadow: 0 8px 26px rgba(0,0,0,.55); opacity: 0; pointer-events: none;
+  transition: opacity .22s, transform .22s; max-width: 90vw; text-align: center;
+}
+#toast.show { opacity: 1; transform: translate(-50%, 0); }
+@media (max-width: 900px) { #toast { bottom: 78px; } }
+
+@media (max-width: 560px) {
+  .codex-row { flex-direction: column; gap: 3px; }
+  .codex-sym { min-width: 0; }
+}
+
 /* pulses */
 .pulse { display: flex; gap: 12px; align-items: baseline; padding: 12px 0; border-top: 1px solid var(--border); }
 .pulse:first-child { border-top: 0; }
