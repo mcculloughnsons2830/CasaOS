@@ -215,6 +215,62 @@
       <div class="stack">${items}</div>`;
   }
 
+  function codexView() {
+    const rows = FIELD.archetypes.map((a, i) => `
+      <a class="codex-row" href="#/a/${a.sym}">
+        <span class="codex-sym"><span class="cx-num">${String(i + 1).padStart(2, "0")}</span><span class="cx-d">$</span>${a.sym}
+          <span class="cx-val st-${a.state}">${a.value}</span></span>
+        <span class="codex-epi">“${esc(a.epigraph)}”</span>
+      </a>`).join("");
+    return `
+      <p class="eyebrow">THE CODEX · THE 10 ARCHETYPES</p>
+      <h1 class="page">The Codex</h1>
+      <p class="lede">Every archetype moving through the field, and what each is telling you — with its resonance right now. Which is loudest in you?</p>
+      <div class="codex-card" id="codex-card">
+        <div class="codex-head">
+          <span class="cx-brand"><span class="brand-eye" aria-hidden="true"></span> ÆNIGMA</span>
+          <span class="cx-active"><span class="dot" aria-hidden="true"></span> FIELD ACTIVE</span>
+        </div>
+        <div class="codex-list">${rows}</div>
+        <div class="codex-foot">A mirror for your consciousness · the ones they couldn't categorize, those are ours.</div>
+      </div>
+      <div class="share-row">
+        <button class="btn" id="share-field">↗ Share the field</button>
+        <a class="btn ghost" href="/archetypes-card.png" download="aenigma-archetypes.png">⬇ Download card</a>
+      </div>`;
+  }
+
+  function toast(msg) {
+    let t = document.getElementById("toast");
+    if (!t) {
+      t = document.createElement("div");
+      t.id = "toast";
+      document.body.appendChild(t);
+    }
+    t.textContent = msg;
+    t.classList.add("show");
+    clearTimeout(toast._t);
+    toast._t = setTimeout(() => t.classList.remove("show"), 3200);
+  }
+
+  async function shareField() {
+    const data = {
+      title: "ÆNIGMA — a mirror for your consciousness",
+      text: "The 10 archetypes moving through you. Which is loudest in you right now? Enter the field (free beta):",
+      url: location.origin + "/",
+    };
+    if (navigator.share) {
+      try { await navigator.share(data); return; }
+      catch (e) { if (e && e.name === "AbortError") return; } // user dismissed
+    }
+    try {
+      await navigator.clipboard.writeText(`${data.text} ${data.url}`);
+      toast("Link copied — paste it anywhere.");
+    } catch {
+      toast(data.url);
+    }
+  }
+
   function pulsesView() {
     return `
       <p class="eyebrow">ALERTS · THRESHOLDS &amp; SURGES</p>
@@ -263,6 +319,7 @@
     if (name === "a" && seg[1]) html = detailView(seg[1].toUpperCase());
     else if (name === "mirror") html = mirrorView();
     else if (name === "reflect") html = reflectView(params);
+    else if (name === "codex") html = codexView();
     else if (name === "pulses") html = pulsesView();
     else if (name === "society") html = societyView();
     else { name = "signal"; html = signalView(); }
@@ -296,6 +353,9 @@
       saveRefl(items);
       route();
     });
+    const share = document.getElementById("share-field");
+    if (share) share.addEventListener("click", shareField);
+
     view.focus({ preventScroll: true });
     window.scrollTo(0, 0);
   }
