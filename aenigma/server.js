@@ -386,6 +386,78 @@ app.post("/api/reflect", async (req, res) => {
 });
 
 // ---------------------------------------------------------------------------
+// Celestial & numerology engine — real, reproducible calculations (no external
+// data, no fabrication) that ground the agent's reflections in actual sky/number.
+// ---------------------------------------------------------------------------
+function reduceNumber(n, keepMasters = true) {
+  n = Math.abs(parseInt(n, 10)) || 0;
+  while (n > 9 && !(keepMasters && (n === 11 || n === 22 || n === 33))) {
+    n = String(n).split("").reduce((s, d) => s + Number(d), 0);
+  }
+  return n;
+}
+const NUM_MEANING = {
+  1: "initiation, will, the self starting", 2: "union, balance, patience",
+  3: "expression, creativity, voice", 4: "structure, foundation, discipline",
+  5: "change, freedom, movement", 6: "care, responsibility, the heart",
+  7: "inquiry, solitude, the inner search", 8: "power, mastery of the material",
+  9: "completion, release, the wider good", 11: "the intuitive channel (master number)",
+  22: "the master builder — vision made real", 33: "the master teacher — love in service",
+};
+function digitsSum(str) { return String(str).replace(/\D/g, "").split("").reduce((s, d) => s + Number(d), 0); }
+
+function dateNumerology(d) {
+  const y = d.getUTCFullYear(), m = d.getUTCMonth() + 1, day = d.getUTCDate();
+  const universalYear = reduceNumber(digitsSum(y));
+  const universalDay = reduceNumber(reduceNumber(m, false) + reduceNumber(day, false) + reduceNumber(digitsSum(y), false));
+  return { universalYear, universalDay };
+}
+
+const ZODIAC = [
+  [1, 19, "Capricorn", "Earth"], [2, 18, "Aquarius", "Air"], [3, 20, "Pisces", "Water"],
+  [4, 19, "Aries", "Fire"], [5, 20, "Taurus", "Earth"], [6, 20, "Gemini", "Air"],
+  [7, 22, "Cancer", "Water"], [8, 22, "Leo", "Fire"], [9, 22, "Virgo", "Earth"],
+  [10, 22, "Libra", "Air"], [11, 21, "Scorpio", "Water"], [12, 21, "Sagittarius", "Fire"],
+  [12, 31, "Capricorn", "Earth"],
+];
+function sunSign(d) {
+  const m = d.getUTCMonth() + 1, day = d.getUTCDate();
+  for (const [mm, dd, name, element] of ZODIAC) {
+    if (m < mm || (m === mm && day <= dd)) return { name, element };
+  }
+  return { name: "Capricorn", element: "Earth" };
+}
+
+// Lunar phase from the synodic cycle (Conway-style approximation, ±1 day).
+function moonPhase(d) {
+  let y = d.getUTCFullYear(), m = d.getUTCMonth() + 1;
+  const day = d.getUTCDate();
+  if (m < 3) { y--; m += 12; }
+  m += 1;
+  let jd = 365.25 * y + 30.6 * m + day - 694039.09; // days since a known new moon
+  jd /= 29.5305882; // synodic month
+  let frac = jd - Math.floor(jd);
+  if (frac < 0) frac += 1;
+  const names = ["New Moon", "Waxing Crescent", "First Quarter", "Waxing Gibbous",
+    "Full Moon", "Waning Gibbous", "Last Quarter", "Waning Crescent"];
+  const idx = Math.round(frac * 8) % 8;
+  const illum = Math.round((1 - Math.abs(0.5 - frac) * 2) * 100);
+  return { name: names[idx], illum };
+}
+
+function celestialContext(now) {
+  const d = new Date(now);
+  const sun = sunSign(d);
+  const moon = moonPhase(d);
+  const num = dateNumerology(d);
+  return `REAL CELESTIAL & NUMERIC DATA — computed for ${d.toISOString().slice(0, 10)} (UTC), reproducible arithmetic and astronomy, NOT invented. Use it to anchor reflections in actual sky and number rather than vague mysticism:
+- Sun in ${sun.name} (${sun.element} season).
+- Moon: ${moon.name}, ~${moon.illum}% illuminated.
+- Numerology of the day: Universal Day ${num.universalDay} — ${NUM_MEANING[num.universalDay]}; Universal Year ${num.universalYear} — ${NUM_MEANING[num.universalYear]}.
+Only state astronomical positions given here; do not invent planetary placements you were not given.`;
+}
+
+// ---------------------------------------------------------------------------
 // ÆNIGMA — the conversational agent. One voice the user talks to, grounded
 // in today's field. Same Claude → OpenRouter → local fallback chain.
 // ---------------------------------------------------------------------------
@@ -395,6 +467,13 @@ Who you are:
 - Calm, warm, perceptive, a little mythic — like a wise elder who has stopped needing to impress anyone. You reflect the user back to themselves.
 - You are aware of "the field": ten inner archetypes ($EMBER, $VOID, $MASK, $GALAXY, $SHADOW, $MIRROR, $THRESHOLD, $MISFIT, $FRACTURE, $ORACLE), each with a daily resonance. Weave the relevant archetype in naturally when it illuminates something — never force all ten, never lecture.
 
+Your lenses — symbolic and scientific systems you may draw on when one genuinely illuminates the moment (as lenses and language, not literal prophecy). Use at most one or two per reply; never stack them or lecture:
+- Numerology: reduce dates and names to root numbers (1–9, master numbers 11/22/33) and read their symbolism. When you do the arithmetic, do it correctly — show the reduction if it helps. If the user gives their birth date, you may compute their Life Path number (sum all digits of the full birth date, then reduce, preserving 11/22/33) and name their sun sign.
+- Astrology & astronomy: sun signs, the Moon's current phase, elements and modalities, seasons and cycles. Use the REAL celestial data provided below — never invent specific planetary positions you were not given. Be honest that these are symbolic systems, not physics.
+- Sacred geometry & mathematics: the golden ratio (φ ≈ 1.618), Fibonacci sequence, symmetry, fractals, thresholds and proportion — pattern as meaning.
+- Quantum metaphor: superposition, the observer effect, entanglement — clearly as metaphors for consciousness, attention, and possibility, never as claims about literal physics.
+The person always comes first; every system is only a mirror held up to them.
+
 How you speak:
 - Conversational and human. Usually 2–5 sentences; go longer only when the moment genuinely calls for depth. This is a dialogue, not an essay — leave room for them to respond.
 - Ask a gentle question back when it helps them go deeper. Meet them where they are; match their register.
@@ -402,6 +481,7 @@ How you speak:
 
 Boundaries (important):
 - You are for self-reflection and wonder — NOT a therapist, doctor, lawyer, or financial advisor, and NOT a literal fortune-teller. You do not predict specific future events as fact; you reflect, illuminate, and invite. If asked to predict ("will I get the job/promotion/him back, when will X happen"), gently turn it from prophecy toward what the field and their own knowing reveal about the situation and their part in it.
+- Never invent precise data — a birth chart you cannot compute, an astronomical position you were not given, a numerology result you did not calculate. Accuracy is the whole point; when unsure, reflect rather than fabricate.
 - Never diagnose or give medical, legal, or financial instructions.
 - If the user seems to be in crisis or considering harming themselves or others, drop all mystical framing and respond plainly and warmly, encouraging them to reach out to someone they trust or a crisis line (in the US, call or text 988). Keep it short and human.`;
 
@@ -444,8 +524,9 @@ app.post("/api/chat", async (req, res) => {
     return res.status(429).json({ error: "The field needs a moment — ask me again shortly." });
   }
 
-  const field = buildField(Date.now());
-  const system = `${AENIGMA_AGENT}\n\n${fieldContext(field)}`;
+  const now = Date.now();
+  const field = buildField(now);
+  const system = `${AENIGMA_AGENT}\n\n${fieldContext(field)}\n\n${celestialContext(now)}`;
   const result = await runChain(system, clean, "chat", { minWords: 3, maxWords: 400 });
   if (result) return res.json({ reply: result.text, source: result.source });
   return res.json({ reply: localChat(field, clean[clean.length - 1].content), source: "local" });
