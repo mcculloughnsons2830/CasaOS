@@ -271,6 +271,117 @@
     }
   }
 
+  // ------------------------------------------------------------- ÆNIGMA chat
+  const CHAT_KEY = "aenigma.chat.v1";
+  const loadChat = () => { try { return JSON.parse(localStorage.getItem(CHAT_KEY)) || []; } catch { return []; } };
+  const saveChat = (m) => localStorage.setItem(CHAT_KEY, JSON.stringify(m.slice(-40)));
+  let chatBusy = false;
+
+  const STARTERS = [
+    "What is the field showing me today?",
+    "I feel stuck, and I don't know why.",
+    "Which archetype is loudest in me right now?",
+    "Help me look at something I keep avoiding.",
+  ];
+
+  function chatBubble(m) {
+    if (m.role === "user") return `<div class="bubble user">${esc(m.content)}</div>`;
+    return `<div class="bubble aenigma"><span class="bubble-mark" aria-hidden="true">◎</span><div class="bubble-body">${esc(m.content)}</div></div>`;
+  }
+
+  function chatView() {
+    const msgs = loadChat();
+    const thread = msgs.length
+      ? msgs.map(chatBubble).join("")
+      : `<div class="chat-intro">
+           <div class="chat-orb" aria-hidden="true"></div>
+           <p class="chat-hi">I'm ÆNIGMA.</p>
+           <p class="chat-sub">A mirror for your consciousness. Tell me what's moving through you — or ask me anything. I read against today's field and reflect it back to you. What you say stays on your device.</p>
+           <div class="starters">${STARTERS.map((s) => `<button class="starter" type="button" data-q="${esc(s)}">${esc(s)}</button>`).join("")}</div>
+         </div>`;
+    return `
+      <div class="chat-shell">
+        <div class="chat-head">
+          <span class="chat-id"><span class="brand-eye" aria-hidden="true"></span> ÆNIGMA <span class="ai-badge">✦ AI</span></span>
+          <button class="chat-clear" id="chat-clear" type="button" title="New conversation">＋ New</button>
+        </div>
+        <div class="chat-thread" id="chat-thread">${thread}</div>
+        <form class="chat-inputbar" id="chat-form">
+          <textarea id="chat-input" rows="1" placeholder="Speak to ÆNIGMA…" autocomplete="off"></textarea>
+          <button class="chat-send" id="chat-send" type="submit" aria-label="Send">→</button>
+        </form>
+        <p class="chat-disclaimer">A mirror for self-reflection &amp; wonder — not medical, legal, or psychological advice.</p>
+      </div>`;
+  }
+
+  function renderThread(msgs, typing) {
+    const t = document.getElementById("chat-thread");
+    if (!t) return;
+    t.innerHTML = msgs.map(chatBubble).join("") +
+      (typing ? `<div class="bubble aenigma typing"><span class="bubble-mark" aria-hidden="true">◎</span><div class="bubble-body"><span class="dots"><i></i><i></i><i></i></span></div></div>` : "");
+    t.scrollTop = t.scrollHeight;
+  }
+
+  async function sendChat(text) {
+    if (chatBusy) return;
+    text = text.trim();
+    if (!text) return;
+    chatBusy = true;
+    const input = document.getElementById("chat-input");
+    if (input) { input.value = ""; input.style.height = "auto"; }
+    const send = document.getElementById("chat-send");
+    if (send) send.disabled = true;
+
+    const msgs = loadChat();
+    msgs.push({ role: "user", content: text });
+    saveChat(msgs);
+    renderThread(msgs, true);
+
+    let reply, source;
+    try {
+      const r = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: msgs.map((m) => ({ role: m.role, content: m.content })) }),
+      });
+      if (r.ok) ({ reply, source } = await r.json());
+      else if (r.status === 429) { const e = await r.json(); reply = e.error; source = "busy"; }
+    } catch { /* offline */ }
+    if (!reply) { reply = "I lost the thread of the field for a moment. Say that again?"; source = "error"; }
+
+    msgs.push({ role: "assistant", content: reply, source });
+    saveChat(msgs);
+    chatBusy = false;
+    if (send) send.disabled = false;
+    renderThread(msgs, false);
+    const inp = document.getElementById("chat-input");
+    if (inp) inp.focus();
+  }
+
+  function wireChat() {
+    const form = document.getElementById("chat-form");
+    if (!form) return;
+    const input = document.getElementById("chat-input");
+    const grow = () => { input.style.height = "auto"; input.style.height = Math.min(input.scrollHeight, 140) + "px"; };
+    input.addEventListener("input", grow);
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendChat(input.value); }
+    });
+    form.addEventListener("submit", (e) => { e.preventDefault(); sendChat(input.value); });
+    view.querySelectorAll(".starter").forEach((b) =>
+      b.addEventListener("click", () => sendChat(b.dataset.q)));
+    const clear = document.getElementById("chat-clear");
+    if (clear) clear.addEventListener("click", () => {
+      if (loadChat().length && !confirm("Start a new conversation? This clears the current one.")) return;
+      localStorage.removeItem(CHAT_KEY);
+      route();
+    });
+    // only re-render when there's history — an empty conversation keeps the
+    // server-rendered intro (orb + starters) with its wired buttons intact
+    if (loadChat().length) renderThread(loadChat(), false);
+    if (input) input.focus({ preventScroll: true });
+  }
+
   function pulsesView() {
     return `
       <p class="eyebrow">ALERTS · THRESHOLDS &amp; SURGES</p>
@@ -309,25 +420,34 @@
 
   // ------------------------------------------------------------- router
   function route() {
-    const hash = location.hash || "#/signal";
+    const hash = location.hash || "#/chat";
     const [pathPart, queryPart] = hash.slice(2).split("?");
     const params = new URLSearchParams(queryPart || "");
     const seg = pathPart.split("/");
-    let name = seg[0] || "signal";
+    let name = seg[0] || "chat";
 
     let html;
     if (name === "a" && seg[1]) html = detailView(seg[1].toUpperCase());
+    else if (name === "signal") html = signalView();
     else if (name === "mirror") html = mirrorView();
     else if (name === "reflect") html = reflectView(params);
     else if (name === "codex") html = codexView();
     else if (name === "pulses") html = pulsesView();
     else if (name === "society") html = societyView();
-    else { name = "signal"; html = signalView(); }
+    else { name = "chat"; html = chatView(); }
 
     view.innerHTML = html;
     document.querySelectorAll("[data-route]").forEach((el) =>
       el.classList.toggle("active", el.dataset.route === name));
+    document.body.classList.toggle("on-chat", name === "chat");
+    // RGB-split glitch bursts on the page heading
+    const h1 = view.querySelector("h1.page, .chat-hi");
+    if (h1 && !h1.classList.contains("glitch")) {
+      h1.classList.add("glitch");
+      h1.setAttribute("data-text", h1.textContent);
+    }
     wireChartHover();
+    wireChat();
 
     const go = document.getElementById("refl-go");
     if (go) go.addEventListener("click", async () => {

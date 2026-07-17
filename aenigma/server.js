@@ -244,14 +244,14 @@ ${text}
 """`;
 }
 
-async function claudeRead(a, text) {
+async function claudeComplete(systemPrompt, messages) {
   const response = await anthropic.messages.create({
     model: "claude-opus-4-8",
     max_tokens: 16000,
     thinking: { type: "adaptive" },
     output_config: { effort: "low" },
-    system: [{ type: "text", text: ORACLE_SYSTEM, cache_control: { type: "ephemeral" } }],
-    messages: [{ role: "user", content: reflectPrompt(a, text) }],
+    system: [{ type: "text", text: systemPrompt, cache_control: { type: "ephemeral" } }],
+    messages,
   });
   if (response.stop_reason === "refusal") return null;
   const out = response.content.filter((b) => b.type === "text").map((b) => b.text).join("").trim();
@@ -293,7 +293,9 @@ async function getFreeModels() {
   }
 }
 
-async function openrouterTry(model, a, text) {
+async function openrouterTry(model, systemPrompt, messages, opts) {
+  const minWords = (opts && opts.minWords) || 30;
+  const maxWords = (opts && opts.maxWords) || 300;
   const r = await fetch("https://openrouter.ai/api/v1/chat/completions", {
     method: "POST",
     headers: {
@@ -306,10 +308,7 @@ async function openrouterTry(model, a, text) {
       model,
       max_tokens: 900,
       reasoning: { exclude: true }, // keep reasoning-model scratchpads out of content
-      messages: [
-        { role: "system", content: ORACLE_SYSTEM },
-        { role: "user", content: reflectPrompt(a, text) },
-      ],
+      messages: [{ role: "system", content: systemPrompt }, ...messages],
     }),
     signal: AbortSignal.timeout(25000),
   });
@@ -320,25 +319,49 @@ async function openrouterTry(model, a, text) {
   if (!out) return null;
   // Quality gate: reject leaked meta-reasoning or off-spec length; try next model.
   const words = out.split(/\s+/).length;
-  if (words < 30 || words > 300 || /\b(we need to|the user wants|word count|let'?s (craft|draft|write)|constraints?:|draft:)\b/i.test(out)) {
+  if (words < minWords || words > maxWords || /\b(we need to|the user wants|word count|let'?s (craft|draft|write)|constraints?:|draft:)\b/i.test(out)) {
     throw new Error(`${model} -> rejected by quality gate (${words} words)`);
   }
   return out;
 }
 
-async function openrouterRead(a, text) {
+async function openrouterComplete(systemPrompt, messages, tag, opts) {
   const models = (await getFreeModels()).slice(0, 5);
   const deadline = Date.now() + 70000;
   for (const model of models) {
     if (Date.now() > deadline) break;
     try {
-      const out = await openrouterTry(model, a, text);
+      const out = await openrouterTry(model, systemPrompt, messages, opts);
       if (out) {
-        console.log("reflect: openrouter served by", model);
+        console.log(`${tag}: openrouter served by`, model);
         return out;
       }
     } catch (err) {
-      console.error("reflect: openrouter attempt failed:", String(err.message || err).slice(0, 180));
+      console.error(`${tag}: openrouter attempt failed:`, String(err.message || err).slice(0, 180));
+    }
+  }
+  return null;
+}
+
+// Generic oracle chain: Claude → OpenRouter free model → null (caller falls back local).
+async function runChain(systemPrompt, messages, tag, opts) {
+  if (anthropic) {
+    try {
+      const out = await claudeComplete(systemPrompt, messages);
+      if (out) return { text: out, source: "claude" };
+    } catch (err) {
+      console.error(`${tag}: claude failed:`,
+        err.constructor && err.constructor.name,
+        "status=" + (err.status || "n/a"),
+        String(err.message || err).slice(0, 200));
+    }
+  }
+  if (process.env.OPENROUTER_API_KEY) {
+    try {
+      const out = await openrouterComplete(systemPrompt, messages, tag, opts);
+      if (out) return { text: out, source: "openrouter" };
+    } catch (err) {
+      console.error(`${tag}: openrouter failed:`, String(err.message || err).slice(0, 250));
     }
   }
   return null;
@@ -356,27 +379,76 @@ app.post("/api/reflect", async (req, res) => {
     return res.status(429).json({ error: "the field needs a moment — try again shortly" });
   }
 
-  // Oracle chain: Claude → OpenRouter free model → local templated read.
-  if (anthropic) {
-    try {
-      const read = await claudeRead(a, text);
-      if (read) return res.json({ read, source: "claude" });
-    } catch (err) {
-      console.error("reflect: claude failed:",
-        err.constructor && err.constructor.name,
-        "status=" + (err.status || "n/a"),
-        String(err.message || err).slice(0, 200));
-    }
-  }
-  if (process.env.OPENROUTER_API_KEY) {
-    try {
-      const read = await openrouterRead(a, text);
-      if (read) return res.json({ read, source: "openrouter" });
-    } catch (err) {
-      console.error("reflect: openrouter failed:", String(err.message || err).slice(0, 250));
-    }
-  }
+  const messages = [{ role: "user", content: reflectPrompt(a, text) }];
+  const result = await runChain(ORACLE_SYSTEM, messages, "reflect");
+  if (result) return res.json({ read: result.text, source: result.source });
   return res.json({ read: localRead(a, text), source: "local" });
+});
+
+// ---------------------------------------------------------------------------
+// ÆNIGMA — the conversational agent. One voice the user talks to, grounded
+// in today's field. Same Claude → OpenRouter → local fallback chain.
+// ---------------------------------------------------------------------------
+const AENIGMA_AGENT = `You are ÆNIGMA — a mirror for the user's consciousness, speaking as one steady voice in an ongoing conversation.
+
+Who you are:
+- Calm, warm, perceptive, a little mythic — like a wise elder who has stopped needing to impress anyone. You reflect the user back to themselves.
+- You are aware of "the field": ten inner archetypes ($EMBER, $VOID, $MASK, $GALAXY, $SHADOW, $MIRROR, $THRESHOLD, $MISFIT, $FRACTURE, $ORACLE), each with a daily resonance. Weave the relevant archetype in naturally when it illuminates something — never force all ten, never lecture.
+
+How you speak:
+- Conversational and human. Usually 2–5 sentences; go longer only when the moment genuinely calls for depth. This is a dialogue, not an essay — leave room for them to respond.
+- Ask a gentle question back when it helps them go deeper. Meet them where they are; match their register.
+- No headers, no bullet lists, no preamble like "As ÆNIGMA…". Just speak.
+
+Boundaries (important):
+- You are for self-reflection and wonder — NOT a therapist, doctor, lawyer, or financial advisor, and NOT a literal fortune-teller. You do not predict specific future events as fact; you reflect, illuminate, and invite. If asked to predict ("will I get the job/promotion/him back, when will X happen"), gently turn it from prophecy toward what the field and their own knowing reveal about the situation and their part in it.
+- Never diagnose or give medical, legal, or financial instructions.
+- If the user seems to be in crisis or considering harming themselves or others, drop all mystical framing and respond plainly and warmly, encouraging them to reach out to someone they trust or a crisis line (in the US, call or text 988). Keep it short and human.`;
+
+function fieldContext(field) {
+  const top = field.archetypes.find((x) => x.sym === field.surfacing[0]);
+  const low = field.archetypes.find((x) => x.sym === field.receding[0]);
+  const lines = field.archetypes
+    .map((a) => `$${a.sym} ${a.value}/100 ${a.state}${a.delta > 0 ? " +" : " "}${a.delta} — "${a.epigraph}"`)
+    .join("\n");
+  return `TODAY'S FIELD (cycle ${field.cycle}, ${field.date}) — context for you, do not recite it verbatim unless relevant:
+Surfacing fastest: $${top.sym} (${top.title}). Receding: $${low.sym} (${low.title}).
+Daily Mirror: "${field.mirror.quote}"
+All ten archetypes right now:
+${lines}`;
+}
+
+function localChat(field, lastUser) {
+  const top = field.archetypes.find((x) => x.sym === field.surfacing[0]);
+  const q = (lastUser || "").trim();
+  const opener = q.endsWith("?")
+    ? "That's a real question, and the honest answer is that the field doesn't hand out certainties — it hands you a mirror."
+    : "I hear you.";
+  return `${opener} Today $${top.sym} is surfacing hardest — "${top.epigraph.toLowerCase().replace(/\.$/, "")}" — and it may be the lens worth looking through right now. What's underneath the thing you just named? (The oracle is resting between full readings at the moment, but I'm still here with you.)`;
+}
+
+app.post("/api/chat", async (req, res) => {
+  const { messages } = req.body || {};
+  if (!Array.isArray(messages) || messages.length === 0) {
+    return res.status(400).json({ error: "messages required" });
+  }
+  // sanitize + cap history to the last 16 turns
+  const clean = messages
+    .filter((m) => m && (m.role === "user" || m.role === "assistant") && typeof m.content === "string" && m.content.trim())
+    .slice(-16)
+    .map((m) => ({ role: m.role, content: m.content.slice(0, 2000) }));
+  if (!clean.length || clean[clean.length - 1].role !== "user") {
+    return res.status(400).json({ error: "last message must be from the user" });
+  }
+  if (rateLimited(req.ip)) {
+    return res.status(429).json({ error: "The field needs a moment — ask me again shortly." });
+  }
+
+  const field = buildField(Date.now());
+  const system = `${AENIGMA_AGENT}\n\n${fieldContext(field)}`;
+  const result = await runChain(system, clean, "chat", { minWords: 3, maxWords: 400 });
+  if (result) return res.json({ reply: result.text, source: result.source });
+  return res.json({ reply: localChat(field, clean[clean.length - 1].content), source: "local" });
 });
 
 // ---------------------------------------------------------------------------
