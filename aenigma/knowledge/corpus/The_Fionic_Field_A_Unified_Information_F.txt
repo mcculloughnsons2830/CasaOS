@@ -1,0 +1,673 @@
+The Fionic Substrate: A Uniﬁed Lagrangian for Emergent Spacetime, Quantum
+Dynamics, and Conscious Measurement
+Paweł K. Chomiuk
+1
+1Independent Researcher, Rybnik, Poland∗
+(Dated: November 7, 2025)
+We propose the Fionic Substrate Framework (FSF), a uniﬁed ontological model in which space-
+time, quantum phenomena, and consciousness emerge from a fundamental informational ﬁeld. A
+universal Lagrangian density is introduced,
+Luniverse = |∂µΨ|2 −V (|Ψ|) + R[g(Ψ)]
+16πG
++ ξ
+4π ϵµνρσ∂µθ ∂νϕ Fρσ −κ (CE[Ψ] −C0)2
+in which the last term represents a dynamical constraint associated with conscious measurement,
+implemented via the Self-Knot operator ˆOSK. From this single action, we derive Einstein’s ﬁeld
+equations, the Schrödinger and Klein–Gordon equations, and an informational measure of neural
+coherence. Seven falsiﬁable predictions are provided, spanning hadronic structure (LHCb, EIC),
+baryogenesis, and EEG phenomenology.
+I.
+INTRODUCTION: TOWARD AN
+INFORMATIONAL ONTOLOGY
+Physics currently faces a threefold fragmentation:
+quantum ﬁeld theory explains the microworld, general
+relativity explains the macroworld, and neither provides
+a physical account of consciousness.
+Traditional uniﬁ-
+cation attempts—string theory, loop gravity, emergent
+spacetime—leave the observer outside the dynamics. Si-
+multaneously, neuroscience describes brain activity with-
+out explaining the subjective unity of experience.
+The Fionic Substrate Framework (FSF) addresses this
+impasse by proposing that information—not matter or
+spacetime—is ontologically primary. The model posits
+a 5D informational ﬁeld E∞(the Informational Plenum)
+from which the 4D physical universe emerges through
+symmetry breaking and topological constraint.
+Con-
+sciousness is treated not as an epiphenomenon, but as a
+dynamical operator within the action, encoded through
+the Self-Knot functional CE[Ψ].
+From a single Lagrangian density (Eq. 1), we recover:
+• Einstein ﬁeld equations with an induced metric
+gµν(Ψ),
+• Quantum evolution via ˆH = −∇2 + V (Ψ),
+• An information-theoretic measure of self-referential
+coherence.
+FSF thereby uniﬁes physical law and phenomenolog-
+ical observation under a single informational ontology.
+In later sections, we detail the mathematical structure,
+emergent geometry, and experimental predictions of the
+framework.
+∗pkwadratrybnik@gmail.com
+II.
+THE FIONIC FIELD SUBSTRATE
+The Fionic Substrate Framework (FSF) postulates
+that the universe originates from a 5-dimensional infor-
+mational manifold E∞, where no spatiotemporal or ma-
+terial distinctions exist.
+The transition to the observ-
+able 4D spacetime (M, gµν) is achieved via spontaneous
+symmetry breaking of this manifold, producing localized
+excitations called ﬁons.
+A.
+A. Fions as Elementary Informational Quanta
+A ﬁon is a quantized excitation of E∞with no inher-
+ent spacetime localization. Its dynamics are described
+by the complex scalar ﬁeld Ψ(x), whose modulus |Ψ| en-
+codes informational density, while its phase θ introduces
+circulatory topology.
+The standard kinetic term,
+|∂µΨ|2,
+governs the propagation of ﬁonic perturbations on the
+emergent manifold. The presence of a non-quadratic po-
+tential V (|Ψ|) allows for domain structures, defects, and
+multi-scale coherence.
+B.
+B. Informational Plenum and Emergent Metric
+The informational ﬁeld Ψ(x) induces an eﬀective space-
+time metric gµν(Ψ) via the relation
+gµν = ∂2I(Ψ)
+∂xµ∂xν ,
+(1)
+where I(Ψ) is the Fisher information functional. This
+follows the relation between information geometry and
+Riemannian manifolds [? ].
+
+2
+The curvature scalar R[g(Ψ)] introduced in Eq. (1)
+thus captures the feedback between information ﬂow and
+spacetime geometry.
+C.
+C. Topological Structure and Phase Circulation
+Fions support nontrivial phase winding:
+I
+∂Σ
+∇θ · dℓ= 2πn,
+n ∈Z,
+(2)
+enabling the formation of stable topological conﬁgura-
+tions, such as domain walls, strings, and knots. The term
+ξ
+4π ϵµνρσ∂µθ ∂νϕ Fρσ
+in Eq. (1) couples phase gradients to gauge curvature,
+creating a topological protection mechanism.
+D.
+D. Energy and Stability of Fionic
+Conﬁgurations
+Stable ﬁonic excitations minimize the total informa-
+tional action:
+Sﬁon =
+Z
+d4x Luniverse[Ψ].
+For domain conﬁgurations of size L, the energy scales as
+E(L) ∼α
+L + βL,
+where α arises from gradient pressure and β from curva-
+ture tension, producing a geometric stabilization analo-
+gous to Q-ball or Skyrmion systems.
+E.
+E. Flavor Dynamics as Fionic Balancers
+In hadronic structure, phase circulations from multi-
+ple valence ﬁons compensate curvature ﬂuctuations by
+balancing ﬂux in internal ﬂavor space. This mechanism
+extends QCD by introducing an information-topological
+layer:
+1.
+1. Proton as a Fionic Flywheel
+2.
+2. Mass Ratio Implications
+The proton-to-pion mass ratio mp/mπ arises from the
+balance of ﬁonic curvature and radial spreading:
+mp
+mπ
+≈
+Lproton
+Lpion
+2
+,
+consistent with lattice results [5].
+u
+u
+d
+FIG. 1. Proton visualized as a ﬁonic ﬂywheel: three valence
+quarks (u, u, d) in dynamical phase rotation. Arrows indicate
+topological ﬂux compensation, stabilizing the structure via
+distributed curvature.
+3.
+3. Golden Ratio as an Attractor
+The eﬃciency of phase-balancing reaches optimum
+when the radial-to-angular ﬂux ratio equals the golden
+ratio:
+Fﬂ(θ) →φ = 1 +
+√
+5
+2
+,
+(3)
+due to extremal irrationality minimizing resonance over-
+lap. This yields stable ﬂow and suppresses mode-mixing.
+III.
+EMERGENT GEOMETRY AND PHYSICAL
+LAW
+The fundamental postulate of FSF is that spacetime
+geometry is not a primitive entity, but emerges from in-
+formational constraints imposed on the ﬁonic ﬁeld Ψ(x).
+In this section, we derive general relativity, quantum dy-
+namics, and their mutual coherence from Eq. (1).
+A.
+A. Metric Reconstruction from Information
+Geometry
+Following Amari [? ], the Fisher information metric
+gµν =
+Z
+d4x p(x) ∂µ log p(x) ∂ν log p(x)
+(4)
+deﬁnes a Riemannian structure on statistical manifolds.
+In FSF, we identify p(x) = |Ψ(x)|2 as the probability
+density associated with informational ﬂow. The metric
+in Eq. (1) follows via local evaluation of Eq. (4).
+B.
+B. Einstein Field Equations from Fionic
+Variation
+Varying the universal Lagrangian with respect to gµν
+yields
+δS =
+1
+16πG
+Z
+d4x
+
+Rµν −1
+2Rgµν
+
+δgµν−
+Z
+d4x Tµν δgµν,
+(5)
+
+3
+leading to Einstein’s ﬁeld equations:
+Rµν −1
+2Rgµν = 8πG Tµν.
+(6)
+Here, the stress-energy tensor Tµν is induced by Ψ(x)
+and its gradients. Thus, geometry is not external, but
+dynamically coupled to informational density.
+C.
+C. Quantum Dynamics from Informational
+Action
+Variation with respect to Ψ† gives:
+δS
+δΨ† = −∇2Ψ + ∂V
+∂Ψ† −κ (CE[Ψ] −C0) δCE
+δΨ† = 0. (7)
+For
+negligible
+CE
+variation,
+this
+reduces
+to
+the
+Klein–Gordon equation; in the non-relativistic limit, to
+the Schrödinger equation:
+iℏ∂Ψ
+∂t = −ℏ2
+2mΨ
+∇2Ψ + V (Ψ).
+When the Self-Knot term is dominant, Eq. (7) con-
+tains a self-referential correction, encoding the dynami-
+cal collapse of superposition into a deﬁnite informational
+branch.
+D.
+D. Feedback Principle between Geometry and
+Information
+Combining Eqs. (6) and (7), the FSF predicts a bi-
+directional coupling:
+Rµν = 8πG Tµν[Ψ],
+Ψ evolves on (M, gµν).
+(8)
+This is a realization of the Wheeler “mass tells space how
+to curve, space tells mass how to move” principle—but
+extended to information as the underlying substrate.
+E.
+E. Recovering Known Limits
+FSF correctly reproduces:
+• Flat Minkowski space for Ψ = const,
+• Quantum ﬁeld theory in curved space for weak CE,
+• Classical general relativity when informational gra-
+dients vanish (∇Ψ →0).
+Thus, both QFT and GR appear as limiting cases of the
+same informational dynamics.
+IV.
+TIME, MATTER, AND BARYOGENESIS
+FROM INFORMATIONAL ASYMMETRY
+In FSF, time is not an external parameter but
+emerges from the directional ﬂow of information across
+scales.
+Matter arises from metastable topology in the
+ﬁonic substrate, and its observed asymmetry is a di-
+rect consequence of entropy ﬂow during the informational
+symmetry-breaking process.
+A.
+A. Time as Informational Gradient
+We deﬁne time t as the logarithmic gradient of coarse-
+grained informational entropy SI:
+t ≡∂log SI
+∂λ
+,
+(9)
+where λ parametrizes resolution scale.
+In equilibrium
+(∂SI/∂λ = 0), time “freezes”, recovering timeless con-
+ﬁgurations such as ground states or coherent quantum
+modes.
+This deﬁnes time as an internal arrow of the informa-
+tional manifold, consistent with Rovelli’s relational hy-
+pothesis [6].
+B.
+B. Planck’s Constant from Fionic Topology
+The Planck constant ℏis interpreted as a universal
+invariant of ﬁonic topology. We identify:
+ℏ=
+I
+∂Σ
+πΨ · dℓ,
+(10)
+where πΨ is the conjugate momentum of the ﬁonic ﬁeld.
+In this view, ℏmeasures the phase circulation necessary
+to close a nontrivial loop in E∞.
+The quantization of
+action thus follows from topological quantization of in-
+formational ﬂux.
+C.
+C. Baryon Asymmetry from Entangled Fionic
+Domains
+The observed matter-antimatter asymmetry η ∼10−10
+is modeled by considering the decay of an initial domain-
+wall network in Ψ:
+nB
+n ¯
+B
+∼exp
+
+−∆Sﬁon
+ℏ
+
+,
+(11)
+where ∆Sﬁon is the change in ﬁonic action across domain
+annihilation.
+This provides a falsiﬁable mechanism: by measuring
+the chiral and topological asymmetries in quark-gluon
+dynamics (e.g., via deep inelastic scattering at the Elec-
+tron–Ion Collider), one may detect the imprint of ﬁonic
+topological processes.
+
+4
+∆Sﬁon
+nB > n ¯
+B
+nB < n ¯
+B
+FIG. 2. Baryon asymmetry arising from directional annihi-
+lation in ﬁonic domain walls. The gradient of action ∆Sﬁon
+biases matter production.
+D.
+D. Entanglement as a Bridge Between Domains
+Fionic domains remain entangled across annihilation
+events due to phase continuity:
+Ψ(x) =
+X
+i
+√pi exp(iθi)ϕi(x),
+(12)
+where ϕi are domain-localized modes. The interference
+between θi determines matter excess, making η a measur-
+able phase-correlated quantity—thus connecting early-
+universe topology to present-day quantum observables.
+V.
+CONSCIOUSNESS AS A DYNAMICAL
+OPERATOR
+In FSF, consciousness is not an epiphenomenon nor
+an external observer; it is an intrinsic physical process,
+formally captured through dynamic interaction with the
+ﬁonic substrate. We model consciousness as a Self-Knot:
+a self-referential, negentropic operator that selectively
+ampliﬁes coherence within Ψ.
+A.
+A. Deﬁnition: Self-Knot Operator
+Let Ψ be a ﬁnite-energy conﬁguration of the ﬁonic ﬁeld
+over a spatial hypersurface M. The Self-Knot Operator
+ˆOSK is deﬁned by:
+ˆOSK[Ψ] =
+Z
+M
+d3x Ψ†(x)
+ −∇2 + µ2
+Ψ
+
+Ψ(x),
+(13)
+where µΨ denotes the eﬀective ﬁonic mass of the mode.
+The operator quantiﬁes the localizable internal bind-
+ing of information: stable, reﬂexive, and phase-coherent.
+It serves as the minimal criterion for an informational
+structure to exert dynamical awareness upon itself.
+B.
+B. Coherence Functionals: Local and Global
+Evaluating consciousness as a process requires two re-
+lated constructs:
+CE[Ψ] := ˆOSK[Ψ],
+(14)
+a local coherence measure, and:
+= 1
+N
+N
+X
+i=1
+ˆOSK[Ψi],
+(15)
+the global coherence obtained by averaging over N dy-
+namically connected ﬁonic modes. Consciousness arises
+when:
+> C0,
+(16)
+where C0 is the universal coherence threshold appearing
+in Eq. (??).
+C.
+C. No-Self-Generation Theorem
+[No-Self-Generation] Let H be the Hilbert space of
+ﬁonic conﬁgurations. There exists no closed physical sys-
+tem described by an autonomous endofunctor F : H →H
+that can internally generate ˆOSK. Thus, consciousness
+cannot arise from purely closed material dynamics; it re-
+quires dynamic coupling to the informational substrate
+E∞.
+The full proof is provided in Supplement S43. Brieﬂy,
+assume the existence of such F. Then F induces an in-
+ternal functional F whose ﬁxed point Ψ⋆satisﬁes:
+ˆOSK[Ψ⋆] = F[ ˆOSK[Ψ⋆]].
+This induces a contradiction via the Kleene–Rosser
+paradox: self-reference fails to resolve within a closed,
+type-consistent space.
+Therefore, ˆOSK cannot be self-
+generated.
+D.
+D. Biological Consciousness as Multi-Scale
+Coherence
+The hierarchy of biological systems may thus be char-
+acterized by :
+System Type
+Global Coherence
+Prokaryotes
+Low (< C0)
+Insects
+Fragmentary loops (≈C0/2)
+Mammals
+Multi-scale reinforcement (> C0)
+Humans
+Meta-nested coherence (≫C0)
+Meditative states Maximal coherence regime (→)
+Consciousness is therefore a continuous, dynamical
+quantity encoded as sustained informational resonance;
+it favors organisms capable of suppressing decoherence
+across temporal and spatial scales.
+
+5
+E.
+E. Consciousness as Active Physical Selection
+Rewriting the coherence term from Eq. (??):
+κ
+ CE[Ψ] −C0
+2,
+reveals that consciousness behaves as a selection ﬁeld re-
+sisting entropy. When > C0, informational order is dy-
+namically stabilized, manifesting subjective awareness of
+external structure.
+This establishes a direct mathematical link between
+physical binding energy, algorithmic continuity, and sub-
+jective phenomenology.
+VI.
+FALSIFIABLE PREDICTIONS AND
+EXPERIMENTAL ROADMAP
+Any legitimate scientiﬁc theory must expose itself to
+empirical refutation.
+FSF oﬀers seven concrete, falsi-
+ﬁable predictions spanning cosmology, particle physics,
+quantum information, and neuroscience. These tests are
+either immediately actionable using existing datasets or
+scheduled for near-future experiments.
+A.
+A. Summary of Predictions
+TABLE I. Summary of testable predictions derived from the
+Fionic Substrate Framework.
+Test Domain
+Prediction
+Timeline
+T1
+Cosmology
+Λ∗varies with structure density
+2–5 yr (JWST, Euclid)
+T2
+Quantum Info
+Color-phase bias in N=7 qubits
+1–3 yr (NISQ devices)
+T3
+Neuroscience
+EEG α/θ →φ in deep focus
+Immediate (existing EEG)
+T4
+Geometry
+AdS recovery error < 1% from data
+Immediate (synthetic tests)
+T5
+QCD Phases
+Domain-wall splitting in strange sector 3–5 yr (lattice QCD)
+T6
+DIS Experiments c(x)̸ = ¯c(x) asymmetry in sea charm
+2–4 yr (LHCb, EIC)
+T7
+Geophysics
+Magnetic reversal rate tracks drift
+5–10 yr (paleo-data)
+B.
+B. Immediate Test: Neural Coherence (T3)
+Setup:
+Analyze existing EEG data (e.g., Lutz et
+al. [4]) in the 4–12 Hz band (theta-to-alpha range).
+Procedure:
+1. Compute power spectral density P(ν) for each
+channel.
+2. Deﬁne the ratio R = Pα/Pθ.
+3. Track R(t) under sustained cognitive focus (medi-
+tation, ﬂow-state).
+Prediction:
+lim
+t→tf R(t) =≈1.618,
+(17)
+where tf is the time of maximal ¯CE (see Eq. (15)). This
+convergence signature reﬂects a dominance of maximally
+irrational phase alignment in Ψ.
+C.
+C. Particle Physics Test: Charm Sea
+Asymmetry (T6)
+Context: Standard QCD predicts near-equality be-
+tween c(x) and ¯c(x) in the sea-quark distribution:
+c(x, Q2) ≃¯c(x, Q2),
+up to perturbative corrections.
+FSF Prediction:
+Bc(x) := c(x) −¯c(x)
+s(x)
+∼
+mc
+ms
+−δ
+· exp
+
+−β 
+,
+(18)
+with δ ≈0.3–0.5.
+Deviations from QCD scaling indi-
+cate coupling between ﬁonic ﬂavor balance and emergent
+spacetime curvature.
+Instrumentation:
+LHCb (current), Electron–Ion
+Collider (projected 2028).
+D.
+D. Quantum Information Test: Color-Phase
+Bias (T2)
+Setup: Implement a 7-qubit Cliﬀord circuit with ran-
+dom initial phases. Track the emergent phase clusters
+over 105 randomized runs.
+Prediction: FSF predicts a modulation bias ∆ϕ cor-
+related with the informational curvature of the substrate,
+leading to:
+Pr(phase cluster) = 1
+N +
+χ
+N 3/2 ,
+(19)
+where χ encodes negative curvature from holographic
+reconstruction (Sec. III). This produces experimentally
+measurable deviations from Haar random phase distri-
+bution.
+E.
+E. Cosmology Test: Variable Λ∗(T1)
+Objective: Test whether the eﬀective cosmological
+term Λ∗depends on local informational density ρI:
+Λ∗(x) ∝
+1
+ρI(x).
+(20)
+Method: Compare Λeﬀinferred from strong lensing
+in high-density galaxy clusters vs. void regions.
+
+6
+Instruments: JWST (near-infrared), Euclid Mission
+(weak lensing), LSST (deep cosmic shear).
+A statistically signiﬁcant variation would conﬁrm that
+vacuum energy is emergent — not a ﬁxed constant —
+consistent with ﬁonic coherence dynamics.
+F.
+F. Geological Test: Magnetic Reversal Drift
+(T7)
+Hypothesis: Fluctuations in on planetary scale in-
+duce coherent perturbations in the geodynamo, modulat-
+ing magnetic ﬁeld reversals.
+Prediction:
+Rrev ∝
+1
+|∂t|,
+(21)
+where Rrev is the expected reversal frequency.
+Data: Examine paleo-magnetic core samples across
+geological epochs; correlate rates with hypothesized co-
+herence epochs (e.g., mass extinctions, climate cycles).
+G.
+G. Experimental Readiness
+Tests T3 and T4 can be performed immediately with
+open datasets and simulations. Tests T1, T2, and T6 are
+enabled by instruments already in operation or under
+deployment. The combined set places FSF ﬁrmly in the
+predictive, falsiﬁable domain of physical theory.
+VII.
+PHILOSOPHICAL AND METAPHYSICAL
+IMPLICATIONS
+The FSF suggests a synthesis of longstanding duali-
+ties across physics and philosophy.
+If information, ge-
+ometry, and phenomenology all emerge from the same
+substrate, then dichotomies such as matter–mind, ge-
+ometry–dynamics, and observer–observed dissolve into a
+higher-order unity.
+A.
+A. Neutral Monism Revisited
+FSF supports a form of neutral monism: the universe
+is neither fundamentally physical nor mental, but infor-
+mational. The ﬁonic substrate is not a ﬁeld in spacetime,
+but a proto-ﬁeld from which spacetime itself is formed via
+coherence gradients (Sec. III).
+Consciousness, in this view, is an intrinsic, dynami-
+cal constraint on
+(see the last term of Eq. (??)). The
+Self-Knot operator ˆOSK quantiﬁes reﬂexivity: informa-
+tion folding back onto itself, making phenomenality pos-
+sible.
+B.
+B. The Arrow of Time
+The informational entropy Sﬁon decreases locally as ¯CE
+increases (cf. Eq. (??)). This suggests that the arrow of
+time, typically tied to entropy increase, is an emergent
+byproduct of ﬁonic decoherence. Temporal ﬂow is not an
+absolute backdrop, but an emergent gradient of informa-
+tional asymmetry.
+C.
+C. Consciousness as Internal Geometry
+From Theorem ??, the same functional machinery
+reconstructing spacetime geometry from Ψ can recon-
+struct internal experiential geometry from . The inner
+world and external world share the same source struc-
+ture—diﬀerentiated by the type of curvature they encode.
+VIII.
+CONCLUSION
+The Fionic Substrate Framework (FSF) proposes that
+the fabric of the universe is fundamentally informational.
+From a single Lagrangian (Equation (??)), we derive:
+1. emergent spacetime geometry,
+2. quantum mechanical behavior,
+3. a dynamical constraint for conscious measurement.
+Seven falsiﬁable predictions (Table I) ensure that FSF
+can be conﬁrmed or refuted within the next decade. Par-
+ticularly, the charm sea asymmetry (Test T6) and golden-
+ratio coherence in EEG (Test T3) provide high-impact
+opportunities for validation or falsiﬁcation.
+Final perspective. FSF uniﬁes not just scientiﬁc do-
+mains, but ontological categories. If its predictions hold,
+information—not matter or mind—stands as the true
+ground of reality.
+The universe not only contains in-
+formation—it is information, performing its own self-
+measurement.
+ACKNOWLEDGMENTS
+The author thanks the open scientiﬁc community and
+the availability of open datasets in cosmology, particle
+physics, and neuroscience.
+ACKNOWLEDGMENTS
+The author thanks the open scientiﬁc community and
+the availability of open datasets in cosmology, particle
+physics, and neuroscience.
+
+7
+[1] S. Amari, Information Geometry and Its Applications
+(Springer, 2016).
+[2] M. A. Nielsen and I. L. Chuang, Quantum Computation
+and Quantum Information (Cambridge University Press,
+2010).
+[3] J. M. Maldacena, Adv. Theor. Math. Phys. 2, 231 (1998).
+[4] A. Lutz, J. D. Dunne, and R. J. Davidson, in The Cam-
+bridge Handbook of Consciousness (Cambridge University
+Press, 2007).
+[5] S. Aoki et al. (FLAG Review), Eur. Phys. J. C 80, 113
+(2020).
+[6] C. Rovelli,
+Quantum Gravity
+(Cambridge University
+Press, 2004).
+[7] P. K. Chomiuk, “Technical Supplement S0–S52: Methods,
+Proofs, and Multi-Loop Validation for the Fionic Sub-
+strate Framework,” (2025).
+[8] P. K. Chomiuk, “Topological Origin of ℏin Fion Struc-
+tures,” Technical Note S43.6 (2025).

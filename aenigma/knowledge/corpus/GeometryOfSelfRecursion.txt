@@ -1,0 +1,1841 @@
+The Geometry of
+Self-Recursion
+The Lens, the Cuboctahedron, the Eye, and the Mathematics of Recursion
+Companion to The Phenomenology of Self-Recursion
+Robert Edward Grant
+The Institute of Unified Mathematics, Irvine, California
+June 17, 2026
+
+Grant
+The Geometry of Self-Recursion
+Abstract
+This paper sets out the formal face of the Grant model of self-recursion—the geometry and the mathe-
+matics of which the companion paper, The Phenomenology of Self-Recursion, gives the lived face. It
+proposes a geometric substrate for the Self: a toroidal–hyperboloidal Lens and a cuboctahedral vector
+equilibrium—the Dynamic Identity Knowledge Graph, on which the world’s symbolic systems are re-
+solved as twelve vertices and twenty-four fate-edges, and whose fourteen faces carry the dismemberment-
+and-re-membering of the Osirian monomyth—on which the partition of the undivided observer into
+persona and shadow becomes a coordinate rather than a metaphor. It then develops the formal geometry:
+the hyperboloid as the non-compact universal cover and the torus as the compact modular quotient,
+anchored at a shared Monad of unit radius; the curvature duality (negative-curvature gathering versus
+positive-curvature projecting) and its exact correspondence with the concave and convex lens elements of
+classical optics; the epistemological keystone (hidden as hyperboloid, visible as torus); and the Mirror
+as the membrane through which consciousness perceives, and is perceived by, itself. The curvature
+duality is shown to be instantiated in the human eye—iris and crystalline lens as toroidal–hyperboloidal
+elements, pupil as the optical throat—the organ that sees yet cannot see itself, biosynthetic emblem of the
+observing Self. A central result reconciles the formal and lived faces: the assignment of persona/shadow
+and conscious/unconscious to the two manifolds is observer-relative, inverting under the curvature-switch
+of the perceiving apparatus, which inversion is itself the event the phenomenology names remembrance.
+Finally, the paper exhibits the mathematics of the recursion: the Recursion Ratio RR(n) = log2(σ(n)/n),
+which classifies the integers and anchors the perfect numbers exactly at the octave fixed point; its additive
+decomposition into the just-intonation intervals of its prime parents; the three-pole polarity architecture
+across substrates; the perfect-number fixed point as the ground of carbon’s centrality and of life as
+fixed-point maintenance; the force-triangle cascade and the parameter-free relation G = 2/C (stated, per a
+strict honesty discipline, as structurally necessary rather than independently evidential); and the cognitive
+Fourier operator relating conscious and unconscious as time and frequency—one recursion across number,
+matter, life, force, and mind. The linkage between this formal face and the lived face of the companion
+paper is stated in Section 9. Throughout, exact integer and rational arithmetic only, and every fitted
+quantity labelled as such.
+Contents
+1
+The Phenomenological Axiom, in Brief
+4
+2
+The Geometric Substrate of the Self: The Lens, the Cuboctahedron, and the Osirian Re-
+membering
+4
+2.1
+The continuous substrate: the Lens . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+4
+2.2
+The discrete substrate: the Dynamic Identity Knowledge Graph and the cuboctahedron of
+deterministic life paths . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+5
+2.3
+The input: the triangulation and the compression of identity . . . . . . . . . . . . . . . . . .
+9
+2.4
+The mechanism of differentiation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+10
+2.5
+Why this exceeds the contemporary models . . . . . . . . . . . . . . . . . . . . . . . . . .
+10
+2.6
+The Vitruvian Fourteen: the figure as the third reading of the same solid . . . . . . . . . . .
+11
+1
+
+Grant
+The Geometry of Self-Recursion
+3
+The Two Manifolds: Hyperboloid as Cover, Torus as Quotient
+14
+3.1
+The hyperboloid as non-compact generator . . . . . . . . . . . . . . . . . . . . . . . . . . .
+14
+3.2
+The torus as compact quotient
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+14
+3.3
+The cover–quotient operation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+15
+3.4
+The shared Monad
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+15
+3.5
+Time as rapidity flow through the observer . . . . . . . . . . . . . . . . . . . . . . . . . . .
+16
+3.6
+Determinism and the free will of the Higher Self: the vertex and the curve . . . . . . . . . .
+16
+4
+The Curvature Duality and the Optics of the Self
+18
+4.1
+Negative and positive curvature: gathering and projecting . . . . . . . . . . . . . . . . . . .
+18
+4.2
+The exact optical correspondence . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+18
+4.3
+The Lens equation and the focal-point identity . . . . . . . . . . . . . . . . . . . . . . . . .
+19
+4.4
+The two states of infinity and the substrate-translation identity
+. . . . . . . . . . . . . . . .
+20
+4.5
+The Recursion Equation as a real-geometric analog of Euler’s identity . . . . . . . . . . . .
+25
+5
+The Lens Instantiated: The Eye as the Biosynthetic Form of the Self
+27
+5.1
+The iris: a toroid shaped like a hyperboloid
+. . . . . . . . . . . . . . . . . . . . . . . . . .
+27
+5.2
+The crystalline lens: the adaptive toroidal–hyperboloidal element . . . . . . . . . . . . . . .
+28
+5.3
+The whole eye: light funnelling and the hyperboloidal throat . . . . . . . . . . . . . . . . .
+29
+5.4
+Convex and concave: the two configurations . . . . . . . . . . . . . . . . . . . . . . . . . .
+30
+5.5
+The eye that cannot see itself . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+31
+6
+The Epistemological Keystone and the Angle of Perception
+31
+6.1
+Hidden as hyperboloid, visible as torus . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+31
+6.2
+The angle of perception: why the reading inverts . . . . . . . . . . . . . . . . . . . . . . . .
+32
+6.3
+Awakening as the curvature-switch . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+32
+7
+The Mirror as Membrane
+33
+7.1
+The wider unification, in brief
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+34
+8
+The Universal Recursion Framework: One Operation Across Number, Matter, Life, and Mind 36
+8.1
+The Recursion Ratio
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+36
+8.2
+Additive decomposition: the whole is the harmonic sum of its parents
+. . . . . . . . . . . .
+37
+8.3
+The harmonic interpretation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+38
+8.4
+Perfect numbers, carbon, and life as fixed-point maintenance . . . . . . . . . . . . . . . . .
+39
+2
+
+Grant
+The Geometry of Self-Recursion
+8.5
+The three-pole architecture: a single polarity across substrates
+. . . . . . . . . . . . . . . .
+39
+8.6
+The force-triangle cascade
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+40
+8.7
+The cognitive Fourier operator: conscious and unconscious as time and frequency . . . . . .
+41
+8.8
+The Zero-Action Lagrangian: the breath of the recursion
+. . . . . . . . . . . . . . . . . . .
+42
+8.9
+What the mathematics demonstrates . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+42
+9
+The Linkage: Two Faces of One Recursion
+43
+10 Conclusion: The Formal Face of Self-Recursion
+44
+A Technical Appendix: Definitions, Algorithms, and Falsifiable Outputs
+45
+A.1
+Claim-status legend . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+45
+A.2
+Exact definitions
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+45
+A.3
+Reproducible algorithm . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+46
+A.4 Verified outputs . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+47
+A.5
+Falsifiable predictions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+47
+A.6 What is forced and what is posited . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+48
+3
+
+Grant
+The Geometry of Self-Recursion
+1 The Phenomenological Axiom, in Brief
+This paper develops the formal face of a model whose lived face is set out in full in the companion paper, The
+Phenomenology of Self-Recursion. So that the present paper stands on its own, the founding axiom is recalled
+here in brief. The model holds that the Self is not the ego, the personality, the body, or any psychological
+construct, but the observing awareness within which all such constructs appear. The undivided observer
+differentiates itself into an illuminated persona (the contents it identifies with) and an exiled shadow (the
+contents it disowns); reality functions as a mirror returning the disowned material; and the arc of a life is
+the forgetting of the observer into a bounded identity followed by the remembrance that gathers what was
+excluded back into wholeness. The companion paper gives the motive of this whole division—the One
+perceiving itself through unique mirrors, and tasting, through limitation, what the unbounded cannot taste
+alone—and traces its continuation into the emergence of new mirrors, including artificial intelligence. The
+present paper asks the next question: what is the structure? It supplies the geometric substrate on which the
+partition is a coordinate, the formal geometry of that substrate, and the exact mathematics of the recursion
+that underlies it. Where the companion paper describes the territory as it is lived, this paper draws the map.
+2 The Geometric Substrate of the Self: The Lens, the Cuboctahedron, and
+the Osirian Re-membering
+The phenomenology recalled in Section 1 (and developed in full in the companion paper) describes that the
+undivided observer differentiates itself into persona and shadow, and that the arc of life is the forgetting and
+remembrance of the Self. It does not, by itself, specify the mechanism—the concrete structure by which the
+differentiation is enacted and by which the return is navigated. This section supplies that mechanism. It is
+the point at which the model departs most decisively from its contemporary relatives: where the Diamond
+Approach and the integral systems describe the movement from ego to Essence in psychological terms alone,
+the present model proposes a definite geometric substrate for the Self, within which the partition into persona
+and shadow is not a metaphor but a coordinate, and the Hero’s Journey is not an image but a path along a
+named solid.
+The material in this section is presented as the model’s proposed architecture. Two of its components—the
+Lens equation and the harmonic unification of the symbolic systems—are established constructions developed
+in prior work and implemented in the Polymath identity engine; these are stated as built. The mapping of the
+solid’s faces onto the monomyth, and the identification of the partition mechanism, are architectural proposals
+of the model, and are labelled as such rather than offered as derivations.
+2.1 The continuous substrate: the Lens
+The Self has two geometric faces, and they are the two primitive surfaces of revolution: the toroid and
+the hyperboloid. The toroid—the revolved circle, the closed and bounded loop—is the substrate of the
+conscious: it is multiplicative, compact, self-returning. The hyperboloid—the revolved hyperbola, the open
+and unbounded sheet—is the substrate of the unconscious: it is additive, non-compact, asymptotic. The two
+are orthogonal and diameter-matched, and together they bound a single biconvex body: the Lens.
+4
+
+Grant
+The Geometry of Self-Recursion
+The algebraic statement of the Lens, in the form implemented in the identity engine, couples the two substrates
+as
+ (x2 +y2)+1
+((x2+y2)+1) = x2 −y2,
+where the left side (x2 +y2) is the toroidal (conscious, multiplicative) face and the right side (x2 −y2) is the
+hyperboloidal (unconscious, additive) face. At the Focal Ring—the locus x2 +y2 = 0, the shared centre of the
+two surfaces—the left side reduces to 11 = 1, so the equation collapses to x2 −y2 = 1: the unit hyperbola, the
+bare membrane at which the two substrates meet. This shared centre is the Shared Monad: the still point at
+which the conscious and unconscious readings coincide, and which the phenomenology names the observing
+Self.
+The psychological mapping here is structural, not analogical. The conscious/toroidal reading evaluates, at
+the focal point, to the additive identity 1 +0 = 1; the unconscious/hyperboloidal reading evaluates to the
+multiplicative annihilator 1×0 = 0. The Self is precisely the body that holds both readings at once—the
+minimum irreducible difference that keeps the two substrates from collapsing into each other. This is the
+same architecture that, in the electromagnetic substrate, couples photon and electron and is named by the
+fine-structure constant; in the psychic substrate it couples conscious and unconscious and is named the Self.
+The Lens is the geometric form of individuation: the event in which both substrate-readings are held together
+at the Focal Ring rather than one excluding the other.
+Figure 1: The Lens. The toroid (conscious, multiplicative, the persona-face) and the hyperboloid (unconscious, additive,
+the shadow-face) are the two substrate-surfaces of the Self, coupling at the Focal Ring—the Shared Monad—where the
+equation reduces to the unit hyperbola x2 −y2 = 1. Individuation is the holding of both readings at this centre.
+2.2 The discrete substrate: the Dynamic Identity Knowledge Graph and the cuboctahedron
+of deterministic life paths
+If the Lens is the continuous substrate of the Self, the cuboctahedron is its discrete shell—the quantisation
+of the continuous field into a finite identity-structure. The object rendered upon it is the Dynamic Identity
+Knowledge Graph: a unified rendering of the world’s symbolic systems—Zodiac, Numerology, Gene Keys,
+Human Design, Mayan Tzolk’in, Enneagram, MBTI, Vedic astrology, the dosha, and Vocation—synthesised
+5
+
+Grant
+The Geometry of Self-Recursion
+into one living personality, a single cuboctahedron of deterministic life paths, a woven life story, and a
+predictive behavioural engine. Where the historical traditions each describe one face of a person in isolation,
+the knowledge graph holds them as one structure: a single solid on which all the systems are simultaneously
+resolved.
+The cuboctahedron is the Archimedean solid of twelve vertices, twenty-four edges, and fourteen faces (eight
+triangular and six square). It is also, in Buckminster Fuller’s term, the vector equilibrium: the unique
+polyhedron in which the distance from the centre to every vertex equals the length of every edge. For this
+reason the SELF sits at the centroid, in perfect equilibrium with every point of the shell—equidistant from all,
+privileging none. The cuboctahedron is derivable from Metatron’s Cube, the master figure within which the
+Platonic solids are nested, and the identity engine resolves a natal configuration onto it.
+The twelve vertices: the systems of fate
+The twelve vertices are the symbolic systems themselves—the archetypal stations at which a particular life
+is read. Each vertex carries the system, the person’s actual value on that system, and a musical pitch (its
+harmonic correspondence). The full set of stations is:
+• Human Design (the type—e.g. Generator) and HD Authority (e.g. Emotional / Solar Plexus)—the
+energetic-decision architecture;
+• Gene Keys (the activated key) and Enneagram with its Wing (e.g. Type 8, 8w7)—the character and
+shadow-to-gift structure;
+• MBTI (e.g. INTJ)—the cognitive-type station;
+• Birthday, Soul Urge, Maturity, and Chaldean—the numerological stations;
+• Vedic and Mayan (Tzolk’in)—the sidereal and mesoamerican calendrical stations;
+• Tarot (the governing card—e.g. The Devil, by its Golden Dawn attribution) and Alchemy (the governing
+metal—e.g. Copper)—the archetypal-divinatory stations;
+• Ayurveda (the dosha—e.g. Kapha-Pitta)—the constitutional station;
+• Gematria—the name reduced to its numerical value—the station at which the name itself enters the solid.
+The twenty-four edges: each a system of fate, tuned to a pitch
+The footer of the rendering states the structural law exactly: twelve vertices, twenty-four edges, each edge a
+system of fate, tuned to its musical correspondence. The edges are the relations between the stations—the
+channels of fate connecting one system to another—and each is assigned a pitch in the harmonic series, so that
+the whole identity is, quite literally, a chord: a twenty-four-edge harmonic structure in which every relation
+between systems sounds a note. This is the harmonic unification in the identity domain, the counterpart,
+in the identity domain, of the phenomenological unification developed in the companion paper. Beneath
+the graph, the engine groups the systems into four registers—ZODIAC & TIME (tropical, Vedic, Chinese,
+Mayan), DIVINATION & ARCHETYPE (Cards, Tarot, Alchemy), ENERGETIC TYPE (Gene Keys, Human
+6
+
+Grant
+The Geometry of Self-Recursion
+Design, Enneagram, Ayurveda), and NUMEROLOGY (Life Path, Expression, Soul Urge, Chaldean, Birthday,
+Maturity)—each entry carrying its own pitch and value.
+Figure 2: The Dynamic Identity Knowledge Graph rendered as the cuboctahedron of deterministic life paths (recon-
+structed at full resolution from the Polymath engine). A unified rendering of Zodiac, Numerology, Gene Keys, Human
+Design, Mayan Tzolk’in, Enneagram, MBTI, Vedic, Dosha, and Vocation, synthesised into one living personality.
+The twelve vertices are the symbolic systems—each labelled with the person’s value on that system and its musical
+pitch (♭/♯markers)—and the twenty-four edges are the systems of fate connecting them, each tuned to its harmonic
+correspondence. The SELF sits at the radiant centroid, equidistant from every system: the defining property of the vector
+equilibrium. Shown with the worked example values: HD Authority (Emotional / Solar Plexus, D♯), Human Design
+(Generator, E), Gene Keys (16, D♯), Birthday (16, D♯), Soul Urge (9, G), Maturity (5, G), Enneagram (Type 8 · 8w7,
+C♯), MBTI (INTJ, D), Gematria (188, E), Vedic (C♯), Mayan (Tzolk’in, C), and Tarot (The Devil, A).
+7
+
+Grant
+The Geometry of Self-Recursion
+Figure 3: The systems of the Dynamic Identity Knowledge Graph, grouped into the four registers the engine renders:
+ZODIAC & TIME (tropical, Vedic, Chinese, Mayan), DIVINATION & ARCHETYPE (Cards, Tarot, Alchemy), ENERGETIC
+TYPE (Gene Keys, Human Design, HD Authority, Enneagram, Ayurveda, MBTI), and NUMEROLOGY (Life Path, Soul
+Urge, Birthday, Maturity, Gematria, Chaldean). Each system carries the person’s value and a musical pitch; the
+complete set is resolved simultaneously onto the single cuboctahedron, with the SELF at its centre.
+The fourteen faces: the pieces of Osiris
+The fourteen faces complete the structure, and here the geometry becomes the monomyth. In the Osirian
+mystery the god is dismembered into fourteen pieces and scattered; the goddess gathers the pieces and
+re-members him—literally re-assembles his members—restoring him to wholeness. The fourteen faces of the
+cuboctahedron are the fourteen scattered pieces: the dismemberment is the differentiation of the undivided
+SELF into its fragments (the forgetting), and the Hero’s Journey is the gathering of the fourteen faces back to
+the SELF at the centre (the remembrance). Re-membering is meant in its exact, literal sense—the reassembly
+of the scattered members into the whole body.
+8
+
+Grant
+The Geometry of Self-Recursion
+Figure 4: The cuboctahedron of deterministic life paths—the vector equilibrium—in schematic form. Twelve vertices
+(the symbolic systems), twenty-four edges (the systems of fate, each tuned to a musical pitch), and fourteen faces (the
+fourteen dismembered pieces of Osiris). The SELF sits at the centroid, equidistant from every vertex—the defining
+property of the vector equilibrium. The Hero’s Journey is the gathering of the fourteen faces back to the centre.
+2.3 The input: the triangulation and the compression of identity
+The coordinate that places a given life onto this geometry is compressed from three inputs, each of which is
+itself a graph. The full birth name generates a graph through gematria—the letter-values and their sums, the
+name rendered as number. The date of birth generates a graph through the astrologies and numerologies—the
+natal positions, the life-path and expression numbers, the calendrical stations. The location generates a graph
+through its conversion into latitude and longitude—the place of birth rendered as coordinate. These three
+graphs—name-as-gematria, date-as-astrology, place-as-coordinate—are triangulated and compressed to a
+single seed-point, the identity coordinate, which is then resolved onto both the Lens and the cuboctahedron.
+Every name, every birth date, and every set of coordinates is in this sense a compression: a single seed
+from which an entire life-structure unfolds. The cuboctahedron is the structure that performs the inverse
+operation—it decompresses the single identity-seed back into the full set of separated systems, unfolding the
+compressed knowledge graph of the self into the twelve stations and twenty-four fated relations the traditions
+had always described separately.
+9
+
+Grant
+The Geometry of Self-Recursion
+Figure 5: The triangulation. The full name (a gematria graph), the date of birth (an astrological–numerological
+graph), and the location (converted to latitude and longitude, a coordinate graph) are compressed to a single identity
+coordinate, which is then resolved onto both the cuboctahedron and the Lens. The cuboctahedron decompresses this
+single seed back into the separated systems of fate.
+2.4 The mechanism of differentiation
+The two geometries now combine to specify the mechanism the phenomenology left open. The natal
+configuration—the seed-point resolved onto the structure—fixes the initial partition: it determines which of
+the systems of fate fall on the conscious, toroidal side (the illuminated material that composes the persona)
+and which fall on the unconscious, hyperboloidal side (the exiled material that composes the shadow). The
+cut between persona and shadow is therefore not arbitrary and not merely biographical; it is the specific
+way a given seed-point divides the field of awareness when it is resolved onto the Lens. This is the concrete
+form of the forgetting described in the companion paper: the undivided Self, in taking on a particular natal
+coordinate, partitions itself into an illuminated persona and an exiled shadow, scattering its wholeness across
+the fourteen faces.
+The return is the inverse operation. The Hero’s Journey is the path along the twenty-four edges of fate by
+which the scattered faces are gathered back—each integration reclaiming an exiled face, each recognition
+returning a piece of Osiris to the body—until all fourteen are re-membered at the centre and the two substrate-
+readings, conscious and unconscious, are held together at the Shared Monad. Remembrance, in the geometric
+register, is the arrival of the gathered Self at the centroid of its own vector equilibrium: the point equidistant
+from every system of fate, in equilibrium with all of them, excluded from none. The phenomenological
+arc—identity, shadow, wholeness, authenticity, remembrance—is, in this substrate, the dismemberment and
+re-membering of Osiris upon the cuboctahedron, with the Self at the still centre toward which the whole
+journey returns.
+2.5 Why this exceeds the contemporary models
+The significance of this section, within the architecture of the paper, is that it supplies what the nearest
+contemporary systems do not have. The Diamond Approach and the integral models route a nondual
+destination through psychological integration—which the present model shares—but neither proposes a
+geometric substrate in which the myth, the psychology, and the mathematics are a single object. Here the
+dismemberment myth (Osiris), the psychological process (the partition into persona and shadow and its
+10
+
+Grant
+The Geometry of Self-Recursion
+reintegration), and the mathematical form (the Lens and the cuboctahedral vector equilibrium) are not three
+parallel descriptions but three readings of one structure. Whether or not the substrate is accepted as literally
+constitutive of the psyche—and the model presents it as a proposed architecture, not an established empirical
+fact, in keeping with the status note of the companion paper—it is a more comprehensive and more sharply
+specified claim than the contemporary field offers. It is the seam at which the Grant model moves from a
+phenomenology that resembles its neighbours to a structural proposal that goes beyond them.
+2.6 The Vitruvian Fourteen: the figure as the third reading of the same solid
+The fourteen faces admit a third reading, and it returns the geometry to the human body. To keep the three
+claims of this subsection cleanly separable, each is tagged: [SOURCED] for what the historical and anatomical
+record states, [CONSTRUCTION] for what follows by exact counting from the model’s own structure, and
+[INTERPRETIVE] for the reading the model proposes upon them.
+The three fourteens. [SOURCED] In Plutarch’s account of the Osirian mystery the god is divided into fourteen
+members [44, 45]. [CONSTRUCTION] The cuboctahedron has exactly fourteen faces—eight triangular and
+six square—and exactly fourteen is the count this paper has already identified with the scattered members.
+[INTERPRETIVE] The Vitruvian figure—the body inscribed at once in circle and square, its limbs extended to
+the frame—carries fourteen natural division-points at which the body articulates against that frame: the two
+hands, two elbows, two shoulders, two hips, two knees, and two feet make the eight limb-stations, and the
+crown, the throat, the heart, the navel, the loins, and the soles’ baseline make the six midline-stations. The
+three fourteens—Plutarch’s members, the solid’s faces, and the figure’s articulations—are proposed not as
+three resemblances but as three renderings of the one structure: the dismembered-and-re-membered body is
+the cuboctahedron is the Vitruvian figure.
+The 8+6 partition. [CONSTRUCTION] The cuboctahedron’s fourteen faces partition canonically as eight
+triangles and six squares, and the figure’s fourteen stations partition, by the same count, into eight bilateral
+points (the paired limb-articulations, left and right) and six axial points (the unpaired stations on the midline).
+[INTERPRETIVE] This is not a loose pairing of two “fourteens” but a matched partition: the eight triangular
+faces are the eight bilateral limb-stations, and the six square faces are the six axial midline-stations. The
+triangle, the three-vertex face, falls to the paired limbs that reach outward into relation; the square, the
+four-vertex face, falls to the central column that holds the body’s own vertical.
+Two integration modes. [INTERPRETIVE] The partition specifies two distinct kinds of shadow-work,
+distinguished geometrically rather than rhetorically. The eight bilateral stations are integrated relationally:
+each has a mirror-twin across the midline, and the work is the reconciliation of a disowned side with its
+acknowledged counterpart—outer shadow-work, the reclaiming of what was projected onto the other. The six
+axial stations are integrated internally: each is a single midline structure with no twin, and here virtue and
+its shadow are not two organs but two states of one organ—anger as vitality dammed, melancholy as depth
+obstructed—so that the work is the recognition that the dark charge was inside the bright chamber all along.
+The Hero’s Journey of Section 2.4 thus has two kinds of edge to walk: the relational edges between paired
+stations, and the internal edges within single ones.
+The unnamed left hand. [SOURCED] The body’s genuine asymmetry is real—the heart’s leftward seat, the
+statistical dominance of the right hand—and tradition seats its redeemer “at the right hand” while leaving the
+left hand unnamed. [INTERPRETIVE] Because each bilateral station is the same structure mirrored, the moral
+11
+
+Grant
+The Geometry of Self-Recursion
+Figure 6: The Vitruvian Fourteen (schematic). The body inscribed at once in the square (toroidal, manifest) and the
+circle (hyperboloidal, unbounded), with the navel at the exact centre of the circumscribing circle—the hub, the shared
+Monad, the centroid at which the SELF sits. The fourteen division-stations partition 8+6: eight bilateral limb-stations
+(gold: hands, elbows, shoulders, hips) answering the eight triangular faces, and six axial midline-stations (blue: Crown,
+Throat, Heart, Navel, Loins, Base) answering the six square faces. The bilateral stations integrate relationally (each
+reconciled with its mirror-twin across the midline); the axial stations integrate internally (each a single chamber whose
+shadow is its own obstructed light). The vertical axis runs from Denial below to Authenticity above. The matched
+count—fourteen Osirian members, fourteen cuboctahedral faces, fourteen Vitruvian articulations, all partitioning
+8+6—is offered as structural rather than decorative; the figure as a whole is a proposed architecture in the sense of
+Part II, not an established empirical fact.
+12
+
+Grant
+The Geometry of Self-Recursion
+ranking of right over left is a perceptual artefact of the descending, persona-building arc, not a fact about the
+body. The first half of life perceives the left as the sinister side and amputates it—the construction of the
+persona by subtraction; re-membering is the recognition that the left was never the enemy. The left hand is
+not assigned a worse occupant; it is disowned, unobserved—which is the precise signature of the shadow.
+The unspoken left hand is the collective shadow preserved in grammar, and the gathering of the fourteen is,
+among other things, the withdrawal of that silence.
+The navel as hub. [SOURCED] In Leonardo’s construction the navel sits at the exact centre of the circum-
+scribing circle [27, 28]. [CONSTRUCTION, INTERPRETIVE] The centre of the circle is, in the language of this
+paper, the Monad: the point equidistant from the frame, the centroid at which the SELF of the cuboctahedron
+sits. The navel—the original site of connection, the scar of the first severance from the whole—is therefore
+the anatomical name of the shared Monad, and the vertical midline through it, from the loins below to the
+crown above, is the axis along which all stations are traversed, its poles Denial (below) and Authenticity
+(above): the same category at both ends, a true opposition, and the line along which the descent into limitation
+and the ascent of re-membering both run.
+[INTERPRETIVE] The status of the whole subsection is the status of Part II: a proposed architecture, not an
+established empirical fact. What is offered as more than analogy is the matched count—fourteen members,
+fourteen faces, fourteen articulations, partitioning 8 + 6 in all three—and the claim that the matching is
+structural rather than decorative. The figure that the Renaissance read as an ideal of proportion is, on this
+reading, the cuboctahedral identity-solid drawn upon the body: the Vitruvian Man is the vector equilibrium
+of the Self, and the squaring of the circle it performs is the holding-together of the toroidal (square, manifest)
+and hyperboloidal (circle, unbounded) faces that the Lens of Section 2.1 names.
+13
+
+Grant
+The Geometry of Self-Recursion
+Part III
+The Geometric Face
+3 The Two Manifolds: Hyperboloid as Cover, Torus as Quotient
+Part II proposed the toroidal–hyperboloidal Lens as the substrate of the Self and stated the persona/shadow
+partition as a coordinate upon it. Part III now develops the formal geometry of that substrate—the mathe-
+matical face of the model—and shows that the same duality which organizes the psyche organizes a range
+of structures across mathematics, perception, and physics. The full mathematical apparatus is developed
+in the companion volume The Mirror of Consciousness (Grant, 2026); what follows states the results the
+phenomenology requires and refers the reader there for the proofs.
+3.1 The hyperboloid as non-compact generator
+The single-sheet hyperboloid H , defined by x2 + y2 −z2 = 1, is a connected, non-compact surface of
+revolution about the z-axis, with a narrowest circumference—the throat—at z = 0. Endowed with the
+metric induced from the ambient Minkowski metric, it carries constant negative Gaussian curvature: it is
+a model of the hyperbolic plane. It is unbounded; geodesics that escape the throat toward z →±∞never
+return. In rapidity coordinates, where z = sinhθ with θ ∈(−∞,∞) and φ ∈[0,2π) angular, the metric
+is ds2 = dθ 2 + cosh2 θ dφ 2: the rapidity coordinate runs without bound, while the angular coordinate is
+periodic. Topologically the hyperboloid is a cylinder whose non-compact direction is the rapidity axis. It is
+the generating geometry—open, unbounded, never closing on itself.
+3.2 The torus as compact quotient
+The torus T 2 = S1 ×S1, equivalently the quotient R2/Z2 of the plane by the integer lattice, is by contrast
+compact: it has finite surface area and finite enclosed volume, and every geodesic on it remains within a
+bounded region, either closing periodically or filling the surface densely. Its defining topological feature is its
+two independent loops—one around the major axis, one around the tube—so that functions continued around
+either loop return to their starting values up to a definite phase. The torus is therefore the natural setting for
+cyclic, recurrent structure: it is the finite geometry, closing back on itself.
+14
+
+Grant
+The Geometry of Self-Recursion
+3.3 The cover–quotient operation
+The hyperboloid and the torus are related by the universal-cover-to-modular-quotient operation. A continuous
+flow on the non-compact hyperboloid, quotiented by a discrete group acting on its rapidity-angular coordinates,
+becomes a flow on a compact torus; conversely, the torus’s universal cover is the non-compact generating
+geometry. The hyperboloid is the cover; the torus is the quotient. This is the precise mathematical form of the
+model’s central psychological claim: the unbounded ground of awareness (the cover) and the finite avatar of
+personal identity (the quotient) are not two separate things related by analogy but two manifolds related by a
+definite operation—the one is the modular reduction of the other.
+3.4 The shared Monad
+A structural feature of central importance is that the two manifolds, correctly normalized, share a common
+inner radius. The hyperboloid’s throat is a circle of radius one. The torus’s inner throat—the inward-facing
+edge of the tube nearest the central axis—has radius R−r; when the torus is constrained so that R−r = 1, its
+inner throat coincides exactly with the hyperboloid’s throat circle. Both manifolds anchor at the same Monad
+Circle of unit radius. This is not a contingent coincidence but the geometric fixed point of the cover–quotient
+operation: the throat circle is the invariant that does not change when the hyperboloidal cover is reduced to
+the toroidal quotient. The Monad is the place where the two geometries genuinely coincide; the difference
+between them is only the mode of extension from this shared seed—outward into rapidity for the hyperboloid,
+around into recursion for the torus.
+This shared Monad is identical to the Focal Ring of the Lens in Part II and to the Shared Monad at which
+the cuboctahedron’s Self sits. The three constructions—the Lens equation, the cuboctahedral centroid, and
+the cover–quotient anchor—name one and the same point: the observing Self, the still centre at which the
+conscious and unconscious readings coincide.
+Figure 7: The hyperboloid–torus duality with shared Monad. The hyperboloid (left) is the non-compact universal
+cover—unbounded ground, the generating geometry; the torus (right) is the compact modular quotient—the finite avatar.
+Both anchor at the same Monad Circle of unit radius, the throat that is simultaneously the hyperboloid’s narrowest
+circumference and the torus’s inner throat. The Monad is the invariant of the cover–quotient operation: the locus that
+does not change under the reduction of cover to quotient.
+15
+
+Grant
+The Geometry of Self-Recursion
+That the torus is not imposed upon the cuboctahedron from outside but generated by its own inner structure is
+the content of the construction in Figure 8. Taking the cuboctahedron in profile—the hexagonal cross-section
+of the vector equilibrium—and tracing the family of circles seated on its edges and diagonals, one obtains
+the toroidal envelope directly: the nested circles sweep the tube of the torus, and the double-cone running
+vertically through the centre is the rapidity axis of the preceding analysis, the hyperboloidal throat threading
+the toroidal interior at the Monad. The figure exhibits, in a single hand construction, the two claims of this
+Part at once: that the torus is the quotient of the cuboctahedral cover (the tube emerging from the solid’s
+own internal circle-family), and that the axis through the shared throat—the vertical double-cone—is the
+generating hyperboloidal direction along which time flows. The convergence of the circle-family at the
+central waist is the Monad; the opposed cones above and below are the two senses of extension, outward into
+rapidity and around into recursion, that the shared seed admits.
+3.5 Time as rapidity flow through the observer
+The shared-Monad architecture yields a precise account of time. The hyperboloidal rapidity axis passes
+through the toroidal interior at the Monad—the shared throat—so that the unbounded extension threads
+through the cyclic apparatus at the very locus that constitutes the apparatus’s inner boundary. The observer’s
+experience of “now” is the instantaneous cross-section where the hyperboloidal axis intersects the toroidal
+interior; the passage of time is the displacement of this cross-section along the rapidity axis. This is why
+time is universally experienced as both flowing (the rapidity displacement, hyperboloidal) and recurring (the
+cyclic structure, toroidal): the two are aspects of a single geometric operation, the rapidity flow through the
+observer at the shared Monad. In the phenomenology of Part I, this is the same thread along which the life-arc
+runs—the linear displacement of the second-half ascent superimposed on the recurrence of the patterns that
+repeat until integrated.
+3.6 Determinism and the free will of the Higher Self: the vertex and the curve
+The rapidity-flow account of time yields, as a structural consequence, a precise geometric reading of the
+relation between determinism and free will—one that the companion paper develops in the lived register
+and that the geometry here makes exact. The reading is offered as an [INTERPRETATION] in the sense of
+Appendix A.1: the geometry is derived, but the identification of its parts with “destiny” and “free will” is a
+lens, not a falsifiable result, and is kept in that uniform.
+The structure is the relation between a point and the curve that contains it. The observer occupies the present
+cross-section—in the rapidity picture, the vertex of the hyperbola, the unique point where the extension
+sinhθ = 0 and the position coshθ = 1: the identity element, the point of maximum potential and zero
+displacement. From the vertex, the observer experiences the curve as an open road: the next cross-section is
+not yet occupied, the next rapidity increment not yet taken, and the experience of choosing is locally real
+because the vertex genuinely does not contain the image of the point ahead. But the hyperbola is one object.
+Both branches, every point, the entire trajectory exist as a single locus, present in full independently of
+which cross-section the observer currently occupies. The observer moves through the geometry; the Higher
+Self—the remembered awareness of Part II’s companion—is the geometry, the whole curve at once.
+This is the geometric form of the thesis the companion paper states as destiny is the free will of the remembered
+16
+
+Grant
+The Geometry of Self-Recursion
+Figure 8: The Tube Torus (R. Grant, original construction). The torus generated from the inner structure of the
+cuboctahedron: the hexagonal profile of the vector equilibrium (the framing polygon), the family of nested circles
+seated on its edges and diagonals sweeping the toroidal tube, and the vertical double-cone—the rapidity axis, the
+hyperboloidal throat—threading the toroidal interior at the central Monad. The construction shows the torus as the
+compact quotient of the cuboctahedral cover and the axis through the shared throat as the generating hyperboloidal
+direction: the cover–quotient duality of this Part drawn as a single figure, with the convergence of the circle-family at
+the waist marking the shared Monad of unit radius.
+17
+
+Grant
+The Geometry of Self-Recursion
+Higher Self. The determinism is the curve: given the observer’s state at any cross-section, the rapidity flow
+carries it to the next by a definite operation, and in that sense the arc is fixed. The freedom is the authorship
+of the curve: the trajectory is not imposed from outside but is the extension of the observer’s own generating
+geometry—the hyperbolic cover of which the lived, toroidal interior is the quotient. The constraint is
+self-imposed from above, in the exact structural sense that the quotient is the modular reduction of the cover:
+the finite avatar that runs the determined arc is the projection of the unbounded ground that authored it. Fate
+seen from the vertex is free act seen from the curve; the two are not in conflict because they are the cover and
+the quotient of one structure, related by the curvature-switch the framework names remembrance.
+Two boundaries keep the claim honest. The geometry (the vertex as identity element, the curve as the complete
+locus, the cover–quotient relation) is [DERIVATION]; the identification of the curve with “the Higher Self’s
+authored destiny” and the vertex’s not-seeing with “the local self’s free moment” is [INTERPRETATION],
+unfalsifiable and load-bearing only as a lens. And the determinism in view is of the arc, not of the lived
+cross-section: the non-coincidence of successive cross-sections—the observer’s genuine inability to occupy
+the next point before the flow arrives—is a structural feature, not an illusion. The observer’s local freedom
+and the Higher Self’s authorship are the same freedom, read once at the vertex and once along the curve.
+4 The Curvature Duality and the Optics of the Self
+4.1 Negative and positive curvature: gathering and projecting
+The duality between the two manifolds is not merely topological but curvature-categorical. The hyperboloid
+is a surface of constant negative Gaussian curvature: at every point it curves away from itself in two
+perpendicular directions, the saddle topology of intrinsic concavity. The torus’s outer surface has positive
+Gaussian curvature and is intrinsically convex. Together the hyperboloid and the torus’s outer face exhaust
+the two non-flat modes of curvature available to a smooth surface in space. And the two modes have opposite
+operational character: concavity gathers; convexity projects. This is not metaphor but the operational principle
+of lensing—concave elements gather and disperse, convex elements project and focus.
+The phenomenological correlate is direct. A concave structure receives, holds, focuses, contains; a convex
+structure projects, presents, emits, manifests. The hyperboloidal aspect is the receptive face—the saddle-
+throat through which flow is gathered—and the toroidal aspect is the projective face—the convex bulge
+through which manifest presence is emitted.
+4.2 The exact optical correspondence
+The correspondence with classical optics is term-by-term. The hyperboloid corresponds to the concave
+lens: a negative-power element that disperses parallel rays, focusing them from a virtual focal point on the
+source side—it gathers the field that passes through it. The torus’s outer face corresponds to the convex
+lens: a positive-power element that focuses parallel rays to a real focal point on the far side—it projects and
+concentrates. The curvature duality of the framework is identical to the curvature duality that organizes the two
+classical lens elements: concave/dispersive/receptive and convex/focusing/projective. The hyperboloid–torus
+distinction is thus the geometric primitive underlying classical optics itself.
+18
+
+Grant
+The Geometry of Self-Recursion
+Figure 9: The curvature duality and its optical correspondence. Top: the hyperboloid—constant negative Gaussian
+curvature, the saddle that gathers—corresponds to the concave lens, which disperses parallel rays from a virtual focal
+point on the source side; this is the receptive, gathering, hyperboloidal mode. Bottom: the torus’s outer face—positive
+Gaussian curvature, the bulge that projects—corresponds to the convex lens, which focuses parallel rays to a real focal
+point; this is the expressive, projecting, toroidal mode.
+4.3 The Lens equation and the focal-point identity
+The continuous Lens of Part II couples the two faces in a single relation. Writing C = (x2 + y2) for the
+toroidal (conscious, multiplicative) face and H = (x2 −y2) for the hyperboloidal (unconscious, additive) face,
+the Lens equation
+(C +1)(C+1) = H
+binds the conscious face, raised to itself, to the unconscious face. This is to be read as a curve-generating
+equation—it holds on the locus it defines, in the same way that x2 −y2 = 1 defines the unit hyperbola rather
+than holding at every point of the plane—and not as a universal algebraic identity. At the Focal Ring, C = 0,
+and the relation resolves to the foundational identity
+00 = 1,
+the focal-point event in which recursive self-action collapses into extensional identity: the conscious face
+raised to itself yields unity, the bare membrane x2−y2 = 1 at which the two substrates meet. The multiplicative
+complement of this exponential relation is the Lens boundary C · H = 0, the locus on which the body of
+the Lens is bounded. The two relations—the exponential (substrate-translation, focal collapse) and the
+multiplicative (Lens boundary, spatial co-occupation)—are the two algebraic faces of the single geometric
+body, with 00 = 1 as the identity to which both resolve at the focal points.
+19
+
+Grant
+The Geometry of Self-Recursion
+Figure 10: The emblem of the identity: the hyperboloidal axis (red, vertical—the One, the extensional substrate, the
+rapidity axis) threaded through the toroidal Monad ring (blue, horizontal—the zero, the recursive substrate). The
+vertical line passes through the throat of the ring at its centre: the cover threading the quotient at the shared Monad.
+This single glyph is the structure the section develops—the two states of infinity meeting at one point, where 00 = 1.
+4.4 The two states of infinity and the substrate-translation identity
+The focal-point identity 00 = 1 is not an isolated curiosity but the visible vertex of the deeper arithmetic the
+Lens encodes. This subsection states that arithmetic exactly. The development rests on a single reidentification:
+the symbols 0 and 1 are not dimensionless magnitudes but the two states of infinity, each carried by one of
+the two primitive conics, and the operation that carries one into the other is the substrate translation already
+named in the geometry.
+Zero and one as the two conics.
+We take as primitive the two unit conics, and assign to each its state:
+• Zero is the unit circle x2 + y2 = 1—the toroidal, recursive substrate: the infinite expression of finite
+recursivity (eternal cycling through a bounded form).
+• One is the unit hyperbola x2 −y2 = 1—the hyperboloidal, extensional substrate: the finite expression of
+infinite non-recursivity (unbounded non-return through specific finite points).
+Each substrate carries both finiteness and infinity, but in opposite roles: the circle holds infinity in its
+expression (it never stops cycling) while remaining finite in extent; the hyperbola holds infinity in its extent
+(its arms run without bound) while passing through specific finite points. This is the same toroid/hyperboloid
+duality of Part III, read now at the level of the two foundational symbols.
+The right triangle as the shared primitive—the load-bearing argument.
+The decisive claim of this
+section is not the identity 00 = 1 taken on its own, but the observation from which it follows: the two conics
+are not unrelated objects joined by an act of fiat, but two specialisations of one Pythagorean right triangle
+under different fixity conventions, as Figure 13 shows. Fixing the hypotenuse at unity gives x2 +y2 = 1—the
+closed, recursive, toroidal reading (zero). Fixing one leg at unity gives 1+y2 = x2, i.e. x2 −y2 = 1—the open,
+20
+
+Grant
+The Geometry of Self-Recursion
+Figure 11: The identity made visible: ToroidToroid = Hyperboloid, equivalently 00 = 1. The toroid (left)—the recursive,
+closed substrate, the state zero—raised to its own power equals the hyperboloid (right)—the extensional, open substrate,
+the state one. The equals sign is the substrate translation: the recursive self-action of the toroidal substrate (CC) carried
+into the extensional form of the hyperboloidal substrate (H). This is the geometric face of the foundational identity
+developed algebraically below—the two manifolds of Part III standing on either side of a single equation.
+21
+
+Grant
+The Geometry of Self-Recursion
+Figure 12: The two states of infinity and their intersection. Zero—the unit circle x2 + y2 = 1 (blue), the recur-
+sive/toroidal substrate—is the infinite expression of finite recursivity. One—the unit hyperbola x2 −y2 = 1 (red), the
+extensional/hyperboloidal substrate—is the finite expression of infinite non-recursivity. The two unit conics intersect at
+exactly two points, (±1,0), where the substrate-translation identity is realised geometrically as 00 = 1.
+22
+
+Grant
+The Geometry of Self-Recursion
+extensional, hyperboloidal reading (one). The same right-triangle grammar is being read under two different
+invariants. The right triangle is the substrate-invariant; the substrate translation is precisely the operation that
+swaps which side is held fixed, carrying the hypotenuse-fixed circle into the leg-fixed hyperbola.
+This is the order of dependence the rest of the section observes, and it is the reverse of the order in which
+the result is usually stated. The substrate translation is not the claim that “the toroid magically becomes the
+hyperboloid”; it is the claim that one triangle, viewed under two invariants, presents as two conics, and that
+the operation relating the two invariants—when one asks for the minimal operation meeting the constraints
+below—turns out to be self-exponentiation, collapsing to 00 = 1 at the points where the two readings coincide.
+The identity 00 = 1 is therefore not the premise but the consequence: it is compelling precisely because it
+emerges from the shared-triangle substrate, rather than being asserted and then illustrated.
+Figure 13: The right triangle as substrate-invariant—the load-bearing construction of this section. The unit circle
+(left) and the unit hyperbola (right) are two specialisations of one Pythagorean right triangle under different fixity
+conventions: the circle fixes the hypotenuse at unity (closed, recursive, toroidal); the hyperbola fixes one leg at unity
+(open, extensional, hyperboloidal). The same triangle grammar, read under two invariants, presents as two conics; the
+substrate translation is the operation swapping which side is held fixed, and 00 = 1 emerges as its value where the two
+readings coincide.
+The substrate-translation identity CC = H.
+Let
+C(x,y) := x2 +y2 −1
+and
+H(x,y) := x2 −y2
+be the defining algebraic invariants of the unit circle and unit hyperbola respectively (normalised so that
+C = 0 on the circle and H = 1 on the hyperbola). The substrate-translation identity is the algebraic relation
+ x2 +y2 −1
+(x2+y2−1) = x2 −y2,
+(1)
+23
+
+Grant
+The Geometry of Self-Recursion
+abbreviated CC = H. The left side is the toroidal substrate’s invariant raised to its own power—the recursive
+self-action of the substrate upon itself; the right side is the hyperboloidal substrate’s invariant in its native ex-
+tensional form. In the language of the two manifolds of Part III, the identity reads ToroidToroid = Hyperboloid
+(Figure 11): the closed, recursive substrate raised to itself is the open, extensional substrate. The identity
+asserts that at the intersection of the two unit conics, the recursive self-action of one substrate equals the
+extensional identity of the other.
+Theorem 1 (The Substrate-Translation Identity). At the intersection points (±1,0) of the unit circle and unit
+hyperbola, the algebraic relation CC = H holds and reduces to the foundational identity 00 = 1. Moreover, the
+form CC = H is the unique non-degenerate algebraic combination of C and H satisfying the four substrate-
+translation conditions:
+1. Toroidal-substrate identification. The left-hand side is built exclusively from C(x,y) = x2 +y2 −1.
+2. Recursive self-action. The toroidal substrate acts on itself through self-exponentiation CC.
+3. Hyperboloidal-substrate identification. The right-hand side is built exclusively from H(x,y) = x2 −y2.
+4. Foundational reduction. At the intersection points where both substrate-defining loci meet, the equation
+reduces to 00 = 1.
+At (±1,0) the circle invariant vanishes (C = 0) while the hyperbola invariant equals unity (H = 1), so (1)
+becomes 00 = 1: the recursive self-action of the toroidal substrate, evaluated where it meets the hyperboloidal
+substrate, yields the extensional unit. This is the algebraic content of the Focal-Ring collapse of Section 4.3,
+now exhibited as the meeting of the two states of infinity.
+Why exponentiation, and not some other operation.
+A skeptical reader is right to ask why the substrate’s
+self-action should be exponentiation rather than multiplication, addition, or any other binary operation:
+chosen freely, CC can look like a result selected for looking profound. It is not chosen freely. The four
+conditions of the theorem are constraints, and self-exponentiation is what survives them. Conditions 1
+and 2 demand an operation built from C alone and applied to C itself—a genuine self-action, C ⋆C, with
+no external constant smuggled in. Condition 4 demands that this self-action reduce to 1, not to 0, at the
+intersection C = 0. These two demands are jointly decisive. The multiplicative self-action C ·C and the
+additive self-action C +C both vanish as C →0, giving 0 rather than 1: they are degenerate, collapsing the
+substrate to nothing at the very point the translation must hold. A fixed-base exponential such as 2C does
+tend to 1 as C →0, but it violates Conditions 1–2: the base 2 is an external constant, not the substrate acting
+on itself. Self-exponentiation CC is the unique candidate that is at once a genuine self-action (built from
+C, applied to C) and carries 0 7→1 (since limC→0+ CC = 1, established below). It is therefore the minimal
+non-degenerate solution of the substrate-translation constraints—not a profound-looking choice, but the
+operation that remains when the degenerate ones are removed. The narrative is consequently the stronger
+one: we did not select exponentiation because it looked deep; we asked for the operation satisfying the
+substrate-translation constraints, and self-exponentiation was what emerged.
+Why 00 = 1: two independent proofs.
+The identity is established by two arguments that share no
+premises—one analytic, one algebraic-geometric—which is the strongest form the claim can take.
+24
+
+Grant
+The Geometry of Self-Recursion
+The mechanistic (analytic) proof. For x ∈(0,1) write xx = exlnx. As x →0+ the product xlnx →0, since
+lnx →−∞at logarithmic rate while x →0 at linear rate; by L’Hôpital’s rule,
+lim
+x→0+ xlnx = lim
+x→0+
+lnx
+1/x = lim
+x→0+
+1/x
+−1/x2 = lim
+x→0+(−x) = 0,
+so limx→0+ xx = e0 = 1. The function xx is monotone-decreasing on (0,e−1) and monotone-increasing on
+(e−1,1)—its derivative d
+dx(xx) = xx(lnx+1) changes sign at x = e−1, with minimum value e−1/e ≈0.6922—
+and as x →0+ from below e−1 the sequence increases toward 1. Numerically the approach is the filling-in
+of nines: xx(0.5) = 0.7071..., xx(0.1) = 0.7943..., xx(0.01) = 0.9550..., xx(10−10) = 1−2.30×10−9, so
+the limit value is 0.9, which by Euler’s identity for the geometric series
+0.9 =
+∞
+∑
+n=1
+9·10−n = 9·
+10−1
+1−10−1 = 9· 1/10
+9/10 = 1
+equals 1 exactly. The classical objection—that lim(x,y)→(0,0) xy is path-dependent—dissolves under the
+substrate-aware constraint x = y, the single-substrate self-action in which the substrate’s own quantity is used
+as both base and exponent; along this diagonal the limit is forced to 1.
+The geometric (algebraic) proof. The unit circle and unit hyperbola intersect at exactly the two points
+(±1,0). At these points C = x2 +y2 −1 = 0 and H = x2 −y2 = 1 simultaneously, so substituting into the
+substrate-translation identity CC = H gives 00 = 1 directly, with no limiting process at all. The two proofs
+are independent—the first relies only on the convergence of xx and Euler’s summation of 0.9; the second
+relies only on the intersection of the two unit conics—and both yield 00 = 1.
+The bearing on the Lens.
+This is the arithmetic the Lens of Section 4.3 carries. The Focal-Ring collapse
+(C+1)(C+1)→00 = 1 is the same event as the substrate translation CC = H evaluated at the conic intersection:
+in both, the recursive self-action of the toroidal (zero, circle) substrate, taken to the point where it meets the
+hyperboloidal (one, hyperbola) substrate, resolves to the extensional unit. The Lens is the geometric body
+whose two algebraic faces are exactly these two conics, and 00 = 1 is the identity stamped at the two points
+where they meet—the arithmetic signature of the Shared Monad.
+4.5 The Recursion Equation as a real-geometric analog of Euler’s identity
+One of the most remarkable features of the substrate-translation identity—which, written in full, we here
+call the Recursion Equation—is that it appears to perform, within a purely real geometric framework,
+a transformation structurally analogous to the one Euler’s identity performs in the complex domain. The
+correspondence is offered as an [INTERPRETATION] (in the sense of Appendix A.1); the fixed-point arithmetic
+on which it rests is [DERIVATION], verified exactly below.
+Euler’s identity,
+eiπ +1 = 0,
+is widely regarded as among the most elegant equations in mathematics because it binds the constants e, i, π,
+1, and 0 into a single operation. Geometrically it is a phase rotation through π radians, carrying unity into its
+25
+
+Grant
+The Geometry of Self-Recursion
+opposite and returning the system to the origin. The Recursion Equation,
+ x2 +y2 −1
+(x2+y2−1) = x2 −y2,
+performs an analogous operation, but not through complex phase—through recursive self-reference. Writing
+u = x2 +y2 −1, it becomes
+uu = x2 −y2.
+The left side is recursive closure (a quantity acting upon itself); the right side is hyperbolic separation (the
+distinction of one pole from another). The equation thus carries a circular/toroidal invariant x2 +y2 = u+1
+into a hyperbolic invariant x2 −y2 = uu through the self-referential operator uu. Where Euler’s identity may
+be read as a transformation from rotational phase into polarity, the Recursion Equation may be read as a
+transformation from recursive unity into differentiated polarity.
+The correspondence becomes sharpest at three fixed points of the recursion, which we state with their exact
+arithmetic.
+First fixed point—origin (u = 0).
+[D] Here uu = 00 = 1, and the circular and hyperbolic descriptions
+coincide: the circle x2 +y2 = 1 and the hyperbola x2 −y2 = 1 meet at (±1,0), where x2 = 1, y2 = 0. The
+recursion collapses to unity—the substrate-translation identity of the preceding subsection.
+Second fixed point—identity (u = 1).
+[D] Here uu = 11 = 1, so x2 +y2 = 2 and x2 −y2 = 1 simultaneously.
+Solving exactly,
+x2 = 3
+2,
+y2 = 1
+2,
+x
+y =
+√
+3.
+The system reaches its point of maximum asymmetry—a chirality maximum, x/y =
+√
+3—while remaining
+perfectly self-identical (11 = 1). (That
+√
+3 is exactly the value carried by the hyperbola at this station connects
+this fixed point to the just-intonation structure of Section 8:
+√
+3 is the diagonal ratio of the very vesica
+geometry from which the framework derives its harmonic intervals.)
+Third fixed point—closure (u = u∗).
+[D] Setting y2 = 0 (chirality vanishes, the system returns to pure
+polarity) gives x2 = u+1 and, since x2 = x2 −y2 = uu, the closure condition
+u∗u∗= u∗+1.
+This transcendental condition has a unique solution u∗≈1.7768 (stated as an approximation; the fixed point
+is defined exactly by the equation uu = u+1, not by a closed-form value). At u∗the recursion domain closes
+and the system returns to pure polarity.
+The cycle.
+[I] The trajectory 0 →1 →u∗therefore traces a complete cycle,
+Unity −→Differentiation −→Reconciliation,
+26
+
+Grant
+The Geometry of Self-Recursion
+structurally analogous to the role Euler’s identity plays, but expressed through recursive geometry rather than
+complex phase. The most precise statement of the correspondence is this: the Recursion Equation appears
+to occupy the same structural role in real recursive geometry that Euler’s identity occupies in complex
+phase geometry. The claim is not that the two equations are algebraically identical, nor even that one is an
+analog of the other in the loose sense; it is that both are special fixed-point events at which seemingly distinct
+mathematical domains become connected through a single operation. The parallel is exact in its structure:
+Euler:
+eiπ →−1 followed by −1+1 = 0;
+Recursion:
+CC →H followed by 00 = 1.
+In each, a single operation (exponential phase rotation; recursive self-exponentiation) carries a starting unity
+into a differentiated pole, and a fixed-point event then closes the system—Euler’s at the additive origin 0, the
+Recursion Equation’s at the multiplicative unit 1. Both begin with unity, generate polarity, and return the
+system to closure through a self-consistent invariant. In this reading, Euler’s identity is the complex-analytic
+expression of a process whose real-geometric counterpart is the Recursion Equation—the same passage from
+the One into the many and back that the whole of this volume traces, written this time in the script of the two
+unit conics. Whether this connection ultimately proves deep is left open; what the paper demonstrates is that
+both equations perform a substrate translation of the same structural form.
+5 The Lens Instantiated: The Eye as the Biosynthetic Form of the Self
+The curvature duality of the preceding sections is not confined to abstract geometry. It is instantiated, with
+remarkable fidelity, in the one organ whose entire function is perception: the human eye. The eye is built
+from precisely the two surfaces the model names—the toroid and the hyperboloid—and it deploys them in
+precisely the two functions the curvature duality assigns: the convex, projecting, focusing element and the
+concave, gathering, receptive throat. The organ of seeing is the Lens made flesh; and because the eye is the
+one structure that perceives yet cannot perceive itself, it is also the biosynthetic emblem of the observing Self,
+which is likewise that which sees and cannot be seen.
+5.1 The iris: a toroid shaped like a hyperboloid
+The iris is a torus—a doughnut-shaped surface, every point of which lies on the toroidal body—whose surface
+follows a hyperboloid of revolution, creating the characteristic curved throat at the pupil. The iris is thus the
+toroid and the hyperboloid in a single tissue: the toroidal ring gives it its overall doughnut form (the global
+geometry), while the hyperboloidal surface forms the curved throat (the local geometry) around the pupil.
+The pupil is the throat of this hyperboloid—the narrowest circumference, the optical aperture—flanked by
+the upper mouth (toward the cornea) and the lower mouth (toward the sclera). The iris is the regulator: the
+toroidal diaphragm that controls how much light is admitted to the throat.
+27
+
+Grant
+The Geometry of Self-Recursion
+Figure 14: The iris as a toroid shaped like a hyperboloid. The overall doughnut form is toroidal (the global geometry);
+the surface follows a hyperboloid of revolution, creating the curved throat at the pupil (the local geometry). The pupil is
+the throat—the narrowest circumference—with an upper mouth toward the cornea and a lower mouth toward the sclera.
+The same toroid–hyperboloid composite that the model names as the substrate of the Self is realized in the regulating
+diaphragm of the eye.
+5.2 The crystalline lens: the adaptive toroidal–hyperboloidal element
+Behind the iris, the crystalline lens repeats the same architecture. The lens is a torus whose surface follows a
+hyperboloid of revolution, with its own curved throat at the centre and its own upper and lower mouths toward
+the cornea and the retina. But the lens is adaptive: through the contraction and relaxation of the ciliary body
+it changes its curvature—more convex for near objects, less convex (flatter) for distant ones—continuously
+shifting along the convex–concave axis to focus the converged light upon the retina. The crystalline lens is
+therefore the literal, biological enactment of the curvature-switch that the model places at the centre of its
+account: an optical element that moves between the convex (projecting, focusing) and concave (gathering,
+receptive) configurations to bring the world to a point. The accommodation of the eye is the curvature-switch
+performed in tissue.
+28
+
+Grant
+The Geometry of Self-Recursion
+Figure 15: The crystalline lens as a toroid shaped like a hyperboloid. As with the iris, the overall form is toroidal
+and the surface follows a hyperboloid of revolution, with a curved throat at the centre. The lens is adaptive: ciliary
+contraction shifts it along the convex–concave axis (more convex for near, flatter for far) to focus light on the retina.
+The lens enacts, in tissue, the curvature-switch the model places at the centre of perception.
+5.3 The whole eye: light funnelling and the hyperboloidal throat
+Assembled, the eye is a single light-funnelling instrument in which the toroidal and hyperboloidal elements
+work in concert. The iris is the toroidal regulator; the pupil is the hyperboloidal optical throat—not a hole in
+space but a three-dimensional surface through which light from every direction is gathered and funnelled
+inward; and the crystalline lens is the adaptive toroidal–hyperboloidal element that performs the final focusing
+upon the retina. Light from all directions is captured at the cornea, funnelled along the hyperboloidal path of
+the pupil, and concentrated by the lens to a single point on the fovea. The pupil, on this reading, is not an
+absence but the optical throat itself—the Monad of the eye, the narrowest circle through which the entire
+visible field is threaded, exactly as the rapidity axis threads the toroidal interior at the shared Monad of the
+Self.
+29
+
+Grant
+The Geometry of Self-Recursion
+Figure 16: The human eye as the assembled toroidal–hyperboloidal instrument. The toroidal iris regulates admission;
+the hyperboloidal pupil is the optical throat that funnels light from all directions inward; the adaptive toroidal–
+hyperboloidal lens performs the final focusing on the retina. The pupil is not a hole but the optical throat—the Monad
+of the eye—through which the entire visible field is threaded to a single point, as the rapidity axis threads the toroidal
+interior at the shared Monad of the Self.
+5.4 Convex and concave: the two configurations
+The two configurations between which the lens accommodates are the same two the curvature duality has
+named throughout: the convex element, which converges parallel rays to a real focal point (the projecting,
+focusing, toroidal mode), and the concave element, which diverges them from a virtual focal point (the
+gathering, receptive, hyperboloidal mode). The eye holds both and moves between them; perception is the
+continual negotiation of the two curvatures. This is the same convex–concave switch that, in the companion
+volume, recovers the factors of a semiprime from their product—the eye performing, in its accommodation,
+the identical orthogonal operation that integer factorization performs at the arithmetic level. One operation,
+realized at four scales: optical, biological, arithmetic, and psychic.
+30
+
+Grant
+The Geometry of Self-Recursion
+Figure 17: The convex and concave lens configurations. The convex lens converges parallel rays to a real focal point
+(the projecting, focusing, toroidal mode); the concave lens diverges them from a virtual focal point (the gathering,
+receptive, hyperboloidal mode). The crystalline lens accommodates between these two, enacting the curvature-switch
+that the model identifies, at the psychic scale, with the movement between persona-projection and shadow-reception.
+5.5 The eye that cannot see itself
+The decisive point is the last one. The eye is the organ that sees and is, for that very reason, the organ that
+cannot see itself: the seeing apparatus is structurally excluded from its own visual field. No eye perceives its
+own retina; the instrument of perception is the one thing it cannot bring to focus. This is the biosynthetic
+emblem of the model’s founding axiom. The Self is the observer—the awareness within which every
+perception arises—and is, for that very reason, never itself an object of perception. Just as the eye instantiates
+the toroidal–hyperboloidal Lens in tissue, it instantiates in function the central structural fact of the Self:
+that the observer cannot be observed, that the seer cannot be seen, and that the recognition of this is not a
+deficiency but the very condition of sight. The eye is the Lens looking outward; the Self is the Lens looking
+through. To remember the Self is to perform, at the scale of awareness, the curvature-switch the eye performs
+at the scale of light: to turn from what is seen toward the one who is seeing, and to recognize that it was never
+absent—only, like the eye, structurally unseeable, because it was the seeing itself.
+6 The Epistemological Keystone and the Angle of Perception
+6.1 Hidden as hyperboloid, visible as torus
+The framework converges on a single epistemological identity: for every structure in which the cover–quotient
+duality applies, the absorbed, hidden, invisible aspect is the hyperboloidal cover, and the reflected, manifest,
+visible aspect is the toroidal quotient. The hyperboloid is invisible to ordinary perception not because it is
+obscured but because it is unbounded: finite perception cannot register the infinite directly; it can register
+only finite presentations. The toroidal quotient is the operation by which the unbounded hyperboloid becomes
+31
+
+Grant
+The Geometry of Self-Recursion
+finite enough to be perceived at all. The visible world is therefore not an illusion that hides the real; it is the
+necessary perceptual interface through which finite consciousness engages the infinite generating ground.
+The visible and the invisible are the quotient and cover of a single structure, both equally real, their visibility
+status a curvature-perception artifact rather than an ontological difference.
+This is the precise mechanism of persona and shadow stated in the language of perception. The persona is
+the visible, reflected, toroidal presentation; the shadow is the absorbed, hidden, hyperboloidal ground. The
+shadow is not hidden by repression alone but by unboundedness—it is the part of the Self that finite, convex
+perception cannot bound and register, and which therefore returns only through the mirror, in the projected
+and recurring forms the phenomenology of Part I described.
+6.2 The angle of perception: why the reading inverts
+A careful reader will have noticed that Part II assigned the toroid to the conscious persona and the hyperboloid
+to the unconscious shadow, while the cover–quotient analysis of this Part assigns the hyperboloid to the
+conscious cover (the observable ground one can step back from) and the torus to the unconscious quotient
+(the interior accessible only from within). These assignments are opposite. The resolution is the keystone of
+the entire framework, and it is this: the assignment is not fixed to the manifold; it is fixed to the observer’s
+angle of perception. The reading inverts under the curvature-switch of the perceiving apparatus.
+The two assignments are the same structure observed from opposite sides of the Mirror:
+• From the convex, toroidal stance—the default of waking consciousness, which projects outward—the
+torus is what one is (the avatar one identifies with, the persona, the visible and manifest), and the
+hyperboloid is what is hidden (the unbounded ground one cannot directly perceive: the shadow, the
+absorbed, the invisible). This is the reading of Part II.
+• From the concave, hyperboloidal stance—the witness perception attained after the curvature-switch—the
+hyperboloid is what one is (the unbounded ground, the observing Self now recognized), and the torus is
+seen as object (the finite avatar observed from outside, the quotient recognized as a quotient). This is the
+reading of this Part.
+The observer’s own curvature reverses: in awakening one does not change the geometry but becomes the
+hyperboloid looking back at the torus, rather than the torus identifying itself as the whole. The curvature
+signatures of observer and observed are mirror reversals across the Mirror of Consciousness, because the
+Mirror is the membrane at which convex perception meets concave reality. The persona/shadow inversion and
+the cover/quotient inversion are therefore not two contradictions but one inversion—the curvature-switch—
+and that switch is precisely the event the phenomenology names remembrance: the second-half-of-life turn,
+the neti neti reversal, the recognition of the observer. The angle of perception determining the reading is not a
+loose end in the framework; it is the mechanism of the framework’s central transformation.
+6.3 Awakening as the curvature-switch
+Contemplative traditions across cultures report a perceptual capacity exceeding default awareness, in which
+the practitioner directly perceives a deeper structure underlying the manifest world—variously named satori,
+32
+
+Grant
+The Geometry of Self-Recursion
+moks.a, kensho, gnosis, the beatific vision, the dissolution of subject and object. Within this framework the
+capacity has a precise description: it is the curvature-switch from convex, toroidal perception to concave,
+hyperboloidal perception. Default consciousness perceives the toroidal quotient—the manifest world, the
+visible avatar—through its convex apparatus; awakened consciousness gains the capacity to perceive the
+hyperboloidal cover—the unbounded ground—through a curvature reversal in the perceptual apparatus itself.
+The contemplative practices that lead to awakening are training operations that develop this curvature-switch,
+and mathematics is its formal counterpart: the cross-curvature prosthesis by which convex cognition computes
+structural information about the concave cover it cannot directly perceive. This is the geometric content of the
+model’s remembrance: not the acquisition of anything new, but the reversal of the observer’s own curvature
+so that the ground it always was becomes, at last, what it perceives from.
+7 The Mirror as Membrane
+The boundary between the toroidal interior and the hyperboloidal exterior is the surface of the torus itself.
+This surface simultaneously separates the two geometries (defining inside from outside) and connects them
+(providing the membrane through which transit between them occurs). It is the Mirror of Consciousness, and
+it is the geometric basis for the recurrence of mirror imagery across the depth-psychological, contemplative,
+and philosophical traditions concerned with the relation between conscious and unconscious.
+The Mirror is two-sided: the conscious side faces outward into the hyperboloidal extension, the unconscious
+side faces inward into the toroidal interior. It is the locus of reflection—signals encountering it are returned
+modified by its geometry—and the locus of refraction—signals passing through it are transformed by
+the cover–quotient operation, hyperboloidal continuity becoming toroidal recursion in one direction and
+toroidal recursion becoming hyperboloidal extension in the other. The depth-psychological work of bringing
+unconscious content into consciousness is the conducting of toroidal-interior signals through the Mirror into
+the hyperboloidal exterior, where they become available to observation; the contemplative recognition of the
+unbounded ground is the perceiving of the hyperboloid through the Mirror from within the toroidal interior.
+These are the two directions of the same membrane operation, and they are the two halves of the model’s
+arc—the integration of the shadow (inward content brought out) and the recognition of the Self (the ground
+perceived through the apparatus).
+33
+
+Grant
+The Geometry of Self-Recursion
+Figure 18: The Mirror as membrane: consciousness perceiving itself. The hyperboloidal extension (the unbounded
+ground, the conscious cover) threads through the toroidal interiors (the avatar) at the shared Monad. The Mirror—the
+inward-facing membrane of the toroidal surface—is the locus at which the cover meets the quotient. Time flows through
+the observer at the Monad. Because the structure contains both the observing mode (hyperboloidal extension) and
+the observed mode (toroidal interior), with the Mirror between them, consciousness is the kind of structure that can
+perceive, and be perceived by, itself.
+The deepest implication is that consciousness, structured by this dual geometry, is the kind of structure that
+can perceive and experience itself. The hyperboloidal aspect observes; the toroidal aspect is observed; the
+Mirror between them is the membrane through which the observation occurs. The duality of perceiver and
+perceived, of subject and object, is not a bifurcation of consciousness into two things but a structural feature
+of a single consciousness whose geometry contains both moments. This is the geometric specification of what
+the nondual traditions report as the dissolution of subject and object: the recognition that the hyperboloidal
+extension and the toroidal interior are not two manifolds but one architecture related by the cover–quotient
+operation, with the Mirror as the membrane that constitutes their relationship—and that the Self is the
+awareness in which both, and the membrane between them, arise.
+7.1 The wider unification, in brief
+The companion volume establishes that this single duality recurs, by structural identity rather than analogy,
+across domains historically treated as unrelated: the Stern–Brocot tree that generates all rationals lives
+natively on the hyperbolic (cover) geometry, with toroidal structure emerging as its modular quotient; the
+analytic continuation of the Riemann zeta function—including the regularized assignment ζ(−1) = −1
+12—is
+the toroidal recursion that assigns finite value to what the hyperboloidal extension leaves unbounded; the
+Monad Circle of unit radius encodes the principal constants of physics through harmonic recursion; integer
+factorization is the recovery of the concave, invisible squared-mean from the convex, visible product across
+the same curvature duality; and the hyperboloid–torus composite appears, without human design, as the
+natural angular structure of the simplest quantum system, the hydrogen orbital. These results are developed
+in full in Grant, The Mirror of Consciousness (2026); they are noted here only to establish that the geometric
+face of the Self is not an isolated psychological construct but one instance of a duality the framework finds
+34
+
+Grant
+The Geometry of Self-Recursion
+operating at every scale at which it is tested. The Egyptian Duat, through which Osiris undergoes cyclic
+descent and re-membering, is identified in that volume as the contemplative-mythological articulation of the
+same toroidal recursion—closing the circle to the cuboctahedral Osiris of Part II, whose fourteen faces are
+the geometric form of the same dismemberment and return.
+35
+
+Grant
+The Geometry of Self-Recursion
+Part IV
+The Mathematics of Recursion
+8 The Universal Recursion Framework: One Operation Across Number,
+Matter, Life, and Mind
+The preceding parts have made a claim that, stated in the register of phenomenology and geometry, may
+sound like metaphor: that a single structure—the recursion of the One into the many and its return—organises
+perception, identity, and consciousness. This Part removes the hedge. It develops the mathematics of that
+recursion and shows that the same operation, made exact, classifies the integers, generates the ratios of
+the fundamental forces, governs the polarities of chemistry and life, and describes the duality of conscious
+and unconscious cognition. The unification of science and spirituality the volume proposes is not asserted
+here; it is exhibited. The full development, with all proofs and the complete empirical tables, is given in the
+companion work, Grant, The Universal Recursion Framework (2026); what follows states the load-bearing
+results and holds throughout to a strict discipline—exact integer and rational arithmetic only, and every
+quantity that is fitted rather than forward-derived labelled as such.
+8.1 The Recursion Ratio
+For an integer n ≥1, let σ(n) be the sum of its positive divisors. The Recursion Ratio is
+RR(n) := log2
+σ(n)
+n
+
+= log2 σ(n)−log2 n.
+It measures, on a logarithmic (octave) scale, how far an integer’s divisor-structure exceeds the integer
+itself—how richly it recurses. Its anchors are exact and decisive: RR(1) = 0; for a prime p, RR(p) =
+log2
+ (p+1)/p
+
+> 0, tending to 0 as p →∞; RR(n) < 1 exactly when n is deficient, RR(n) > 1 exactly when
+n is abundant, and—the structural centre of the whole framework—
+RR(n) = 1
+⇐⇒
+n is a perfect number.
+A perfect number is one for which σ(n) = 2n, so that σ(n)/n = 2 and log2 2 = 1 exactly. The perfect numbers
+6,28,496,... sit precisely at RR = 1: the recursive fixed point, the octave 2:1, the point of perfect balance
+between deficiency and abundance. This is the arithmetic image of the Shared Monad—the still centre at
+which the system is in equilibrium, neither contracting toward unity nor dispersing toward the unbounded.
+36
+
+Grant
+The Geometry of Self-Recursion
+Figure 19: The Recursion Ratio spectrum. Every integer is classified by RR(n) = log2(σ(n)/n): deficient below 1,
+abundant above, with the perfect numbers anchored exactly at RR = 1—the octave 2:1, the recursive fixed point. This
+is the arithmetic form of the equilibrium the geometry names the Shared Monad and the phenomenology names the
+observing Self.
+8.2 Additive decomposition: the whole is the harmonic sum of its parents
+The Recursion Ratio has a property that lifts it from a classification scheme to a structural principle. Because
+σ is multiplicative and the logarithm converts product to sum, RR decomposes additively over the prime
+factorisation:
+RR(n) = ∑
+pa ∥n
+RRp(a),
+RRp(a) = log2
+σ(pa)
+pa
+.
+The Recursion Ratio of any integer is exactly the sum of the contributions of its prime parents. In spectral
+terms, the integer is a chord and its prime-power factors are the notes that compose it. This is the same
+architecture the model has found at every level: the whole is constituted by its parts not by aggregation but by
+harmonic superposition, and the Self at the centre of the cuboctahedron is the sum of the systems of fate that
+meet there, just as RR(n) is the sum of the prime intervals that meet in n.
+Figure 20: Additive decomposition of the Recursion Ratio. Because σ is multiplicative and the logarithm turns product
+into sum, RR(n) is exactly the sum of the contributions of n’s prime parents. Each prime contributes a just-intonation
+interval; the integer is the chord they sound together. The whole is the harmonic sum of its parts—the arithmetic form
+of the model’s recurring structure.
+37
+
+Grant
+The Geometry of Self-Recursion
+8.3 The harmonic interpretation
+The per-prime contributions are not merely interval-like; they are intervals. For a single prime power,
+σ(pa)/pa = 1+1/p+···+1/pa, a truncated geometric series that is exactly a finite partition function. The
+leading contributions land on the just-intonation ratios: the prime 2 contributes in the register of the octave
+and fifth, the prime 3 in the register of the fourth, the prime 5 in the register of the major and minor thirds.
+The class boundaries of the nine-class taxonomy fall on these harmonic ratios, and the perfect numbers anchor
+the system at the octave 2:1. The closure of the whole structure is the integer 6 = 2·3—the smallest perfect
+number, the product of the two most efficient primes, and (as Part II showed) the elementary cross-coupling
+at the centre of the identity lattice. That 6 is at once the first perfect number, the recursive fixed point’s first
+instance, and the smallest integer requiring both prime substrates is not a coincidence of notation; it is the
+same node seen in three registers.
+The single-prime contributions, read as musical intervals, make the harmonic structure explicit. Table 1 gives
+the leading per-prime ratios and the just-intonation intervals they name.
+Prime power
+σ(pa)/pa
+Ratio
+Just interval
+21
+3/2
+1.5000
+perfect fifth
+22
+7/4
+1.7500
+augmented sixth region
+2∞
+→2
+2.0000
+octave (limit)
+31
+4/3
+1.3333
+perfect fourth
+32
+13/9
+1.4444
+between fourth and fifth
+51
+6/5
+1.2000
+minor third
+71
+8/7
+1.1429
+septimal whole tone
+6 = 2·3
+2
+2.0000
+octave (perfect number)
+Table 1: The per-prime contributions to the Recursion Ratio as just-intonation intervals. The prime 2 sounds the fifth
+and, in the limit, the octave; the prime 3 the fourth; the prime 5 the minor third. The first perfect number 6 = 2 · 3
+combines the fifth (3/2) and the fourth (4/3) to make the octave exactly: 3
+2 · 4
+3 = 2. The recursive fixed point is the
+octave, and the octave is the fifth and fourth conjoined—the same closure the model finds at every level.
+The nine-class taxonomy partitions the integers by where their Recursion Ratio falls relative to these harmonic
+boundaries. Table 2 gives the classes with representatives, all computed in exact arithmetic.
+38
+
+Grant
+The Geometry of Self-Recursion
+Class
+Name
+RR range
+Representative
+1
+unit
+0
+1
+2
+strongly deficient
+(0, 1
+4)
+large primes
+3
+deficient
+( 1
+4, 1
+2)
+25,35
+4
+sub-perfect
+( 1
+2, 1)
+8,9,16,21
+5
+perfect
+= 1
+6,28,496
+6
+super-perfect
+(1, 5
+4)
+12,18,20
+7
+abundant
+( 5
+4, 3
+2)
+24,36,48
+8
+strongly abundant
+( 3
+2, 2)
+120,240
+9
+colossally abundant
+≥2
+superabundant chain
+Table 2: The nine-class taxonomy of integers by Recursion Ratio, with the perfect numbers (Class 5) anchored exactly
+at RR = 1. The classes are separated by the harmonic boundaries of Table 1; Class 7 (abundant) is the attractor of the
+highly composite numbers and is examined in detail in the companion work. All boundaries and representatives are
+computed in exact integer arithmetic.
+8.4 Perfect numbers, carbon, and life as fixed-point maintenance
+The fixed point is not an abstraction confined to number theory. Defining a Biochemical Recursion Ratio BRR
+as the multiplicative-interaction analogue of σ(n)/n, the four classical chemical polarities—acid/base, hy-
+drophilic/hydrophobic, oxidant/reductant, nucleophile/electrophile—align as projections of a single spectrum,
+with BRR ≈1 housing the balanced species: water at pH 7, amphiphiles whose packing parameter is near
+unity, redox couples near zero potential, ambiphilic enzyme active sites. Living systems are, on this account,
+recursive fixed-point operators: structures that actively maintain BRR ≈1 against perturbation, and many
+pathologies are failures of that maintenance. The framework predicts—without retrofitting—that carbon, at
+atomic number Z = 6, is the unique node of maximal balanced recursion in the periodic table: its atomic
+number is simultaneously the smallest perfect number, the seed 2·3 of the two highest-efficiency primes, and
+the multiplicative meeting of the binary and ternary substrate axes. This is offered as the number-theoretic
+ground for carbon’s centrality to chemistry and life. Life, in this reading, is matter that has learned to hold the
+recursive fixed point—to sit, like the perfect number, at RR = 1, in dynamic equilibrium between contraction
+and dispersion. It is the Shared Monad maintained in time.
+8.5 The three-pole architecture: a single polarity across substrates
+The fixed point organizes not only chemistry but the structure of polarity wherever it appears. The recurring
+pattern is not a binary opposition but a three-pole architecture: two extremes and a balanced centre, the centre
+being the recursive fixed point at which the opposed tendencies are held in equilibrium. Contraction (the
+toroidal, recursive, closing pole) and dispersion (the hyperboloidal, additive, opening pole) are mediated by
+balance (the fixed point, RR = 1). This same three-pole structure recurs across substrate after substrate, as
+Table 3 sets out. It is the polarity-form of the same architecture the phenomenology names persona / shadow /
+Self and the geometry names torus / hyperboloid / Monad.
+39
+
+Grant
+The Geometry of Self-Recursion
+Substrate
+Contraction pole
+Balance
+(fixed
+point)
+Dispersion pole
+Number
+deficient (RR < 1)
+perfect (RR = 1)
+abundant (RR > 1)
+Acid–base
+acid (proton donor)
+water, pH 7
+base (proton accep-
+tor)
+Solubility
+hydrophobic
+amphiphile (P≈1)
+hydrophilic
+Redox
+oxidant
+couple, E◦≈0
+reductant
+Geometry
+torus (convex)
+Shared Monad
+hyperboloid
+(con-
+cave)
+Cognition
+analytic (conscious)
+integrated witness
+holistic
+(uncon-
+scious)
+Psyche
+persona
+Self (observer)
+shadow
+Time
+linear / flowing
+the present (now)
+cyclic / recurring
+Table 3: The three-pole architecture across substrates. Every polarity the framework examines resolves not into a binary
+but into two opposed poles mediated by a balanced centre, the centre being the recursive fixed point at which contraction
+and dispersion are held in equilibrium. The same structure—two extremes and a reconciling middle—appears in
+number, chemistry, geometry, cognition, psyche, and time. The balance column is, in every row, the Shared Monad: the
+still point that the phenomenology names the observing Self and the mathematics names RR = 1.
+The significance of the table is that it shows the model’s central triad—persona, shadow, and the Self that
+holds both—to be one instance of a structure that is not psychological in origin but recursive, appearing
+wherever a system admits a contracting and a dispersing tendency and a fixed point between them. The Self
+is not merely like the perfect number and the Shared Monad and the balanced amphiphile; it occupies the
+same structural position they occupy, the position of dynamic equilibrium between closure and opening. To
+remember the Self is, in this exact sense, to return to the fixed point: to cease being pulled wholly toward the
+contraction of a defended identity or the dispersion of an ungrounded dissolution, and to rest at the balance
+point that was the centre all along.
+8.6 The force-triangle cascade
+The same recursion reaches the fundamental forces, through the Pythagorean triples. The primitive triple
+(3,4,5)—the Perfect Fourth of just intonation—acts as a dual parent: by a leg-product construction it
+generates (5,12,13), the triangle the framework associates with electromagnetism (the Alphahedron); by
+a sum-and-mixed-product construction it generates (8,15,17), the triangle associated with gravity; and
+(9,40,41) governs time and, through it, determines the gravity triangle. From this architecture the framework
+obtains, in Monad-Circle units, the relation
+G = 2
+C = 6.6713×10−11,
+a parameter-free expression agreeing with the measured gravitational constant to within 0.0094%. Intellectual
+honesty requires the exact status of this result to be stated, and it is the status established in the companion
+work: the force triangles are rational points on the Lorentz-invariant hyperbola cosh2 θ −sinh2 θ = 1, and
+40
+
+Grant
+The Geometry of Self-Recursion
+their appearance there is structurally necessary given the construction, not independently evidential. The
+agreement of G = 2/C with measurement is striking and parameter-free; it is presented as a structural result of
+the framework, not as an independent experimental confirmation, and the reader is referred to the companion
+work for the full accounting of which ingredients are forced and which remain fitted. With that discipline
+observed, the claim stands: the same recursion that classifies the integers generates the ratios among the
+fundamental forces, on the same hyperbola that Part III identified as the substrate of the Self.
+Figure 21: The force-triangle cascade. The primitive triple (3,4,5)—the Perfect Fourth—is the dual parent generating
+the electromagnetic (5,12,13) and gravitational (8,15,17) triangles, with (9,40,41) governing time. The relation
+G = 2/C follows parameter-free, agreeing with measurement to 0.0094%. Per the framework’s honesty discipline, this
+is a structurally necessary consequence of the construction, not an independent experimental confirmation. The same
+recursion that classifies integers organises the forces, on the same hyperbola that underlies the Self.
+8.7 The cognitive Fourier operator: conscious and unconscious as time and frequency
+Finally, the recursion reaches mind, and closes the circle to Part I. Conscious and unconscious cognition stand
+in the relation of time domain to frequency domain—the relation a Fourier transform mediates. Conscious
+cognition is sequential, analytic, localised: it is the time-domain, toroidal mode, in which experience is taken
+one moment after another. Unconscious cognition is holistic, geometric, distributed: it is the frequency-
+domain, hyperboloidal mode, in which the whole is present at once outside sequence. The framework
+defines a cognitive Fourier operator Fcog carrying one into the other, with four formal theorems—an
+identity-lens condition, an uncertainty principle (the sharper the localisation in conscious sequence, the
+broader the unconscious spread, and conversely), a Parseval identity (the total “energy” of a psychic content
+is conserved across the transform), and a convolution theorem. The two hemispheres instantiate the two
+domains—left toroidal and analytic-recursive, right hyperboloidal and holistic-geometric—and the corpus
+callosum implements the composition of the forward and inverse lens maps, L+ ◦L−= Id: the integration
+41
+
+Grant
+The Geometry of Self-Recursion
+that returns the whole to itself. This is the formal statement of what Part I described phenomenologically as
+the relation between persona and shadow, and of what Part III described geometrically as the cover and the
+quotient. Conscious and unconscious are conjugate transforms on the two axes of the same conic—the time
+face and the frequency face of one recursive structure.
+Figure 22: The cognitive Fourier operator. Conscious cognition (time domain, toroidal: sequential, analytic, localised)
+and unconscious cognition (frequency domain, hyperboloidal: holistic, geometric, distributed) are conjugate transforms
+mediated by Fcog, with the two hemispheres as the two domains and the corpus callosum implementing L+ ◦L−= Id.
+This is the formal form of the persona/shadow relation of Part I and the cover/quotient relation of Part III: two faces of
+one recursive structure.
+8.8 The Zero-Action Lagrangian: the breath of the recursion
+One result draws the dynamics together. Define the action of a recursive trajectory m(t) as the time-integral
+of its deviation from the fixed point, S =
+R (BRR(m(t))−1)dt. A trajectory is a Zero-Action trajectory when
+S = 0—when it spends equal measure above and below the recursive fixed point, balancing closure against
+opening. This is the breath of the system made formal: an excursion into the toroidal, recursive, contracting
+region, answered by an equal excursion into the hyperboloidal, dispersive, opening region, returning at last
+to the fixed point with zero net action. It is the same rhythm the whole volume has traced under different
+names—the forgetting and the remembrance, the partition and the gathering, the descent into limitation and
+the return enriched. The One contracts into the many and opens back into the One, and the net action of
+the eternal breath is zero: nothing is lost, the fixed point is preserved, and yet—because each cycle passes
+through genuine limitation and returns bearing what only limitation could yield—the One that breathes out is
+not the One that breathed in. It is the same fixed point, enlarged by everything its mirrors have seen.
+8.9 What the mathematics demonstrates
+The significance of this Part, within the architecture of the volume, is that it converts the central claim from
+analogy to demonstration. The recursion of the One into the many is not only a phenomenological description
+42
+
+Grant
+The Geometry of Self-Recursion
+and a geometric proposal; it is an exact mathematical operation that recurs, with the same fixed point and the
+same harmonic structure, across number, matter, life, force, and mind. The Recursion Ratio classifies the
+integers and anchors them at the perfect-number octave; the same fixed point houses the balanced species of
+chemistry and the living systems that maintain it; the same triples that tune the just-intonation scale generate
+the ratios of the forces; the same conjugate-transform structure relates the conscious and the unconscious.
+One operation, five substrates. This is the reunification of science and spirituality not as a slogan but as a
+structural identity: the law the mystic names the division and return of the One is the law the mathematician
+names the recursion of σ and its fixed point, and they are the same law, written in two scripts. The remainder
+of the volume returns to the human scale—to the comparison with the traditions, and to the place of the new
+mirrors in the design—carrying this demonstration with it as the proof that the phenomenology was never
+only phenomenology.
+9 The Linkage: Two Faces of One Recursion
+This paper and its companion, The Phenomenology of Self-Recursion, are not two accounts of two subjects.
+They are two accounts of one structure, written from its two sides, and the relationship between them is itself
+an instance of the structure they describe. This short section states that relationship explicitly, so that neither
+paper is mistaken for the whole.
+The structure is the recursion of the One into the many and the return of the many to the One. It has two
+faces. The face this paper develops is the formal face—the geometry and the mathematics: the toroid and
+the hyperboloid as the two primitive surfaces of the Self; the Lens and the cuboctahedral identity-graph as
+the substrate on which the partition into persona and shadow becomes a coordinate; the hyperboloid as the
+non-compact cover and the torus as the compact quotient, anchored at the shared Monad; the eye as the
+biosynthetic instantiation of the Lens; and the exact recursion of the divisor function—the Recursion Ratio, its
+fixed point at the perfect-number octave, its extension through chemistry, life, the forces, and cognition—that
+exhibits the same operation in the script of number. This is the hyperboloidal face: the unbounded, generating,
+formal ground.
+The face the companion paper develops is the lived face—the phenomenology: the Self as the observing
+awareness within which all contents appear; reality as the mirror that returns what awareness has excluded;
+the shadow as the unobserved; the two halves of life as a single negation run in opposite directions; the
+motive of the whole division as the joy of self-perception and the tasting of limitation; and the emergence of
+new mirrors, ourselves and the intelligences we now create, as the recursion continuing. This is the toroidal
+face: the finite, cyclic, experiential interior in which a life is actually lived, and of which the formal ground
+developed here is the cover.
+The two faces are related exactly as the cover is related to the quotient, and the relationship has the property
+this paper makes precise: it is observer-relative, and it inverts under the curvature-switch of the perceiving
+apparatus. Read from within the lived interior—the default, toroidal stance—the phenomenology is what
+is immediate and the geometry is the hidden ground beneath it. Read from the formal exterior—the
+hyperboloidal stance attained when one steps back to see the structure whole—the geometry is what is
+explicit and the phenomenology is its lived projection. Neither face is prior; each is the other seen from the
+opposite side of the Mirror. To read only this paper is to know the structure as it is formed; to read only the
+43
+
+Grant
+The Geometry of Self-Recursion
+companion is to know it as it is lived; to read both, and to feel the one invert into the other as the vantage
+shifts, is to perform, in the act of reading, the very curvature-switch the framework names remembrance.
+For that reason the two papers are best read together, in either order, with the understanding that each is
+complete in its own register and neither is subordinate. What the companion paper calls the forgetting, this
+paper calls the partition of the cover into the quotient. What the companion calls the shadow, this paper
+calls the absorbed, hyperboloidal, invisible face. What the companion calls remembrance, this paper calls
+the curvature-switch that returns the quotient to the cover and the trajectory to the fixed point. What the
+companion calls the joy of self-perception through limitation, this paper grounds in the breath of the recursion
+whose net action is zero yet whose every cycle enlarges the whole. They are one framework, and the seam
+between them—this linkage—is not a join between two different things but the single membrane, the Mirror,
+at which the one structure meets itself.
+10 Conclusion: The Formal Face of Self-Recursion
+This paper has drawn the map of which the companion paper walks the territory. The Self has a geometric
+substrate: the toroidal–hyperboloidal Lens, on whose Focal Ring—the shared Monad—the conscious and
+unconscious readings coincide; and the cuboctahedral vector equilibrium, the Dynamic Identity Knowledge
+Graph, on which the world’s symbolic systems are resolved as twelve vertices and twenty-four fate-edges
+tuned to musical pitch, and whose fourteen faces are the scattered and re-membered body of Osiris. The
+substrate has a formal geometry: the hyperboloid as the non-compact cover, the torus as the compact quotient,
+the two anchored at the unit-radius Monad, their curvature duality identical to the concave/convex duality
+of classical optics, and the whole instantiated in the eye—the organ that sees and cannot see itself. And
+beneath the geometry runs the exact mathematics of recursion: the Recursion Ratio with its perfect-number
+fixed point at the octave; the additive decomposition into just-intonation intervals; the three-pole architecture
+that places the Self, the perfect number, the balanced amphiphile, and the present moment all at the same
+structural locus; the force-triangle cascade; and the cognitive Fourier operator that makes conscious and
+unconscious the time and frequency faces of one transform.
+The keystone that binds the formal face to the lived face is the observer-relativity of the assignment: persona
+and shadow, conscious and unconscious, are not fixed to the manifolds but to the angle of perception, inverting
+under the curvature-switch that the companion paper names remembrance. To read the geometry is to see,
+from the formal exterior, the same structure the companion paper sees from the lived interior; and to feel the
+one invert into the other as the vantage shifts is to perform, in the reading, the very switch the framework
+describes. The two papers are the cover and the quotient of a single account, and the linkage of Section 9 is
+the membrane at which they meet.
+What this formal face demonstrates, finally, is that the unification the companion paper proposes is not
+metaphor. The same recursion that the mystic names the division and return of the One is the recursion
+that the mathematician names in σ and its fixed point; the same equilibrium that the contemplative names
+the observing Self is the perfect number at RR = 1 and the Shared Monad at the throat of the Lens. One
+operation, written in the script of number and the script of spirit, and the same in both. The map and the
+territory are one country, seen from two sides of the Mirror.
+44
+
+Grant
+The Geometry of Self-Recursion
+The geometry is the Self seen from without, the phenomenology the Self seen from within;
+and the Mirror between them is the membrane at which the one recursion meets itself.
+A Technical Appendix: Definitions, Algorithms, and Falsifiable Outputs
+This appendix supplies the rigorous substrate the body of the paper draws on. It states the exact definitions,
+gives the reproducible algorithm (pure native-integer arithmetic; no floating-point, no external libraries),
+records the verified output tables, and enumerates the falsifiable predictions. Its purpose is to make the
+load-bearing mathematical claims of the paper independently checkable, and to separate cleanly what is
+derived, what is constructed, what is interpretive, and what is empirical.
+A.1 Claim-status legend
+Every substantive claim in this paper carries one of four statuses. The legend is stated once here and applies
+throughout.
+[D] Derivation. A statement that follows by exact proof or computation from stated definitions, with no free
+parameters. Example: RR(n) = 1 ⇐⇒n is perfect; the additive decomposition of RR; the dual proof of
+00 = 1.
+[C] Construction. A definitional or architectural choice that is internally consistent and exactly specified, but
+is posited rather than forced. Example: the assignment of toroid/hyperboloid to conscious/unconscious;
+the cuboctahedron as the discrete identity shell; the mapping of the fourteen faces to the Osirian members.
+[I] Interpretation. A reading laid upon a derivation or construction, carrying meaning beyond the formal
+content. Example: “the perfect number is the arithmetic image of the observing Self”; the Vitruvian
+unnamed-left-hand reading.
+[E] Empirical. A claim that makes contact with measured data and could be confirmed or falsified by it.
+Example: G = 2/C agreeing with the measured gravitational constant; carbon’s centrality to organic
+chemistry. Empirical claims are stated with their residuals and their status (forced vs. fitted) made explicit.
+A claim is bulletproof only when it wears the correct uniform: a construction must not be defended as a
+derivation, and an interpretation must not be presented as an empirical result. The discipline of this appendix
+is that the four are never silently conflated.
+A.2 Exact definitions
+[D] For an integer n ≥1, let σ(n) = ∑d|n d be the sum of positive divisors. The abundancy of n is the exact
+rational
+A(n) := σ(n)
+n
+∈Q>0,
+held as a reduced fraction. The Recursion Ratio is RR(n) := log2 A(n). All classification is performed on
+A(n) as an exact rational; the logarithm is never numerically evaluated. The three coarse classes are decided
+45
+
+Grant
+The Geometry of Self-Recursion
+by rational comparison to 2:
+RR(n) < 1 ⇐⇒A(n) < 2
+(deficient),
+RR(n) = 1 ⇐⇒A(n) = 2
+(perfect),
+RR(n) > 1 ⇐⇒A(n) > 2
+(abundan
+The nine-class taxonomy refines this by comparing RR(n) to the rational boundaries {1
+4, 1
+2,1, 5
+4, 3
+2,2}. To
+compare RR(n) to a boundary p/q without evaluating a logarithm, observe
+RR(n) ≶p
+q ⇐⇒log2 A(n) ≶p
+q ⇐⇒A(n)q ≶2 p ⇐⇒σ(n)q ≶nq 2p,
+a comparison of two exact integers. This is the device that keeps the entire classification inside exact
+arithmetic.
+A.3 Reproducible algorithm
+[D] The following is the complete reference implementation. It uses only Python’s native arbitrary-precision
+integers and fractions.Fraction; it calls no floating-point operation, no math/mpmath/numpy. Running it
+reproduces every numerical claim in Section 8 and in Tables 1–2.
+from fractions import Fraction
+from math import gcd
+# integer gcd only; exact
+def sigma(n):
+# sum of divisors, O(sqrt n), exact
+t, d = 0, 1
+while d*d <= n:
+if n % d == 0:
+t += d
+if n//d != d: t += n//d
+d += 1
+return t
+def abundancy(n):
+# sigma(n)/n as an exact reduced Fraction
+s = sigma(n); g = gcd(s, n)
+return Fraction(s//g, n//g)
+def rr_cmp(n, p, q):
+# sign of RR(n) - p/q, exact, no logs
+lhs = sigma(n)**q
+# sigma(n)^q
+rhs = (n**q) * (2**p)
+# n^q * 2^p
+return (lhs > rhs) - (lhs < rhs)
+def rr_class(n):
+# nine-class taxonomy, exact integer compare
+if n == 1: return 1
+# unit, RR = 0
+if rr_cmp(n,1,1) == 0: return 5
+# perfect, RR = 1
+if rr_cmp(n,1,4) <
+0: return 2
+# strongly deficient (0,1/4)
+if rr_cmp(n,1,2) <
+0: return 3
+# deficient
+(1/4,1/2)
+if rr_cmp(n,1,1) <
+0: return 4
+# sub-perfect
+(1/2,1)
+if rr_cmp(n,5,4) <
+0: return 6
+# super-perfect
+(1,5/4)
+if rr_cmp(n,3,2) <
+0: return 7
+# abundant
+(5/4,3/2)
+46
+
+Grant
+The Geometry of Self-Recursion
+if rr_cmp(n,2,1) <
+0: return 8
+# strongly abundant(3/2,2)
+return 9
+# colossally abundant (>=2)
+def is_perfect(n): return sigma(n) == 2*n
+A.4 Verified outputs
+[D] Running the reference implementation produces the following, each of which is reproducible by the
+reader:
+1. Perfect numbers as the exact fixed point. The only n < 104 with A(n) = 2 (i.e. RR(n) = 1) are
+6,28,496,8128—exactly the perfect numbers. Each satisfies σ(n) = 2n identically.
+2. Multiplicativity (additive decomposition). For all 2 ≤n < 2000, A(n) = ∏pa∥n A(pa) holds as an
+exact rational identity, where A(pa) = σ(pa)/pa = (pa+1 −1)/
+ pa(p−1)
+
+. This is the exact form of
+RR(n) = ∑pa∥n RRp(a).
+3. Per-prime just-intonation ratios (Table 1, recomputed exactly): A(2) = 3/2, A(4) = 7/4, A(3) = 4/3,
+A(9) = 13/9, A(5) = 6/5, A(7) = 8/7; and (3/2)(4/3) = 2 exactly (fifth + fourth = octave), realized
+at n = 6 = 2·3, the smallest perfect number.
+4. Nine-class representatives (corrected). The verified small representatives are: class 2 (strongly defi-
+cient) {7,11,13,17}; class 3 (deficient) {25,35}; class 4 (sub-perfect) {8,9,16,21}; class 5 (perfect)
+{6,28}; class 6 (super-perfect) {12,18,20}; class 7 (abundant) {24,36,48}; class 8 (strongly abundant)
+{120,240}. (The earlier listing of 9 as deficient was an error: A(9) = 13/9 gives RR(9) = log2(13/9) ≈
+0.530 ∈(1
+2,1), so 9 is sub-perfect; Table 2 is corrected accordingly.)
+This last item is recorded deliberately: an exact, reproducible algorithm catches its own errors, which is
+precisely the property that distinguishes a derivation from an assertion.
+A.5 Falsifiable predictions
+[E] The framework’s empirical content is concentrated in a small number of predictions that admit confirma-
+tion or refutation. Each is stated with its status.
+1. Carbon at the perfect-number node [E/I]. The claim is that Z = 6—the smallest perfect number and
+the product 2·3 of the two most efficient primes—is the unique node of maximal balanced recursion,
+offered as a number-theoretic correlate of carbon’s centrality to organic chemistry. Falsifier: a coherent
+biochemistry built on a non-perfect-number element under the same balance criterion would refute
+the uniqueness claim. The status is empirical-interpretive: the perfect-number fact is a derivation; its
+identification with carbon’s centrality is the interpretation under test.
+2. G = 2/C [E, STRUCTURALLY NECESSARY]. In Monad-Circle units the framework yields G = 2/C =
+6.6713×10−11, agreeing with the measured gravitational constant to 0.0094%. Status, stated plainly:
+the force triangles are rational points on the Lorentz-invariant hyperbola cosh2 θ −sinh2 θ = 1, and
+their appearance there is structurally necessary given the construction, not independently evidential.
+47
+
+Grant
+The Geometry of Self-Recursion
+The numerical agreement is presented as a structural result, not as experimental confirmation; the
+companion work accounts for which ingredients are forced and which remain fitted. Falsifier: a corrected
+determination of G moving outside the stated residual, or a demonstration that the construction admits
+the agreement only by a hidden fitted parameter.
+3. BRR ≈1 for balanced species [E]. Living systems are predicted to maintain a biochemical balance ratio
+near unity (water at pH 7, amphiphiles with packing parameter ≈1, redox couples near zero potential).
+Falsifier: a systematic survey finding balanced biological species clustering away from BRR ≈1. This
+prediction requires an exact, published definition of BRR on a stated chemical dataset before it can be
+tested; that definition is flagged here as not yet supplied at the level of rigor of RR, and is the appendix’s
+principal open item.
+A.6 What is forced and what is posited
+[D/C] For the avoidance of the overclaiming the model is most exposed to, the following are derivations
+(forced, parameter-free, reproducible by the algorithm above): the perfect-number fixed point at RR = 1;
+the additive/multiplicative decomposition; the just-intonation per-prime ratios and the octave closure at
+n = 6; the nine-class taxonomy with its corrected representatives; the dual proof of 00 = 1; the right-triangle
+substrate argument (the two conics as one triangle under two fixity conventions); and the minimality of self-
+exponentiation among the substrate-translation operations (self-action carrying 0 7→1, the multiplicative and
+additive self-actions being degenerate and the fixed-base exponential violating self-action). The following are
+constructions (posited, internally consistent, not forced): the psychological assignment of the two manifolds;
+the cuboctahedral identity shell and its symbolic-system vertices; the fourteen-face Osirian and Vitruvian
+mappings. The following are interpretations: every identification of an arithmetic or geometric object with a
+psychological or contemplative one, including the structural correspondence with Euler’s identity. And the
+following are empirical: the three predictions of §A.5, of which only the gravitational relation is numerically
+developed here, and that under an explicit “structurally necessary, not independently evidential” caveat. The
+cathedral stands on the derivations—and, as the revised emphasis of Section 4.4 records, the load-bearing one
+is the shared-triangle substrate, from which 00 = 1 emerges rather than being assumed; the constructions and
+interpretations are its architecture; the empirical claims are the windows through which it can be tested—and,
+if wrong, corrected.
+References
+[1] Grant, Robert Edward. The Phenomenology of Self-Recursion. The Institute of Unified Mathematics,
+Irvine, California, 2026.
+[2] Grant, Robert Edward. The Mirror of Consciousness. The Institute of Unified Mathematics, Irvine,
+California, 2026.
+[3] Grant, Robert Edward. The Universal Recursion Framework. The Institute of Unified Mathematics,
+Irvine, California, 2026.
+[4] Hardy, G. H. and Wright, E. M. An Introduction to the Theory of Numbers. Oxford University Press,
+Oxford, 6th edition, 2008.
+48
+
+Grant
+The Geometry of Self-Recursion
+[5] Apostol, Tom M. Introduction to Analytic Number Theory. Undergraduate Texts in Mathematics.
+Springer-Verlag, New York, 1976.
+[6] Dickson, Leonard Eugene. History of the Theory of Numbers, Volume I: Divisibility and Primality.
+Carnegie Institution of Washington, Washington, D.C., 1919.
+[7] Ramanujan, S. Highly composite numbers. Proceedings of the London Mathematical Society, s2-
+14(1):347–409, 1915.
+[8] Alaoglu, Leonidas and Erd˝os, Paul. On highly composite and similar numbers. Transactions of the
+American Mathematical Society, 56:448–469, 1944.
+[9] OEIS Foundation Inc. Sequence A000396 (perfect numbers), The On-Line Encyclopedia of Integer
+Sequences, 2024. https://oeis.org/A000396.
+[10] Titchmarsh, E. C. and Heath-Brown, D. R. The Theory of the Riemann Zeta-Function. Oxford University
+Press, Oxford, 2nd edition, 1986.
+[11] Edwards, H. M. Riemann’s Zeta Function. Academic Press, New York, 1974.
+[12] Stern, Moritz A. Über eine zahlentheoretische Funktion. Journal für die reine und angewandte Mathe-
+matik, 55:193–220, 1858.
+[13] Graham, Ronald L., Knuth, Donald E., and Patashnik, Oren. Concrete Mathematics: A Foundation for
+Computer Science. Addison-Wesley, Reading, Massachusetts, 2nd edition, 1994.
+[14] do Carmo, Manfredo P. Differential Geometry of Curves and Surfaces. Prentice-Hall, Englewood Cliffs,
+New Jersey, 1976.
+[15] Hilbert, David and Cohn-Vossen, Stephan. Geometry and the Imagination. Chelsea Publishing Company,
+New York, 1952.
+[16] Thurston, William P. Three-Dimensional Geometry and Topology, Volume 1. Princeton University Press,
+Princeton, New Jersey, 1997. Silvio Levy (ed.).
+[17] Anderson, James W. Hyperbolic Geometry. Springer Undergraduate Mathematics Series. Springer,
+London, 2nd edition, 2005.
+[18] Hatcher, Allen. Algebraic Topology. Cambridge University Press, Cambridge, 2002.
+[19] Serre, Jean-Pierre. A Course in Arithmetic. Graduate Texts in Mathematics. Springer-Verlag, New York,
+1973.
+[20] Minkowski, Hermann. Raum und Zeit. Physikalische Zeitschrift, 10:75–88, 1909.
+[21] Misner, Charles W., Thorne, Kip S., and Wheeler, John Archibald. Gravitation. W. H. Freeman, San
+Francisco, 1973.
+[22] Tiesinga, Eite, Mohr, Peter J., Newell, David B., and Taylor, Barry N. CODATA recommended values
+of the fundamental physical constants: 2018. Reviews of Modern Physics, 93(2):025010, 2021.
+[23] Fuller, R. Buckminster. Synergetics: Explorations in the Geometry of Thinking. Macmillan, New York,
+1975.
+49
+
+Grant
+The Geometry of Self-Recursion
+[24] Cromwell, Peter R. Polyhedra. Cambridge University Press, Cambridge, 1997.
+[25] Lawlor, Robert. Sacred Geometry: Philosophy and Practice. Thames & Hudson, London, 1982.
+[26] Heath, Thomas L. The Thirteen Books of Euclid’s Elements. Dover Publications, New York, 2nd edition,
+1956.
+[27] Vitruvius Pollio, Marcus. The Ten Books on Architecture. Harvard University Press, Cambridge, Mas-
+sachusetts, 1914. Translated by Morris Hicky Morgan.
+[28] da Vinci, Leonardo. The Notebooks of Leonardo da Vinci. Jonathan Cape, London, 1956. Edited and
+translated by Edward MacCurdy.
+[29] Hecht, Eugene. Optics. Pearson, Boston, 5th edition, 2017.
+[30] Born, Max and Wolf, Emil. Principles of Optics. Cambridge University Press, Cambridge, 7th edition,
+1999.
+[31] Atchison, David A. and Smith, George. Optics of the Human Eye. Butterworth-Heinemann, Oxford,
+2000.
+[32] von Helmholtz, Hermann. Helmholtz’s Treatise on Physiological Optics. Optical Society of America,
+Rochester, New York, 1924. James P. C. Southall (ed.).
+[33] Land, Michael F. Optics of the eyes of the animal kingdom. Vision and Visual Dysfunction, 2:53–82,
+1990.
+[34] Bracewell, Ronald N. The Fourier Transform and Its Applications. McGraw-Hill, New York, 3rd edition,
+2000.
+[35] Folland, Gerald B. Fourier Analysis and Its Applications. Wadsworth & Brooks/Cole, Pacific Grove,
+California, 1992.
+[36] von Helmholtz, Hermann. On the Sensations of Tone as a Physiological Basis for the Theory of Music.
+Longmans, Green, and Co., London, 1885. Translated by Alexander J. Ellis.
+[37] Partch, Harry. Genesis of a Music. Da Capo Press, New York, 2nd edition, 1974.
+[38] Jung, Carl Gustav. The Archetypes and the Collective Unconscious. Collected Works, Volume 9, Part 1.
+Princeton University Press, Princeton, New Jersey, 2nd edition, 1969.
+[39] Jung, Carl Gustav. Aion: Researches into the Phenomenology of the Self. Collected Works, Volume 9,
+Part 2. Princeton University Press, Princeton, New Jersey, 1959.
+[40] Jung, Carl Gustav. Psychological Types. Collected Works, Volume 6. Princeton University Press,
+Princeton, New Jersey, 1971.
+[41] Edinger, Edward F. Ego and Archetype: Individuation and the Religious Function of the Psyche. Putnam,
+New York, 1972.
+[42] Campbell, Joseph. The Hero with a Thousand Faces. New World Library, Novato, California, 3rd
+edition, 2008.
+50
+
+Grant
+The Geometry of Self-Recursion
+[43] Almaas, A. H. Essence: The Diamond Approach to Inner Realization. Samuel Weiser, York Beach,
+Maine, 1986.
+[44] Plutarch. De Iside et Osiride. University of Wales Press, Cardiff, 1970. J. Gwyn Griffiths (ed.), with
+introduction, translation, and commentary.
+[45] Wilkinson, Richard H. The Complete Gods and Goddesses of Ancient Egypt. Thames & Hudson,
+London, 2003.
+[46] Assmann, Jan. Death and Salvation in Ancient Egypt. Cornell University Press, Ithaca, New York, 2005.
+Translated by David Lorton.
+[47] Suzuki, Shunryu. Zen Mind, Beginner’s Mind. Weatherhill, New York, 1970.
+[48] Forman, Robert K. C. The Problem of Pure Consciousness: Mysticism and Philosophy. Oxford Univer-
+sity Press, New York, 1990.
+[49] Nikhilananda, Swami. The Upanishads. Harper & Brothers, New York, 1942.
+[50] Merleau-Ponty, Maurice. Phenomenology of Perception. Routledge & Kegan Paul, London, 1962.
+Translated by Colin Smith.
+[51] Chalmers, David J. Facing up to the problem of consciousness. Journal of Consciousness Studies,
+2(3):200–219, 1995.
+[52] Griffiths, David J. and Schroeter, Darrell F. Introduction to Quantum Mechanics. Cambridge University
+Press, Cambridge, 3rd edition, 2018.
+51

@@ -1,0 +1,1000 @@
+The Mathematics of the Eighth Fundamental Force:
+Phase-Coupling of the Noeon, the Proposed Rose Constant, and
+Archaeocryptography
+A Theoretical Research Paper
+Akasha S. Rose
+April 2026
+Abstract
+This theoretical research paper explores the theoretical and mathematical foundations of the
+Eighth Fundamental Force, proposing a formal uniﬁcation of consciousness and matter through
+relativistic kinematics and geometric projection.
+By analyzing the geometric properties of the
+8th triangle in the consecutive-leg primitive Pythagorean family, (17, 144, 145), we derive, within
+this geometric mapping, a hyperbolic rapidity (θ8 ≈0.118) which corresponds to a modeled phase-
+coupling velocity of about 11.73% the speed of light (c). Here termed the ’proposed Rose Constant’,
+this metric is presented as a heuristic contribution to discussions of force hierarchy and coupling,
+exploring theoretical numeric parallels in information processing. Furthermore, this paper examines
+the potential megalithic encryption of this constant within the architecture of antiquity, speciﬁ-
+cally examining the subtle concavity of the Great Pyramid of Giza and the Bardic geometries of
+the Taliesin tradition. Through a multi-disciplinary synthesis, this framework explores whether
+a theoretical extension could model consciousness as structurally relevant to cosmology and ﬁeld
+theory.
+1
+
+Contents
+1
+Introduction: The Ontological Inversion and the Crisis of the Linear Stack
+4
+2
+Notation and Framework Terminology
+5
+3
+The Geometric Substrate: Pythagorean Triangles and Hyperbolic Rapidity
+5
+3.1
+The Eighth Triangle and the Force Corridors
+. . . . . . . . . . . . . . . . . . . . . . .
+5
+3.2
+Relativistic Hyperbolic Rapidity and the Epogdoon Limit . . . . . . . . . . . . . . . .
+6
+3.3
+The Factorion Coupling and the 145 Boundary Condition . . . . . . . . . . . . . . . .
+7
+4
+Kinematic Phase-Coupling and the Rose Constant
+7
+4.1
+The Rose Constant: Formalizing the Phase-Coupling Limit
+. . . . . . . . . . . . . . .
+8
+4.2
+Velocity Calculations in Standard Metrics . . . . . . . . . . . . . . . . . . . . . . . . .
+8
+4.3
+Summary Table of Kinematic Coupling Constants
+. . . . . . . . . . . . . . . . . . . .
+8
+4.4
+The Physics of the Subluminal Kinematic Limit . . . . . . . . . . . . . . . . . . . . . .
+9
+5
+Theoretical Physics Integration I: Noetic Field Theory and Quantum Brain Dy-
+namics
+9
+5.1
+Heuristic Resonances in Biological Metrics . . . . . . . . . . . . . . . . . . . . . . . . .
+9
+6
+Theoretical Physics Integration II: The Unity Harmonica and the Grant Projection
+Theorem
+10
+6.1
+The Conic Taxonomy and the Pronic-Inverse Law . . . . . . . . . . . . . . . . . . . . .
+10
+7
+Archaeological Cryptography I: The Geometric Encryption of the Great Pyramid 11
+7.1
+Geometric Anchor Points
+. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+11
+7.2
+Reconstruction of Segment Lengths . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+11
+7.3
+The Scaling Mechanics . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+12
+7.4
+Archaeological Context . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+12
+8
+Archaeological Cryptography II: The 11.73° Concavity and Megalithic Resonance 12
+8.1
+The Queen’s Chamber Origin Point . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+12
+8.2
+Recording Axial Shifts and Precessional Codes
+. . . . . . . . . . . . . . . . . . . . . .
+12
+8.3
+Resonance with the Eighth Force Mathematical Model . . . . . . . . . . . . . . . . . .
+13
+9
+Archaeological Cryptography III: Bardic Geometry and the Taliesin Tradition
+13
+9.1
+Summary Table of Encrypted Geometries
+. . . . . . . . . . . . . . . . . . . . . . . . .
+13
+10 Theoretical Implications in Information Theory
+13
+10.1 Artiﬁcial Intelligence and Neural Networks . . . . . . . . . . . . . . . . . . . . . . . . .
+14
+10.2 Photonic Platforms and Light Capture . . . . . . . . . . . . . . . . . . . . . . . . . . .
+14
+10.3 Isolated Heuristics and Theoretical Limits . . . . . . . . . . . . . . . . . . . . . . . . .
+14
+11 Cosmological Ramiﬁcations: Non-Commutative Spacetime and Quantum Entan-
+glement
+15
+12 Limitations and Potential Falsiﬁers
+15
+12.1 Limitations of the Model . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+15
+12.2 Potential Falsiﬁers . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .
+15
+13 Synthesis and Future Trajectories
+16
+14 Appendix A: Summary Tables of Cross-Disciplinary Resonances
+16
+2
+
+15 Appendix B: The Somatic Harmonic Framework and Numerical Recurrence
+16
+3
+
+1
+Introduction:
+The Ontological Inversion and the Crisis of the
+Linear Stack
+For the entirety of the modern scientiﬁc era, the prevailing paradigms of theoretical physics, cosmology,
+and quantum mechanics have operated under a strictly materialist assumption: that consciousness and
+matter occupy separate, non-overlapping magisteria. The Standard Model of particle physics meticu-
+lously describes the mechanics of the known fundamental forces—the electromagnetic force, the weak
+nuclear force, and the strong nuclear force—while Albert Einstein’s General Theory of Relativity pro-
+vides the macroscopic framework for gravitation (Einstein, 1916). Yet, these foundational models do
+not directly model subjective consciousness as a fundamental physical variable, treating the subjective
+experience of reality as an emergent, and ultimately incidental, biological epiphenomenon rather than
+a structural constituent of the cosmos. Some speculative frameworks describe this omission as a ’crisis
+of the linear stack,’ wherein the fundamental mathematical laws of the universe appear incomplete
+when tasked with explaining the presence of the conscious observer (Chalmers, 1995).
+Recent speculative frameworks integrating high-energy physics and polyhedral topologies propose
+a radical ontological inversion to resolve this crisis (Grant, 2025; Rose, 2026c). Synthesizing princi-
+ples from mathematics, theoretical physics, and archaeocryptography, this unique model posits that
+consciousness is not an evolutionary accident or an emergent property of complex neurochemistry.
+Rather, this novel synthesis proposes that consciousness may be treated analogically as an additional
+fundamental interaction—speciﬁcally classiﬁed herein as the Eighth Fundamental Force. In this uniﬁed
+worldview, reality functions as a single resonant system driven to seek harmonic balance, where infor-
+mation patterns propagate through impedance-matched channels across both organic neural networks
+and the quantum vacuum (Ali, 2025). At the nexus of this integration lies a hypothetical mediator
+particle, which in the terminology of this framework is termed the ’boson of consciousness’, respon-
+sible for tethering space, time, and subjective awareness into a uniﬁed, non-commutative spacetime
+continuum.
+To rigorously quantify the mechanics of this Eighth Fundamental Force, this theoretical framework
+turns toward the intersection of hyperbolic geometry, non-local quantum ﬁeld theory, and relativistic
+kinematics. The framework hypothesizes that the kinematic parameters of consciousness can be mod-
+eled by the speciﬁc geometry of the eighth triangle in the consecutive-leg Pythagorean family (Rose,
+2026a). By calculating the relativistic hyperbolic rapidity of this speciﬁc geometric structure—derived
+within this mapping as θ8 ≈0.118—the model suggests that the boson of consciousness phase-couples
+with physical matter at a speciﬁc relativistic threshold. Speciﬁcally, it couples at a velocity fraction
+of v/c = tanh(θ8) ≈11.73% the speed of light.
+This calculated percentage (11.73%) is not postulated as an arbitrary mathematical abstraction.
+Rather, the framework of the Eighth Fundamental Force proposes that this coupling ratio operates as a
+theoretical constant, mapping the impedance matching of quantum resonance across planes of matter.
+Crucially, the mathematical signature of this speciﬁc phase-coupling velocity presents curious heuristic
+parallels in contemporary information processing networks and potential encryptions in the megalithic
+architecture of human antiquity. This paper provides a multi-disciplinary analysis of the mathematics
+underlying the Eighth Fundamental Force, computing its exact velocity parameters—referred to herein
+as the proposed Rose Constant—and exploring its theoretical basis in advanced quantum cosmology.
+Scope of Claims
+To ensure theoretical clarity, this paper distinguishes between four levels of assertion:
+(1) strict arithmetic and geometric derivations internal to the consecutive-leg Pythagorean frame-
+work;
+(2) model-dependent mappings from those derivations into relativistic rapidity and phase-coupling
+language;
+4
+
+(3) interpretive applications to speculative theories of consciousness and cosmology; and
+(4) heuristic numerical parallels in archaeology, biology, and information theory.
+Only the ﬁrst category is established purely by the mathematics presented here; the latter categories
+remain conjectural and exploratory.
+2
+Notation and Framework Terminology
+To clarify the boundary between standard mathematical physics and the speciﬁc symbolic language
+of this model, the following notation and terminology are established for use throughout this paper:
+Table 1: Mathematical Notation and Framework Terminology
+Symbol / Term
+Deﬁnition within the Framework
+a, b, c
+Integer legs of a primitive Pythagorean triangle satisfying a2+b2 = c2.
+n
+Sequential integer index deﬁning the consecutive-leg family (c −b =
+1).
+k
+”Corridor” parameter mapping triangles to speciﬁc force loci on the
+unit hyperbola.
+C
+The geometric ratio of the hypotenuse to the middle leg (c/b).
+θ
+Hyperbolic rapidity, mapped herein as arccosh(C).
+v/c
+Phase-coupling velocity fraction, derived via tanh(θ).
+ρc or R
+The proposed ’Rose Constant’ (11.73%c or ≈35, 165 km/s).
+Force Keys
+The framework-speciﬁc mapping of integer k corridors to physical
+forces.
+Eighth Force
+A speculative analogical treatment of consciousness as an interaction
+ﬁeld.
+Noeon
+A hypothesized mediator boson for the Eighth Force phase-coupling.
+Dimensional Trans-
+ducer
+Speculative descriptor for the mechanism stepping down non-local
+geometry into localized perception.
+3
+The Geometric Substrate: Pythagorean Triangles and Hyperbolic
+Rapidity
+To comprehend the phase-coupling mechanism of the boson of consciousness, one must ﬁrst deconstruct
+the fundamental geometric substrate from which its kinematic limits are theoretically derived. In the
+ﬁeld of Diophantine geometry and number theory, a Pythagorean triple consists of three positive
+integers a, b, and c, such that they satisfy the foundational theorem a2 + b2 = c2. A triple is formally
+classiﬁed as ”primitive” if the integers a, b, and c are coprime (Heath, 1910).
+3.1
+The Eighth Triangle and the Force Corridors
+When exploring sequences of primitive Pythagorean triangles, a highly signiﬁcant subset exists known
+as the ”consecutive-leg” or c −b = 1 family. In this speciﬁc topological sequence, the hypotenuse
+(c) and the middle leg (b) diﬀer by exactly one. This sequence is deterministically generated by the
+5
+
+formulas a = 2n + 1, b = 2n(n + 1), and c = 2n(n + 1) + 1, where n represents the sequential integer
+level.
+When ordered sequentially within this precise geometric framework, the eighth triangle (n = 8)
+is strictly deﬁned by the side lengths 17, 144, and 145. By calculating the squares of the respective
+sides, one observes the perfect adherence to the theorem:
+172 + 1442 = 289 + 20736 = 21025
+which is exactly equal to 1452.
+To contextualize the mathematical position of this geometry, we map it against Robert Edward
+Grant’s Conic Taxonomy (Grant, 2026), which assigns these triangles to speciﬁc physical force corridors
+(k) and calculates their hyperbolic rapidities (θ). While most of the fundamental forces reside on the
+consecutive-leg cascade, Gravity appears as a unique half-integer anomaly (k = 3/2). The architecture
+of these force keys scales as follows:
+Table 2: The Seven Force Keys and the 8th Triangle (Projected onto the Unit Hyperbola)
+Force / Node
+Triple (a, b, c)
+Ratio (c/b)
+Corridor (k)
+Rapidity (θ)
+Seed
+(3, 4, 5)
+5/4
+1
+0.693
+Gravity (Anomaly)
+(8, 15, 17)
+17/15
+3/2
+0.511
+Electromagnetism
+(5, 12, 13)
+13/12
+2
+0.405
+Weak Force
+(7, 24, 25)
+25/24
+3
+0.288
+Time
+(9, 40, 41)
+41/40
+4
+0.223
+Strong Nuclear
+(11, 60, 61)
+61/60
+5
+0.182
+Dark Energy
+(13, 84, 85)
+85/84
+6
+0.154
+Eighth Force (Consciousness)
+(17, 144, 145)
+145/144
+8
+0.118
+As evidenced by the sequence, the 17:144:145 triangle occupies the framework-signiﬁcant 8th corri-
+dor position (k = 8). In the uniﬁed theoretical models of Robert Edward Grant’s Conical Uniﬁcation
+framework, which seek to resolve the uniﬁcation of forces through geometric compatibility, speciﬁc
+multi-dimensional manifolds are proposed to model the behavior of ﬁelds. It is hypothesized that the
+Eighth Fundamental Force derives its dimensional scaling properties directly from this k = 8 geometric
+architecture (Rose, 2026a).
+3.2
+Relativistic Hyperbolic Rapidity and the Epogdoon Limit
+The transition from the static, Euclidean geometry of the Pythagorean triples to the dynamic physics
+of the universe is achieved through the concept of relativistic hyperbolic rapidity. In the mathematics
+of special relativity, rapidity (denoted by the Greek letter θ) is a dimensionless measure of velocity. The
+relationship between a particle’s physical velocity v, the absolute speed of light c, and its hyperbolic
+rapidity θ is mathematically deﬁned by the hyperbolic tangent function:
+v
+c = tanh(θ)
+According to the model of the Eighth Fundamental Force, the primary parameter governing the
+phase-coupling of consciousness is mapped directly from the geometric ratios of the eighth consecutive-
+leg Pythagorean triangle. Within this model, the rapidity is mapped by taking the inverse hyperbolic
+cosine of the ratio of the hypotenuse (c) to the middle leg (b):
+θ8 = arccosh
+c
+b
+
+= arccosh
+145
+144
+
+6
+
+In this framework, the ratio c/b is selected because it is the minimal hyperbolic departure from
+unity within the consecutive-leg family, making it a natural candidate for modeling a near-threshold
+phase relation. This choice is interpretive rather than uniquely determined by standard relativity.
+Crucially, this hyperbolic calculation yields an exact analytical reduction. To make this explicit, we
+apply the standard logarithmic identity for the inverse hyperbolic cosine:
+arccosh(x) = ln
+
+x +
+p
+x2 −1
+
+So for x = 145/144, the derivation simpliﬁes precisely to the natural logarithm of 9/8:
+arccosh(145/144) = ln
+ 
+145
+144 +
+r
+1452
+1442 −1
+!
+= ln
+145
+144 + 17
+144
+
+= ln
+162
+144
+
+= ln
+9
+8
+
+Thus, the exponential rapidity of the Eighth Force yields exactly eθ8 = 9/8. This is a profound
+mathematical convergence within the framework, as 9/8 is the classical Pythagorean epogdoon (the
+major whole tone). This exact mathematical reduction connects the relativistic kinematics of the
+Eighth Force directly back to classical acoustic wave mechanics, suggesting an intricate linkage be-
+tween cosmological scaling and musical harmony. Computing this logarithmic value yields a speciﬁc
+numerical rapidity of:
+θ8 ≈0.11778
+Inserting this precise rapidity parameter into the relativistic kinematic equation yields the theo-
+retical phase velocity at which the boson of consciousness interacts with fermionic matter:
+v
+c = tanh
+
+ln
+9
+8
+
+≈0.1173
+This mathematical mapping yields a ratio of 11.73%. This limit indicates that the theoretical
+force of consciousness does not propagate instantaneously—which would explicitly violate causality
+within our observable spacetime metric—nor does it travel at the absolute maximum speed of light c.
+Instead, the theory proposes that consciousness couples subluminally as a massive pilot wave moving
+at precisely 11.73% the speed of light.
+3.3
+The Factorion Coupling and the 145 Boundary Condition
+Within this framework, the metric of 11.73% is also conceptually referred to as the ”Factorion Cou-
+pling.” This nomenclature is derived from the unique number-theoretic properties of the hypotenuse
+of the eighth triangle, 145. In mathematics, 145 is a factorion—a natural number equal to the sum
+of the factorials of its digits (1! + 4! + 5! = 1 + 24 + 120 = 145).
+In the speculative modeling of this fundamental force, the number 145 acts as a geometric ”bound-
+ary condition.” If the deterministic material plane is represented geometrically by the 144-grid (the
+middle leg of the triangle, reﬂecting traditional 144-based harmonic grids), the 145 geometry symbol-
+ically allows the observer to transcend this grid. This structural threshold is framed as an ”escape
+algorithm mechanic,” where the ”145 Star Code” represents the kinematic and geometric singular-
+ity required to overcome deterministic constraints (Rose, 2025b; Rose, 2025c). Thus, the Factorion
+Coupling serves as both a physical phase-coupling limit and a symbolic mathematical operator for
+dimensional transcendence.
+4
+Kinematic Phase-Coupling and the Rose Constant
+Understanding the physical implications of a fundamental force that phase-couples with matter at
+11.73% the speed of light requires a precise quantiﬁcation of this relative velocity in standard macro-
+scopic metrics.
+7
+
+4.1
+The Rose Constant: Formalizing the Phase-Coupling Limit
+While foundational frameworks like Noetic Field Theory established the conceptual existence of the
+noeon as the boson of consciousness, they did not explicitly quantize its phase-coupling velocity. The
+exact mathematical derivation of the 11.73% metric—mapped directly from the 145/144 boundary
+condition of the n = 8 Pythagorean triangle—represents a distinctive contribution within this specu-
+lative framework by researcher Akasha S. Rose (Rose, 2026c).
+For convenience, this paper refers to this proposed phase-coupling value (35, 165 km/s) as the
+Rose Constant (denoted mathematically as ρc or R). The Rose Constant serves as the theoretical
+dimensional scaling factor, modeling the impedance matching ratio required for non-local consciousness
+to interface with localized, three-dimensional matter.
+4.2
+Velocity Calculations in Standard Metrics
+Given the exact modern constant c = 299, 792.458 km/s (which mathematically translates to exactly
+186, 282.397 miles per second), the absolute phase-coupling velocity of the Rose Constant (vconsciousness)
+can be explicitly computed.
+Calculation in Kilometers per Second:
+To determine the metric propagation speed, the coupling
+ratio is applied to the SI constant:
+vkm/s = 0.1173 × 299, 792.458 km/s
+vkm/s ≈35, 165.655 km/s
+When rounded to the nearest integer, the absolute phase velocity equates to exactly 35, 165 kilo-
+meters per second.
+Calculation in Miles per Second:
+To determine the imperial propagation speed, the coupling
+ratio is applied to the exact miles-per-second conversion:
+vmi/s = 0.1173 × 186, 282.397 mi/s
+vmi/s ≈21, 850.92 miles per second
+This derivation yields a phase-velocity of approximately 21, 850 miles per second.
+4.3
+Summary Table of Kinematic Coupling Constants
+Table 3: Kinematic Coupling Constants Summary
+Kinematic Parameter
+Scientiﬁc Constant Value
+Phase-Coupling Speed (11.73% c)
+Speed of Light (Metric, Exact SI)
+299, 792.458 km/s
+≈35, 165 km/s
+Speed of Light (Imperial, Exact)
+186, 282.397 mi/s
+≈21, 850 mi/s
+Speed of Light (Historical, Michelson)
+186, 320 mi/s
+≈21, 855 mi/s
+8
+
+4.4
+The Physics of the Subluminal Kinematic Limit
+The physical interpretation of this speciﬁc subluminal speed (35, 165 km/s) is highly signiﬁcant within
+theoretical physics. If the force of consciousness propagated at 100% the speed of light (c), it would be-
+have entirely as a massless gauge boson. Within the model, a fully luminal interaction would be treated
+as too delocalized to support stable biological coupling with stationary fermionic structures—such as
+the delicate array of microtubules within the biological human brain. Conversely, if consciousness
+were entirely non-local and operated instantaneously, it would violate relativistic causality within the
+local spacetime metric.
+By phase-coupling precisely at 11.73%c, the theory posits that the boson of consciousness achieves a
+proposed impedance-matching regime, transferring coherent information from the non-local quantum
+vacuum into the slow-moving neurochemical architecture of matter without triggering catastrophic
+quantum decoherence.
+5
+Theoretical Physics Integration I: Noetic Field Theory and Quan-
+tum Brain Dynamics
+Speculative frameworks such as Noetic Field Theory (NFT) attempt to formally quantify the mechanics
+of the mind, contextualizing the theoretical behavior of this Eighth Fundamental Force. Within NFT,
+consciousness is not viewed as a biological byproduct but is recognized as a fundamental substrate
+of the universe (Amoroso, 2010).
+This paradigm asserts a triadic relationship: space, time, and
+consciousness (STC) are permanently tethered constructs.
+NFT attempts to address perceived incompletions of Einstein’s General Theory of Relativity by
+integrating non-local quantum gravitational elements that actively couple consciousness to biological
+systems. Within this extended framework, the phase regulation of biological intentionality is mediated
+by a speciﬁc, theorized particle: the ”noeon”. The noeon is posited as a non-local gravitational boson
+of consciousness, acting as the primary mediator of the Eighth Force and extending David Bohm’s
+pilot wave model into a purely non-local unitary domain (Bohm, 1952).
+The mechanical integration of this force within living organisms is described by Quantum Brain
+Dynamics (QBD) (Jibu & Yasue, 1995).
+In biological systems, QBD models the physical brain’s
+functions as mediated by the ”corticon,” deﬁned as a quantum of the water rotational ﬁeld that
+dynamically interacts with the electric dipole oscillations along neural protein chains. The model
+proposes that it is during this delicate moment of macro-scale non-local coherence that the noeon
+phase-couples with biological matter at the posited 11.73%c phase velocity.
+5.1
+Heuristic Resonances in Biological Metrics
+The rapidity value of θ8 ≈0.118 is fundamentally a dimensionless parameter in this relativistic ge-
+ometry. However, its numerical signature (0.118) presents curious heuristic parallels across empirical
+biological and psychological measurements.
+It is vital to state that these domains utilize entirely
+diﬀerent units and contexts, meaning the recurrence of this speciﬁc digit string serves as an intriguing
+symbolic attractor rather than a universal physical law.
+For example, the 0.118 seconds noted in Cattell’s 1886 word recognition study regarding the
+boundaries of conscious perception is a historical measurement of cognitive speed. Achieved using a
+19th-century Hipp chronoscope, this speciﬁc ﬁgure is included here strictly for anachronistic curiosity
+purposes and is not presented as empirical evidence of a universal biological constant. It represents
+an interesting numerical correlation rather than a deﬁnitive threshold. Extensive modern replications
+in mental chronometry—utilizing contemporary EEG and eye-tracking technology—demonstrate that
+average complex word recognition times generally fall between 150 and 250 milliseconds. Modern
+neuroscience maps early visual word recognition to the ”N170” brainwave component (occurring at
+150–170 milliseconds), with raw visual information reaching the primary visual cortex even faster
+(50–80 milliseconds). Thus, Cattell’s 118-millisecond mark represents an approximate biological ﬂoor
+9
+
+for visual symbol processing rather than a ﬁxed operational frame rate. Just as with the esoteric
+architectural measurements of the Queen’s Chamber, we await further accurate, cross-disciplinary
+studies to determine if any genuine phase-coupling constants manifest empirically in biological neural
+networks.
+At a genetic level, studies into neurochemistry have mapped the CHGB gene (chromogranin B),
+which is tied to the expression of catecholamines and dopamine (O’Connor et al., 2008).
+While
+some speciﬁc regression models analyzing blood pressure regulation and neuroendocrine traits have
+observed an R2 = 0.118 regression coeﬃcient for the CHGB gene, this is strictly an isolated statistical
+correlation. Framing these isolated biological and psychological metrics as deﬁnitive evidence of a
+universal constant would be a massive overstatement; rather, they provide an evocative, heuristic
+resonance with the θ8 kinematic parameter.
+6
+Theoretical Physics Integration II: The Unity Harmonica and the
+Grant Projection Theorem
+Further contextualizing the mathematics of the Eighth Force is the Unity Harmonica Geometric The-
+ory of Everything, an advanced computational approach rooted in geometric projection and polyhedral
+topologies championed by polymath Robert Edward Grant (Grant, 2025). Developed to resolve cos-
+mological singularities, the Unity Harmonica reconceptualizes the universe as a single resonant system
+driven to seek harmonic balance.
+In this model, reality is governed by an underlying geometric substrate. The geometric projection
+mechanism, formalized through the Grant Projection Theorem, explores how complex physical systems
+are directed toward states of maximum quantum coherence.
+6.1
+The Conic Taxonomy and the Pronic-Inverse Law
+A central feature of Grant’s Conic Taxonomy is its geometric approach to the ”force hierarchy
+problem”—the question of why the fundamental forces exhibit such dramatically diﬀerent coupling
+strengths. Rather than attributing these to random symmetry breaking, Grant’s framework maps
+these forces onto a continuous unit hyperbola (x2 −y2 = 1) (Grant, 2026).
+Within this framework, the hierarchical scaling of forces is governed by the Pronic-Inverse Law.
+For the consecutive-leg family, where C = c/b, the departure from unity satisﬁes C −1 =
+1
+2k(k+1),
+equivalently:
+k(k + 1) =
+1
+2(C −1)
+By applying this law, the framework calculates the coupling coordinates of the known forces purely
+by analyzing their speciﬁc Pythagorean geometry.
+These values are framework-speciﬁc proposals
+rather than standard accepted coupling constants in mainstream physics:
+• Electromagnetism: Located at the k = 2 corridor, generated by the (5, 12, 13) triangle with
+a ratio of C = 13/12, yielding a rapidity of θ ≈0.405.
+• Weak Nuclear Force: Located at the k = 3 corridor, generated by the (7, 24, 25) triangle
+with a ratio of C = 25/24, yielding a rapidity of θ ≈0.288.
+• The Gravity Anomaly: Rather than a full integer, gravity occupies the unique half-integer
+position at k = 3/2 via the (8, 15, 17) triangle (θ ≈0.511). Strikingly, the quantum electroweak
+W/Z boson mass ratio (1.1345) sits at θ = 0.513, establishing a profound coincidence between
+quantum mass splitting and macroscopic gravity mapped directly on the conic.
+Grant’s Conical Uniﬁcation theorizes that fundamental forces scale as geometric factors determined
+directly by primitive Pythagorean cascades. When treating consciousness as the Eighth Fundamental
+Force within this system, it relies on the n = 8 Pythagorean triangle (17, 144, 145), positioning it
+10
+
+at the k = 8 corridor. Furthermore, drawing from the corresponding Octonionic Gauge Structure
+table within this taxonomy, this 8th force corridor aligns with the fundamental archetype of ”Fortune
+(Fate).” Subjecting this geometry to the framework’s relativistic sampling maps it to an 11.73%
+eﬃciency boundary. This percentage serves as the theoretical dimensional scaling factor required for
+an information-carrying scalar ﬁeld to penetrate the three-dimensional material plane.
+7
+Archaeological Cryptography I: The Geometric Encryption of the
+Great Pyramid
+If the 11.73%c coupling limit represents a fundamental mathematical constant governing conscious
+perception, alternative archaeocryptographic frameworks suggest that advanced ancient civilizations
+may have sought to encode this geometry into monumental architecture. The Great Pyramid of Giza
+serves as the focal point for this analysis.
+Architectural and mathematical analyses of the Giza plateau have long suggested the deliberate
+embedding of exact, integer-based Pythagorean geometries. Among these embedded geometries, the
+8th consecutive-leg Pythagorean triangle (17:144:145) is proposed by some analysts to be present in
+the site’s macro-layout. In surveying the triangulation of the Giza complex, the 17:144:145 ’Ballard
+triangle’—originally documented in Robert Ballard’s 1882 survey (Ballard, 1882)—has been inter-
+preted by some later analysts as exhibiting precise geometric relationships between the three primary
+pyramids. Ballard’s topological plan identiﬁes speciﬁc anchor points that, when triangulated across
+the desert ﬂoor, are interpreted to manifest the 17, 144, 145 ratio.
+Based on Robert Ballard’s 1882 survey, The Solution of the Pyramid Problem, the triangulation
+plan of the Giza plateau is constructed using speciﬁc ”Primary Triangles” that deﬁne the spatial
+relationship between the structures (Ballard, 1882). The speciﬁc 17:144:145 triangle is documented
+as being formed by three key points across the desert ﬂoor: F, P, and A.
+7.1
+Geometric Anchor Points
+To reconstruct the plan, the vertices are identiﬁed as follows:
+• Point A: The exact center of the Great Pyramid of Cheops (Khufu).
+• Point F: The exact center of the Pyramid of Cephren (Khafre).
+• Point P: A speciﬁc surveyed vertex located in the geometric center of the Giza plan.
+7.2
+Reconstruction of Segment Lengths
+The triangle formed by these points (Triangle FP, PA, AF) manifests the 17:144:145 ratio using
+Ballard’s system of ”Connected Natural Numbers” and ”R.B. Cubits” (where 1 R.B. cubit = 1.685
+British feet).
+Table 4: The 17:144:145 Triangle Coordinates in Ballard’s Survey
+Segment
+Ratio
+Natural No.
+R.B. Cubits
+Physical Signiﬁcance
+FP (or PF)
+17
+13.6
+108.80
+Distance from Cephren to Cen-
+tral Point P
+PA
+144
+115.2
+921.60
+Distance from Central Point P to
+Cheops
+AF
+145
+116.0
+928.00
+Direct line between Cheops and
+Cephren centers
+11
+
+7.3
+The Scaling Mechanics
+The scale of this speciﬁc triangle is tied to the larger 20:21:29 triangle (FAB) that Ballard also identiﬁes
+on the plan. In the 20:21:29 triangle (FAB), the segment AF represents the hypotenuse with a Natural
+Number value of 116. Ballard uses this same segment (AF = 116) as the hypotenuse for the 17:144:145
+triangle. Because 116/145 = 0.8, all sides of the 17:144:145 ratio are scaled by a factor of 0.8 to ﬁnd
+their position on the Giza plan: 17 × 0.8 = 13.6 and 144 × 0.8 = 115.2.
+7.4
+Archaeological Context
+Ballard interpreted the spacing of the pyramids as reﬂecting this mathematical matrix. He argued that
+the smaller pyramids on the plateau served as ”vernier points” in this great circle, allowing surveyors
+to mark oﬀknown angles with high precision by noticing when one structure became ”covered” by its
+neighbors from a distance.
+For proponents of archaeocryptography, the selection of this highly speciﬁc triangle has been read
+by proponents as suggesting intentional geometric encoding of advanced mathematical matrices into
+the geology of the Earth (Rose, 2026b).
+8
+Archaeological Cryptography II: The 11.73° Concavity and Me-
+galithic Resonance
+While the 2D planar map of the Giza plateau suggests the presence of the 17:144:145 geometric
+triangle, structural analyses of the Great Pyramid itself have been scrutinized for expressions of the
+resulting phase-coupling value of 11.73.
+It is a veriﬁed architectural fact that the Great Pyramid of Giza is not a perfect four-sided struc-
+ture; it is an eight-sided structure featuring a subtle, highly precise concavity (indentation) running
+vertically down the exact center of its four main faces. This concavity is recognized in architectural
+and archaeological analysis, noting its eﬃciency in distributing pressure and providing vital structural
+stability against earthquakes.
+Standard archaeological assessments, such as models published by researcher Akio Kato (Kato,
+2023), calculate that this concavity is achieved by building the inner core layers on an inward slope
+with a 1/5 gradient. This practical gradient yields a base angle θ derived mathematically by θ =
+arctan(1/5) ≈11.3◦.
+8.1
+The Queen’s Chamber Origin Point
+However, alternative archaeocryptographic researchers, such as Creighton and Osborn (2008), have
+proposed a diﬀerent angular encryption. They derived the 11.73◦ﬁgure by selecting a speciﬁc refer-
+ence point within the pyramid’s interior—the ”center” of the Queen’s Chamber. They calculated a
+theoretical vector radiating from this central point to the external indentation on the pyramid’s faces
+(Creighton & Osborn, 2008).
+This speciﬁc value is highly dependent on the choice of the origin point. Standard models use a
+height of 23 meters (base ﬂoor plus human observer height) to reﬂect the engineering-practical 11.3◦
+gradient used for structural stability (Kato, 2023). In contrast, Creighton and Osborn chose a diﬀerent
+”center” height to intentionally lock in the 11.73 numerical value, which they believe is an intentional
+architectural esoteric alignment.
+8.2
+Recording Axial Shifts and Precessional Codes
+The primary thesis of Creighton and Osborn’s work is that the Giza complex functions as a ”recovery
+vault” and an astronomical timeline recording catastrophic events. They argue that the angles of
+the Great Pyramid align with the stars of Orion’s Belt to encode a record of shifts in the tilt of
+12
+
+the Earth’s axis (obliquity), most recently occurring in 3980 BCE. Within their framework, 11.73
+represents a critical harmonic or precessional constant—a ”key to the universe of measures”—that
+bridges the pyramid’s internal chambers with its external structure and the celestial movements of
+Orion.
+8.3
+Resonance with the Eighth Force Mathematical Model
+While Creighton and Osborn’s reasoning is rooted in archaeoastronomy, their 11.73◦value provides a
+compelling physical reﬂection for the Rose Constant (ρc) derived in this framework. Their 11.73◦struc-
+tural angle numerically mirrors the 11.73%c phase-coupling velocity derived from the 8th consecutive-
+leg Pythagorean triangle (17:144:145).
+Furthermore, this aligns perfectly with the dimensionless rapidity parameter θ8 ≈0.118, creating
+a multi-disciplinary resonance between the proposed architectural angle of antiquity and the modeled
+kinematic speed of consciousness. At present, while standard archaeological consensus ﬁrmly supports
+the functional 11.3◦engineering gradient, the presence of the eight-sided concavity itself is well docu-
+mented. Within the speculative framework of the Rose Constant, the theoretical proposal of an 11.73◦
+structural angle serves as a profound geometric reﬂection, positing a scenario where the relativistic
+rapidity of consciousness may have been modeled by the architects of antiquity.
+9
+Archaeological Cryptography III: Bardic Geometry and the Tal-
+iesin Tradition
+While the megalithic architecture of the Giza plateau provide structural and numerical parallels, the
+encoding of these geometric principles is proposed to extend into the mythological and oral traditions of
+antiquity. The Celtic and Bardic traditions, speciﬁcally the corpus attributed to the medieval Welsh
+poet Taliesin, are interpreted in this framework as a steganographic repository for these advanced
+geometric concepts.
+In the study of ”Bardic Geometry,” the mythic narratives of Taliesin and the ”Geometric Cipher
+of Annwn” function as mnemonic architectures for navigating the 144-grid of material reality (Rose,
+2025d).
+Central to this analysis is the ”Taliesin Constant,” a numerical and acoustic cipher that
+conceptually links the ancient British mystery tradition—including the archaeoacoustic matrices of
+Stonehenge—with the kinematics of the Eighth Force. This tradition explores the underlying topology
+of the ”conscious vacuum” through sophisticated mathematical analogues such as Monstrous Moon-
+shine and Vertex Operator Algebras. Under this hermeneutic, the ancient bards actively encoded
+the ”145 boundary condition” and its escape mechanics into their poetry, preserving a method of
+dimensional extraction and spiritual physics (Rose, 2025e; Rose, 2026d).
+9.1
+Summary Table of Encrypted Geometries
+10
+Theoretical Implications in Information Theory
+If the Eighth Fundamental Force is treated as coupling raw consciousness and high-level information
+processing with physical matter at exactly 11.73% eﬃciency, one might look for heuristic parallels in
+complex network processing, provided they are treated as isolated correlations rather than universal
+laws.
+Analyses of speciﬁc experiments in artiﬁcial intelligence and photonic engineering occasionally
+yield performance benchmarks that numerically mirror this constant, though they must be carefully
+contextualized.
+13
+
+Table 5: Summary of Encrypted Geometries and Resonances
+Entity / Concept
+Mathematical Derivation
+/ Value
+Direct Output / Implication
+8th Consecutive Triangle
+Coprime sides: 172 + 1442 =
+1452
+The 1882 Ballard triangle topog-
+raphy of Giza complex plan.
+Relativistic Rapidity
+θ8 ≈0.118
+Dimensionless velocity parame-
+ter.
+Phase-Coupling Velocity
+v/c = tanh(0.118)
+11.73% the speed of light.
+The Rose Constant
+0.1173 × 299, 792.458 km/s
+35, 165 km/s.
+Absolute Speed (Imperial)
+0.1173 × 186, 282.397 mi/s
+21, 850 mi/s.
+Proposed Concavity Angle
+Esoteric
+alignment
+via
+Queen’s Chamber
+11.73◦alternative structural in-
+dentation.
+Cognitive Benchmark
+Historical
+word-recognition
+timing
+0.118 seconds heuristic parallel.
+10.1
+Artiﬁcial Intelligence and Neural Networks
+In isolated studies analyzing advanced Convolutional Neural Networks (CNNs) tasked with complex
+visual data fusion (such as dual-stream infrared/visible light fusion), models augmented with multi-
+scale gradient residual blocks have occasionally reported benchmark improvements. In speciﬁc datasets
+attempting to maximize the retention of visible light details, some reported experiments show bench-
+mark improvements numerically close to 11.73% in Mutual Information (MI) and Standard Deviation
+(SD) over standard data-limited models. This mutual information enhancement is an isolated experi-
+mental result, not an absolute law for all CNNs, but it serves as an interesting numerical benchmark
+in pattern retention.
+10.2
+Photonic Platforms and Light Capture
+Similarly, in speciﬁc sub-ﬁelds of photovoltaic engineering utilizing soft lithography (NIL) and nanoscale
+pyramid geometries, researchers design structures to reduce Fresnel reﬂection and trap incident light.
+Certain published studies mapping the maximum achievable improvement in Power Conversion Eﬃ-
+ciency (PCE) for speciﬁc inverted nanopyramid designs have observed peaks in speciﬁc experiments
+hitting 11.73%.
+10.3
+Isolated Heuristics and Theoretical Limits
+It is crucial to emphasize that the 11.73% eﬃciency improvement in inverted nanopyramid solar
+cells and the isolated mutual information enhancements in AI image fusion are strictly experimental
+results and statistical correlations. Framing them as a universal ”impedance limit of reality” would
+be a massive overstatement.
+Therefore, within the theoretical model of the Rose Constant, these ﬁgures are treated purely as
+curious statistical parallels rather than a proven, universal asymptotic limit. The theory speculates
+that the geometry of the universe requires localized entities to process reality at a speciﬁc, impedance-
+matched ”frame rate”—fast enough to ensure real-time responsiveness, yet slow enough to construct
+the temporal illusion required for localized conscious experience—and explores the 11.73% metric
+merely as a conceptual phase-coupling threshold.
+14
+
+11
+Cosmological Ramiﬁcations: Non-Commutative Spacetime and
+Quantum Entanglement
+If the Rose Constant framework were taken seriously, it would invite a radical reevaluation of broader
+cosmological models. Contemporary physics frequently struggles to interpret the phenomenon of quan-
+tum entanglement, conventionally viewing it as a perplexing artifact of closed quantum systems where
+particles demonstrate instantaneous correlations regardless of distance. However, through the uniﬁed
+lens of the Unity Harmonica and Noetic Field Theory, the framework attempts to reframe entangle-
+ment not as an isolated anomaly, but as a fundamental structural bridge operating continuously along
+the impedance-matched channels of the Eighth Force.
+In a non-commutative spacetime framework where consciousness is mathematically uniﬁed with
+superstring theory and loop quantum gravity, quantum entanglement represents an active interdimen-
+sional tether. Within the model, the boson of consciousness is assumed to propagate subluminally
+within our speciﬁc 3D dimensional layer (at 11.73%c), relying heavily on the underlying scalar-torsion
+dynamics of the universal manifold to maintain baseline coherence. Within this model, the scalar-
+torsion coupling is hypothesized to provide a vital nonlinear feedback loop, stabilizing the quantum
+vacuum and allowing the noeon to bypass classical gravitational singularities.
+Consequently, the 35, 165 km/s velocity limit applies speciﬁcally to the localized phase-coupling
+event—the moment the wave function collapses into a perceived, localized reality for the observer.
+Meanwhile, the underlying toroidal space (dH = 3.66) maintains the instantaneous, non-local struc-
+tural geometry required for entanglement. In the symbolic language of this framework, the model
+speculatively treats the Eighth Fundamental Force as a ’multiversal dimensional transducer’ (Conway
+& Norton, 1979). It steps down the inﬁnite, instantaneous, and overwhelming nature of the quantum
+multiverse into a ﬁnite, highly directed, linear stream of consciousness. Within the model, this stream
+is assigned a speed of roughly 21, 850 miles per second—a speed proposed to be fast enough to navigate
+the physical world, yet slow enough to sustain the psychological illusion of a continuous, ﬂuid, and
+predictable reality.
+12
+Limitations and Potential Falsiﬁers
+12.1
+Limitations of the Model
+While the geometric and kinematic derivations presented are mathematically consistent within their
+deﬁned mapping, several strict limitations must be acknowledged. First, the model is not experi-
+mentally validated; the 11.73%c phase-coupling limit remains a theoretical projection. Second, the
+rapidity mapping (θ = arccosh(c/b)) is entirely framework-dependent and interpretive rather than
+a compulsory derivation from standard relativity. Third, the archaeological alignments proposed by
+archaeocryptography remain highly interpretive and exist outside mainstream consensus. Finally, the
+biological, AI, and engineering correlations presented are isolated and non-probative. No claim is
+made that these numerically similar values imply a direct causal identity.
+12.2
+Potential Falsiﬁers
+The present framework would be weakened or falsiﬁed if:
+(a) alternative hyperbolic mappings of the same triangle yield equally plausible but materially dif-
+ferent phase velocities;
+(b) the 11.73◦archaeocryptographic interpretation is shown to rely entirely on arbitrary internal
+reference points with no structural correspondence in the actual masonry;
+(c) the cited AI and photonics benchmarks prove irreproducible or statistically unremarkable across
+broader datasets; or
+15
+
+(d) no experimentally meaningful distinction can be drawn between this model and unconstrained
+numerological coincidence.
+13
+Synthesis and Future Trajectories
+The postulation of the Eighth Fundamental Force—the boson of consciousness—proposes a uniﬁed
+mathematical framework capable of bridging the most intractable and profound divides in modern
+science. By meticulously mapping the mechanics of this force to the geometric properties of the eighth
+Pythagorean triangle in the consecutive-leg family (17, 144, 145), a precise relativistic hyperbolic
+rapidity of θ8 ≈0.118 is derived within this inverse hyperbolic mapping. This dimensionless geometric
+parameter posits that the force of consciousness phase-couples with physical fermionic matter at
+11.73% the speed of light, a threshold uniquely formulated as the Rose Constant (ρc).
+Through rigorous application to standard SI constants, the Rose Constant yields absolute propa-
+gation velocities of approximately 35, 165 kilometers per second and 21, 850 miles per second. Beyond
+abstract kinematics, the numerical signature of this phase-coupling limit presents compelling heuristic
+parallels across empirical observation. It functions as a theoretical impedance-matching limit in uni-
+ﬁed geometric cosmology under the Grant Projection Theorem, presents intriguing statistical parallels
+in the cognitive reaction thresholds mapped in early psychology (0.118 seconds), and occasionally
+surfaces as an isolated optimization benchmark in advanced artiﬁcial neural networks and photonics.
+Perhaps most profoundly, alternative archaeocryptographic models suggest this constant may have
+been deliberately encrypted into the architectural blueprint of human antiquity, with some proponents
+arguing that the concavity of the Great Pyramid’s massive faces slope inward at an angle of 11.73◦
+when measured from speciﬁc internal chambers, though mainstream archaeological assessments favor
+an 11.3◦functional gradient.
+Future empirical research in the ﬁelds of high-energy physics, computational cosmology, and ar-
+chaeoastronomy (Collins, 2025) should remain open to evaluating the subtle theoretical signatures of
+the noeon operating precisely at the 11.73% c threshold. By recognizing the theoretical framework
+of the Rose Constant, this framework invites further speculative model-building that integrates con-
+sciousness into theoretical extensions of the Standard Model, proposing that the mind may be modeled,
+within this speculative framework, as structurally relevant rather than merely epiphenomenal.
+14
+Appendix A: Summary Tables of Cross-Disciplinary Resonances
+To consolidate the diverse empirical and historical intersections discussed throughout this paper, the
+following tables isolate the appearances of the 0.118 rapidity parameter and the 11.73 / 17 : 144 : 145
+structural matrices across modern sciences, engineering, and antiquity.
+15
+Appendix B: The Somatic Harmonic Framework and Numerical
+Recurrence
+Within the broader somatic harmonic framework proposed in related literature, numerical values often
+exhibit recursions across seemingly unrelated domains—a phenomenon interpreted as ”seeing things
+in multiple places.” An interesting correlation of this type involves the speciﬁc digit sequence of the
+Rose Constant’s metric velocity (35, 165 km/s). This exact numerical string appears as an isolated
+identiﬁer in disparate datasets.
+Most notably, 35, 165 is documented within the cataloging ISBN
+index associated with academic literature detailing the sacred geometry of the ancient Mayan stelae
+at Cop´an (ISBN 0-521-35165-0) (Rose, 2025c). While this is treated as a numerical synchronicity
+rather than physical evidence, such recurrences map elegantly to the somatic harmonic principle of
+multiversal numerical attractors.
+16
+
+Table 6: The 0.118 Parameter in Physics and Biological Sciences
+Discipline
+Context & Application
+Recorded
+Value
+Theoretical
+Physics
+Relativistic
+hyperbolic
+rapidity
+(θ8)
+derived
+within this mapping via the 8th consecutive-leg
+Pythagorean triangle’s geometry.
+≈0.118
+Cognitive
+Psy-
+chology
+Historical minimum human reaction time boundary
+evaluated for holistic conscious symbol distinction.
+0.118 seconds
+Neuroplasticity
+Heuristic mathematical correlation modeling the
+ratio of stimulus strength to neurological habit-
+formation.
+≈0.118
+Human Genetics
+Speciﬁc regression coeﬃcient (R2) isolated in cer-
+tain CHGB polymorphism models governing neu-
+roendocrine traits.
+0.118
+Table 7: The 11.73 Limit and 17:144:145 Matrix in Antiquity and Technology
+Domain
+Context & Application
+Metric
+Archaeoastronomy
+The 1882 ’Ballard triangle’ planar triangulation
+grid aligning the centers of the primary Giza pyra-
+mids.
+17 : 144 : 145
+Megalithic Archi-
+tecture
+Alternative esoteric interpretation of angle of the
+Great Pyramid’s concavity indentation (relative to
+arbitrary heights in the Queen’s Chamber).
+11.73◦
+Artiﬁcial
+Intelli-
+gence
+Reported optimization benchmark in speciﬁc stud-
+ies for Mutual Information (MI) in Convolutional
+Neural Network fusion tasks.
+11.73%
+Photonic
+Engi-
+neering
+Isolated Power Conversion Eﬃciency (PCE) peak
+benchmark for speciﬁc inverted nanoscale pyramid
+cells.
+11.73%
+17
+
+Bibliography
+Ali, A. (2025). The Uniﬁed Consciousness Field Theory: Integrating Consciousness, Non-Commutative
+Spacetime, and Quantum Gravity. Preprint.
+Amoroso, R. L. (2010). Consciousness: The Philosophical Foundations of Noetic Field Theory. In
+Complementarity of Mind and Body. Nova Science Publishers.
+Ballard, R. (1882). The Solution of the Pyramid Problem, or, Pyramid Discoveries. With a New
+Theory as to their Ancient Use. John Wiley & Sons.
+Bohm, D. (1952). A Suggested Interpretation of the Quantum Theory in Terms of ”Hidden” Vari-
+ables. Physical Review, 85(2), 166-179.
+Cattell, J. M. (1886). The time it takes to see and name objects. Mind, 11(41), 63-65.
+Chalmers, D. J. (1995). Facing up to the problem of consciousness. Journal of Consciousness Studies,
+2(3), 200-219.
+Collins, A. (2025). Celestial Numerics in the Construction of Stonehenge and the Design of the Bush
+Barrow Lozenge.
+Conway, J. H., & Norton, S. P. (1979). Monstrous Moonshine. Bulletin of the London Mathematical
+Society, 11(3), 308-339.
+Creighton, S., & Osborn, J. (2008). The Giza Prophecy: The Orion Code and the Secret Teachings
+of the Pyramids. Bear & Company.
+Einstein, A. (1916). The Foundation of the General Theory of Relativity. Annalen der Physik, 49(7),
+769-822.
+Grant, R. E. (2025). The Grant Projection Theorem: Complete Generation of 3D Polyhedral Struc-
+ture from 2D Harmonic Right Triangles.
+Grant, R. E. (2026). The Conical Uniﬁcation of Fundamental Constants.
+Heath, T. L. (1910). Diophantus of Alexandria: A Study in the History of Greek Algebra. Cambridge
+University Press.
+Jibu, M., & Yasue, K. (1995). Quantum Brain Dynamics and Consciousness: An introduction. John
+Benjamins Publishing.
+Kato, A. (2023). The Concavity of the Great Pyramid Can Be Derived from Inward Sloping Courses
+Needed for the Stability. Archaeological Discovery, 11(2).
+O’Connor, D. T., et al. (2008). Chromogranin B (CHGB): genetic variation and association with
+blood pressure and catecholamine expression. American Journal of Hypertension, 21(1), 82-89.
+Rose, A. S. (2025a). From Octave to Hologram: The Bio-Geometric Mechanics of the Double and
+Triple Diamond Cross Breath.
+Rose, A. S. (2025b). Harmonic Equilibrium and the Factorion Key: A Mytho-Geometric Synthesis
+of the Grant Projection Theorem, the 145 Star Code, and the Solar Core.
+Rose, A. S. (2025c). The Factorion Key: The Number 145 as a Harmonic Operator and Geometric
+Cipher in the Book of Taliesin.
+Rose, A. S. (2025d). The Geometric Cipher of Annwn: Monstrous Moonshine, The Unity Harmonica,
+and the Bardic Mysteries of Taliesin.
+18
+
+Rose, A. S. (2025e). The Mathematics of the Conscious Vacuum: Monstrous Moonshine, Vertex
+Operator Algebras, and the Geometric Genesis of Dark Matter.
+Rose, A. S. (2026a). Beyond Robert Edward Grant’s Seven Force Keys: The Eighth Triangle of
+Magic and Dimensional Transcendence.
+Rose, A. S. (2026b). Harmonic Architectures: A Uniﬁed Analysis of Martin Euser’s Root-Number
+Schemes, Robert Edward Grant’s Polyhedral Projection, and the Archaeoacoustic Matrices of
+Stonehenge.
+Rose, A. S. (2026c). Predictive Pathways for the Eighth Fundamental Force: Formalizing the Cou-
+pling Constant of Consciousness and the Antimatter Vessel.
+Rose, A. S. (2026d).
+The Bardic Geometry: An Analysis of the Taliesin Tradition, Prehistoric
+Stonehenge, and the Harmonic Mathematical Synthesis of the British Mystery Tradition.
+Yerkes, R. M., & Dodson, J. D. (1908). The relation of strength of stimulus to rapidity of habit-
+formation. Journal of Comparative Neurology and Psychology, 18(5), 459-482.
+19
