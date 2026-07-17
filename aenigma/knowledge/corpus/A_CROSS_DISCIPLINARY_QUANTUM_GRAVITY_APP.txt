@@ -1,0 +1,599 @@
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+CC BY 4.0 Deed Attribution 4.0 International 
+This article is distributed under the terms of the Creative Commons CC BY 4.0 Deed Attribution 4.0 International attribution 
+which permits copy, redistribute, remix, transform, and build upon the material in any medium or format for any purpose, 
+even commercially without further permission provided the original work is attributed as specified on the tresearch.ee and 
+Open Access pages https://social.tresearch.ee 
+ 
+ 
+ 
+ 
+ 
+A CROSS-DISCIPLINARY, QUANTUM-GRAVITY APPROACH TO EVERYTHING 
+FROM CONSCIOUSNESS AND GRAVITY TO THE RIEMANN HYPOTHESIS AND TOP-
+OLOGICAL INSULATORS 
+ 
+Rodney Bartlett 1, s266976@students.cdu.edu.au, Stanthorpe Australia, 
+1 Information Physics Institute, ORCID: 0000-0003-2240-3743 
+ 
+ABSTRACT 
+This article adopts a cross-disciplinary approach and a theoretical universe which has been 100% 
+unified by a Theory of Everything or theory of quantum gravity, so that every microscopic and mac-
+roscopic object and event in space and time is connected. Phenomena such as geometry, topological 
+materials, electrons, phase transitions, Weyl and Majorana fermions are inextricably related to topics 
+like consciousness, gravity, Wick rotation, the Riemann hypothesis, and the cosmos. It’s interested in 
+expressing unfamiliar ideas that might lead to new knowledge concerning physics and mathematics. 
+The article’s foundation is an approach called Vector-Tensor-Scalar Geometry which seeks, in scien-
+tific tradition, to build on a paper Albert Einstein published in 1919 when he was at the peak of his 
+abilities, having completed his General Relativity Theory a mere handful of years earlier. From the 
+foundation, our Ship of the Imagination - to use a phrase from Carl Sagan’s and Neil deGrasse Tyson’s 
+“Cosmos” - launches into topics like the connections between topology (rubber-sheet geometry), time 
+dilation, consciousness, the nature of gravity, the Riemann Hypothesis, Wick rotation, the Higgs 
+boson and field, topological materials, the Weyl fermion, and the Majorana fermion.  
+ 
+KEYWORDS: Vector-Tensor-Scalar Geometry, Topological materials, Consciousness, Origin of 
+life, Riemann hypothesis, Weyl and Majorana fermions  
+ 
+Introduction 
+The Mathematical Universe Hypothesis (MUH) is a speculation put forward by physicist and cos-
+mologist Max Tegmark [1, 2]. It speaks of “altogether different equations and mathematical struc-
+tures”. This article could use such structures in the following way - one dimensional (1D) electrical 
+pulses could form binary digits that could encode 2D Mobius strips which would be the next level up 
+in particles’ structure. Cosmology’s holographic principle suggests the 3rd dimension results from 
+information in the 2nd dimension. The 2nd D might be the Mobius strips comprising particles and the 
+3rd D might be capable of being deleted by programming the binary digits (used in electronics) which 
+act as Hidden Variables that are compatible with quantum mechanics (not with known probabilistic 
+quantum mechanics but with quantum certainty, for they give precise calculations). When subatomic 
+particles appear in two places at once, the holographic principle can be combined with the precision 
+of unrecognized quantum certainty. Then the particles would actually be in one place (quantum en-
+tangled) since the 3rd D of space between their centers would be eliminated (since we live in space-
+time, the time taken to travel the distance between particles is also eliminated). The 3rd dimension 
+Vol. 1 No. 1 (2025): 10-19
+10 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+CC BY 4.0 Deed Attribution 4.0 International 
+This article is distributed under the terms of the Creative Commons CC BY 4.0 Deed Attribution 4.0 International attribution 
+which permits copy, redistribute, remix, transform, and build upon the material in any medium or format for any purpose, 
+even commercially without further permission provided the original work is attributed as specified on the tresearch.ee and 
+Open Access pages https://social.tresearch.ee 
+ 
+ 
+ 
+ 
+ 
+we normally perceive could be thought of as composed of figure-8 Klein bottles i.e. it could be 
+thought of as the union of pairs of Mobius strips [3] or as projection of the information inherent in 
+particles’ constituent strips. Since so-called ”imaginary” numbers are essential in quantum mechanics, 
+the 4th dimension of time might be described by the Complex Plane’s Wick Rotation which is often 
+regarded as nothing more than mathematical convenience. Adapting a paper by Albert Einstein [4] - 
+if electromagnetism’s photon and gravitation’s graviton are composed of trillions of Mobius strips, 
+electromagnetic and gravitational interactions could produce the mass and quantum spin of every 
+other particle, including the bosons of an atom’s strong nuclear force, * weak nuclear force, and even 
+the Higgs boson (the possibility of excitation of the Higgs field resulting from photon-graviton inter-
+action would mean the field is a union of electromagnetic and gravitational fields). All of the infor-
+mation in the universe is contained in two-dimensional packages trillions of times smaller than an 
+atom (in this case, the 2D package is the Mobius Strip). 
+ 
+* The strong nuclear force’s massless gluon could be formed by cancellation. Wick Rotation can 
+exemplify cancellation of the Real and Imaginary components within the universe’s Complex math-
+ematics if Wick isn’t restricted to being thought of as mere convenience or trickery. Wick is a circle 
+containing two axes that intersect at its origin - a horizontal x-axis whose “real” ends are labelled 1 
+and -1, plus a vertical y-axis with “imaginary” ends i and -i. Whenever a point on this complex plane 
+is multiplied by i, it moves a quarter rotation around the origin or center of the plane (counterclock-
+wise). (See Fig. 2) Start with 1, multiply by i then by i again (i^2 = -1), then add the 1 and -1 to get 0 
+(cancellation of gluon mass).  The above paragraph illustrates motion from right to left in the upper 
+half-plane. Movement from left to right in the lower half-plane must also exist ie: -1 × i^2 = 1. In 
+physical terms, this bidirectional motion can be expressed as a wave moving in two directions. This 
+article is discussing binary digits as well as the topological Mobius and Klein as the basic composition 
+of subatomic particles. The discussion is therefore related to quantum mechanics. Imaginary numbers 
+are essential in quantum mechanics. So a possibility worth considering is that Wick rotation, with its 
+inclusion of imaginary numbers, is built into the Mobius strip (and into the Klein bottle, which is a 
+union of a pair of strips). The electric pulses and binary digits of computation embrace the first di-
+mension with the 2nd and 3rd being addressed by the Mobius and Klein plus their formation of pho-
+tons and gravitons which interact to produce bosons and fermions. Could the 4th dimension of time 
+be represented by Wick rotation whose real and imaginary numbers act as a timepiece, displaying and 
+recording the movement of particles? The two directions waves move in would then not be in space 
+but would reside in time - one could travel forwards in time, the other back in time.  As physicist John 
+Cramer says, “In summary, it appears that advanced waves (the ones going back in time) do exist and 
+have been detected. Much more work must be done to ensure that this effect is real and can be ex-
+tended, but the physics implications are gigantic.” [5] 
+ 
+The graviton vector and photon vector can be pictured as adjacent sides of a parallelogram. Tensor 
+calculus converts the coordinates of the sides into those of a diagonal representing the interaction of 
+Vol. 1 No. 1 (2025): 10-19
+11 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+CC BY 4.0 Deed Attribution 4.0 International 
+This article is distributed under the terms of the Creative Commons CC BY 4.0 Deed Attribution 4.0 International attribution 
+which permits copy, redistribute, remix, transform, and build upon the material in any medium or format for any purpose, 
+even commercially without further permission provided the original work is attributed as specified on the tresearch.ee and 
+Open Access pages https://social.tresearch.ee 
+ 
+ 
+ 
+ 
+ 
+the sides’ vectors. The sides’ coordinates can also be changed into a point on the diagonal. A position 
+on a line that only has magnitude is called a scalar variable and this scalar is associated with particles 
+of spin zero. [6] Since the Higgs boson is scalar, the point on the diagonal represents the Higgs boson 
+which is obviously related to the graviton. The Higgs field is therefore intimately related to the grav-
+itational and electromagnetic fields. The Higgs field may be regarded as a unification of the gravita-
+tional and electromagnetic fields. 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure 1. Vector-Tensor-Scalar Geometry: Parallelogram With Diagonal and Central Higgs 
+Boson. The deep link between geometry and topology (the Hodge Conjecture) may be about vector-
+tensor-scalar geometry plus the topological Mobius band and figure-8 Klein bottle (with addition of 
+Wick rotation and the binary digits described in Figure 4’s caption). At the start of the 20th century, 
+physicist Max Planck assumed that electromagnetic radiation can only be emitted or absorbed in dis-
+crete packets, called quanta. He thought of his discovery as nothing more than a math device ... a kind 
+of trickery). Albert Einstein developed his explanation of the photoelectric effect from this “mathe-
+matical convenience”. So it appears entirely possible that another supposed mathematical trickery 
+(Wick rotation) will find practical application in the future. 
+ 
+Now visualize the lines CD and AD in Fig. 1’s parallelogram as converging at D. The pressure result-
+ing from photon-graviton (electromagnetic-gravitational) interaction is represented by the diagonal 
+DB and, following what General Relativity called curved space-time, pushes an object experiencing 
+gravitation to B. Instead of the phrase “curved space-time”, another way to look at it is to refer to 
+space’s photons and gravitons - which both contain the fourth dimension of time - as following curved 
+trajectories.  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure 2. WICK ROTATION: “The complex plane reveals i’s special relationship with cycles via 
+the circle of i, also known as Wick rotation. Whenever a point on the complex plane is multiplied by 
+Vol. 1 No. 1 (2025): 10-19
+12 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+CC BY 4.0 Deed Attribution 4.0 International 
+This article is distributed under the terms of the Creative Commons CC BY 4.0 Deed Attribution 4.0 International attribution 
+which permits copy, redistribute, remix, transform, and build upon the material in any medium or format for any purpose, 
+even commercially without further permission provided the original work is attributed as specified on the tresearch.ee and 
+Open Access pages https://social.tresearch.ee 
+ 
+ 
+ 
+ 
+ 
+i, it moves a quarter rotation around the origin or center of the plane.” Wick rotation, with its inclusion 
+of imaginary numbers, may be built into the Mobius strip (and into the Klein bottle, which is a union 
+of a pair of strips). [Figure and quote from 7] 
+ 
+How can time dilation be explained in terms of Wick rotation (which represents the motion of gravi-
+tational and electromagnetic waves between the x-and y-axes)? (a) As the speed of light is ap-
+proached, photons will “fall” faster from the positive or upper y-axis to the negative, or lower, y-axis 
+(rotational speed is increased significantly and more photons interfere with each other more often, 
+causing time to slow), and (b) each quantum within the intense gravity of a black hole - a graviton - 
+can, according to our frame of reference, * be in two or more places at once and gravitationally cause 
+particles to simultaneously “rise” faster from the negative y-axis to the positive y-axis (again, inter-
+ference between particles is increased and time dilation occurs). 
+ 
+* Subatomic particles can appear to be in two or more places at the same time. A different way of 
+viewing quantum mechanics is - If the universe is a unification where everything in space and time 
+is connected, it seems reasonable to rephrase that as "every subatomic particle fills all space and all 
+time because of universal unification, thus appearing to exist in more than one place at once (the 
+macroscopic objects composed of subatomic particles are, potentially, also capable of multiple ap-
+pearances)". Of course, this violates the way we see the world. Instead of saying quantum mechanics 
+doesn't make sense, it might be more accurate to say human perception and interpretation of experi-
+mental results doesn't always make sense. ☺ An article [8] states, “Quantum reality just got stranger. 
+A particle’s angular momentum – its spin around an axis or rotation around a point – may be able to 
+travel between two places by itself, disembodied from the particle. This finding may require a rethink 
+of some of the most fundamental laws of physics.” This could be explained by quantum gravity. If 
+everything in space and in time is connected, the particle is connected to all other particles and events. 
+This could be rephrased as "it occupies every point in space-time simultaneously" - and so does its 
+motion. Suppose an experiment is interpreted in the simplified form of the particle existing in merely 
+two places at once. Then the particle itself would seem to be in a finite number of spots while its spin 
+motion - which fills space and time - could be misinterpreted as existing in some other finite point. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Fig. 3: Elliptical VTS Geometry: Earth's Orbit Is An Ellipse. Public domain image. 
+Vol. 1 No. 1 (2025): 10-19
+13 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+CC BY 4.0 Deed Attribution 4.0 International 
+This article is distributed under the terms of the Creative Commons CC BY 4.0 Deed Attribution 4.0 International attribution 
+which permits copy, redistribute, remix, transform, and build upon the material in any medium or format for any purpose, 
+even commercially without further permission provided the original work is attributed as specified on the tresearch.ee and 
+Open Access pages https://social.tresearch.ee 
+ 
+ 
+ 
+ 
+ 
+ 
+The apparently crazy assertion in the next paragraph that Earth - and everything / everyone on it - has 
+magnitude occupying a literally infinite and eternal amount of space-time is merely a re-interpretation 
+of the experimentally proved claim by quantum mechanics that particles can be in more than one 
+place simultaneously. This multiple existence is simplified to the particles being in a single spot. This 
+is a universe which has been 100% unified by a Theory of Everything or theory of quantum gravity, 
+so that all objects and events in space and time are connected and may be regarded as One entity. 
+ 
+The parallelogram of Fig. 1 can be converted by the morphing ability of computer programming, so 
+it traces the elliptical shape in Fig. 3 – and of Earth’s elliptical orbit, which means the vector / tensor 
+/ scalar relationship applies to this planet. The vector can be the magnitude and direction of the orbit-
+ing Earth itself. It and a second vector (Earth months earlier or later in its orbit) are converted by 
+tensor analysis into the coordinates of a single scalar point. Adding the geometrical objects of vector 
+and tensor resulted in the object termed scalar. Successful conversion of the vectors in Fig. 1's paral-
+lelogram to the vectors in Fig. 3's ellipse, followed by tensor analysis, means our planet is also a 
+scalar object. It has magnitude but no direction, and the innumerable spins of particles composing the 
+planet are reduced to that of a boson possessing spin 0. * Like a Bose-Einstein Condensate, such 
+particles have no restriction on the number of them that occupy the same quantum state (their de-
+scription and predicted behaviour). This lack of restriction is compatible with Earth never having any 
+direction. This state is only possible if it has magnitude occupying a literally infinite and eternal 
+amount of space-time, thus having no need of direction and being capable of possessing the same 
+quantum state as any other body. The Earth appears obviously finite and insignificant because of the 
+way our senses, technology, and frames of reference work. Since they’d need to adapt to Earth’s 
+infinity, all other bodies in space-time would similarly reduce the innumerable spins of particles com-
+posing them to that of a boson possessing spin 0 (they’d only possess magnitude, would possess the 
+same quantum state - and would be scalar, infinite bodies).  
+ 
+* Particles that are made of even numbers of fermions behave as a boson. The reason behind this is 
+simple: each of those fermions obeys Fermi-Dirac statistics and is a spin ±1/2 particle. If you add two 
+of them together, you can get something that's spin -1, 0, or +1, which are integers (and hence a boson 
+obeying Bose-Einstein statistics.) [9] 
+ 
+Occupying all time, vector-1 Earth must be united with vector-2 Earth (the one existing months later 
+in its orbit). Traditionally, the scalar is no more than a point on a line and consequently limited to that 
+point’s boundaries. In this article, the scalar is a restricted point which is described by familiar math-
+ematics. But simultaneously it’s a boundaryless, unlimited field described by quantum-mechanical 
+duality (simultaneously limited and unlimited), as well as by what are called imaginary numbers – 
+Wick rotation, aka the Circle of i, uses imaginary numbers and is built into the Mobius strips com-
+posing particles, thus turning space into space-time. (Professor Stephen Hawking says that boundaries 
+Vol. 1 No. 1 (2025): 10-19
+14 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+This article is distributed under the terms of the Creative Commons CC BY 4.0 Deed Attribution 4.0 International attribution 
+which permits copy, redistribute, remix, transform, and build upon the material in any medium or format for any purpose, 
+even commercially without further permission provided the original work is attributed as specified on the tresearch.ee and 
+Open Access pages https://social.tresearch.ee 
+ 
+ 
+ 
+ 
+ 
+and singularities exist in what is called “real” time but don’t exist in what is termed “imaginary” 
+time.) The scalar is without boundaries because it’s associated with the zero spin of the Higgs boson, 
+and thence with the cosmic Higgs field. So the scalar point identified with other bodies in space-time 
+(including living bodies and minds) is actually part of the scalar field or Higgs field, with conscious-
+ness being boundaryless instead of being limited to one tiny part of space-time (the brain). Einstein’s 
+Theory of General Relativity says gravity is the curvature of space-time and therefore IS space-time. 
+The universal Higgs field can be identified with the universal gravitational field (together with the 
+latter’s constant interaction with the electromagnetic field). 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+       
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure 4. Mobius Band (right) and figure-8 Klein Bottle or Mobiu (left)
+One-dimen-sional (1D) electric pulses create the binary digits of one and zero, used in electronics.
+The bits encode 2D Mobius strips which incorporate temporal Wick rotation (forming the 4th
+dimension of time). A couple of Mobius strips pair up to form a Klein bottle which is immersed in
+3D - trillions of strips and bottles respectively produce photons and gravitons which use VTS
+geometry to interact and form the quantum spin of both massive electron, quark, Higgs, etc and the
+massless gluon.
+Earlier in this article, it was suggested how everything in space-time could be formed from binary
+digits, Mobius strips, figure-8 Klein bottles, interacting gravitational and electromagnetic waves act-
+ing in synchrony with Wick Rotation. Referring to Fig. 2 - The Riemann hypothesis, proposed in
+1859 by the German mathematician Georg Friedrich Bernhard Riemann, is fascinating. The Riemann
+hypothesis doesn’t just apply to the distribution of prime numbers but can also apply to the funda-
+mental structure of the mathematical universe’s space-time, as the following shows. In mapping the
+distribution of prime numbers, the Riemann hypothesis is concerned with the locations of “nontrivial
+zeros” on the “critical line”, and says these zeros must lie on the vertical line of the Complex Number
+Plane i.e. on the y-axis in Fig. 2 (this circular placement may reflect future spacetime warping greatly
+magnifying General Relativity’s concept of curved space-time). Besides having a real part, zeros in
+the critical line (the y-axis) have an imaginary part. This is reflected in the real +1 and -1 of the x-
+axis in Fig. 2, as well as by the imaginary +i and -i of the y-axis. In the upper half-plane of Fig. 2, a
+quarter rotation plus a quarter rotation equals a half – both quadrants begin with positive values and
+¼ + ¼ = ½. (The Riemann hypothesis states that the real part of every nontrivial zero must be 1/2.)
+While in the lower half-plane, a quarter rotation plus a negative quarter rotation equals zero: 1/4 + (-
+CC BY 4.0 Deed Attribution 4.0 International
+Vol. 1 No. 1 (2025): 10-19
+15 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+CC BY 4.0 Deed Attribution 4.0 International 
+This article is distributed under the terms of the Creative Commons CC BY 4.0 Deed Attribution 4.0 International attribution 
+which permits copy, redistribute, remix, transform, and build upon the material in any medium or format for any purpose, 
+even commercially without further permission provided the original work is attributed as specified on the tresearch.ee and 
+Open Access pages https://social.tresearch.ee 
+ 
+ 
+ 
+ 
+ 
+1/4) = 0. In the Riemann zeta function, there may be infinitely many zeros on the critical line. This 
+suggests the y-axis and the universe (space + its partner time) described by Wick rotation are literally 
+infinite. By this paragraph’s extension, the Riemann hypothesis would also describe the universe as 
+infinite in space and infinite in time (eternal). * Relativity’s curvature would need to be exaggerated 
+by future space-time warping so that the future could directly feed back on the past in a circular loop. 
+Life (possibly multicellular and intelligent) and the genetic code could then possibly come from hu-
+mans acquiring knowledge of these things over the centuries, then applying that knowledge – via 
+terraforming, accumulation of raw materials like amino acids and nucleic acids, performance of ge-
+netic engineering - to a time in the past when life didn’t exist. From that origin, life could evolve 
+through innumerable mutations and adaptations, with humans once again acquiring knowledge of it 
+in cyclic (nonlinear) time. 
+ 
+* The zeros are on the potentially infinite y-axis of the Complex Number Plane (Wick Rotation). 
+Wick rotation and the Riemann hypothesis both describe space-time. If space and time truly go on 
+forever without any beginning (in linear time) or end, then the zeros could mean infinity equals zero). 
+In that case - after space-time has undergone warping, there’d be absolutely no distance to any other 
+galaxy, or to the past and the future. This is how warping might be done - Cosmology’s holographic 
+principle suggests the 3rd dimension results from information in the 2nd dimension. The 2nd D might 
+be the Mobius strips comprising particles and the 3rd D might be capable of being deleted by pro-
+gramming the binary digits (used in electronics) which act as Hidden Variables that are compatible 
+with quantum mechanics (not with known probabilistic quantum mechanics but with quantum cer-
+tainty, for they give precise calculations). Of course, zero would also equal infinity. There would be 
+null distance between the Mobius strips comprising particles and the Wick rotation embedded within 
+the strips (Wick can be regarded as a programmed subroutine). This nil distance can be converted into 
+infinite distance, producing a timelike multiverse (limitless multitude of universes) representing each 
+infinitesimal fraction of a second in the lifetime of the one physical cosmos. The multiverse could be 
+reunified with the universe using infinity = 0, meaning the multiverse is actually part of the universe. 
+ 
+The General Theory of Relativity will be useful in this article. Specifically – the analogy of the the-
+ory’s curvature of space-time to a rubber sheet. A small body like the Earth is said to warp space-time 
+only a little and create a dimple in the sheet. A larger body such as the 
+Sun curves space-time much more and forms a deep valley in the rubber. And a black hole is often 
+pictured as warping space-time so much that it tears a hole through the rubber fabric. In 2004, U.S.A. 
+physicist Charles Kane noticed something strange in his computer simulations of electrons flowing 
+through different materials: an insulator whose quantum state had the equivalent of a hole. Kane had 
+not found the first quantum black hole but had discovered the first topological insulator – a then 
+theoretical material that could conduct electricity on its surface but not within its interior. (In 2007, 
+American physicist M. Zahid Hasan led the team that made the first 3D topological insulator.) 
+ 
+Vol. 1 No. 1 (2025): 10-19
+16 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+CC BY 4.0 Deed Attribution 4.0 International 
+This article is distributed under the terms of the Creative Commons CC BY 4.0 Deed Attribution 4.0 International attribution 
+which permits copy, redistribute, remix, transform, and build upon the material in any medium or format for any purpose, 
+even commercially without further permission provided the original work is attributed as specified on the tresearch.ee and 
+Open Access pages https://social.tresearch.ee 
+ 
+ 
+ 
+ 
+ 
+In 1929, while experimenting with the equations of quantum physics, German physicist Hermann 
+Weyl showed that a massless and charged particle (now called the Weyl fermion) could theoretically 
+exist. The Majorana fermion was predicted in 1937 by Italian physicist Ettore Majorana playing with 
+the same quantum math that had intrigued Weyl. Like a Weyl fermion, a Majorana fermion has no 
+mass. It also has no charge, despite being made of a bunch of negatively charged electrons. The Weyl 
+fermion can be related to Topological Insulators, * the Majorana fermion can be related to quantum 
+computers’ Topological Superconductors. Topological insulators and topological superconductors 
+may be regarded as the (Mobius dependent) inverse of each other, with the properties of surfaces and 
+holes being interchangeable as a result of the twisting in their Mobius-strip / figure-8-Klein-bottle 
+composition. 
+ 
+* A topological insulator is a material that behaves as an insulator in its interior but whose surface 
+contains conducting states. However, the conducting surface is not the unique character of topological 
+insulators, since the ordinary band insulators can also support conductive surface states. What is spe-
+cial is that the surface states of topological insulators are symmetry protected. Symmetry Protected 
+Topological (SPT) Order is a kind of order in topological insulators where, if symmetry is preserved 
+during the deformation undergone in topology, a phase transition from one state of matter to another 
+must occur (in this case, between insulation and conduction). In other words, if the shape of a Möbius 
+strip (or the union of two strips into a Klein bottle) is preserved, phase transition must occur just as 
+orientation-reversing curves occur in the Möbius and Klein. In three-dimensional topological super-
+conductors, it’s more common to have multiple surfaces. But if subatomic particles making up topo-
+logical superconductors are composed of the topological Mobius strip, they can theoretically only 
+have one surface. Topological insulators can also be composed of Mobius strips. The key aspect is 
+that the topologically protected states are robust against certain types of perturbations, regardless of 
+the number of surfaces. 
+ 
+Referring to Figure 1, Side DC of parallelogram = Vector 1 electrons and Side DA of parallelogram 
+= Vector 2 electrons. 
+ 
+The two vectors (two groups of charged electrons) interact to form the resultant diagonal DB (the 
+electrons travel ADB and CDB, coming together to behave like a single charged particle called a Weyl 
+fermion). Tensor calculus converts the points on the sides and diagonal into a single scalar point on a 
+nominated side (say, in the centre of the diagonal). And the mass of the vector 1 electrons minus the 
+mass of the vector 2 electrons [(x MeV/c^2) - (x MeV/c^2)] equals zero, and the massless Weyl. If 
+the electrons flow in the reverse direction, they go in the BD direction, then split and follow the paths 
+DA and DC. This preserves information if one pathway is interfered with, giving robustness against 
+perturbations. They produce the chargeless Majorana because the negative vector-1 electrons minus 
+the negative vector-2 electrons equal (-y) - (-y) = 0. The Majorana’s lack of mass is attributed to the 
+same process by which the Weyl particle becomes massless. 
+Vol. 1 No. 1 (2025): 10-19
+17 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+CC BY 4.0 Deed Attribution 4.0 International 
+This article is distributed under the terms of the Creative Commons CC BY 4.0 Deed Attribution 4.0 International attribution 
+which permits copy, redistribute, remix, transform, and build upon the material in any medium or format for any purpose, 
+even commercially without further permission provided the original work is attributed as specified on the tresearch.ee and 
+Open Access pages https://social.tresearch.ee 
+ 
+ 
+ 
+ 
+ 
+ 
+Why is subtraction essential? This appears to be a consequence of matter, and the Higgs boson, both 
+emerging from photon-graviton interaction. Two adjoining sides of a parallelogram represent the vec-
+tors of the photon’s spin 1 and the graviton’s spin 2. The resultant diagonal represents the interaction 
+of the sides/vectors (1÷2 = the spin ½ of every matter particle: and division is merely repeated sub-
+traction e.g. 4 subtracted from 20 five times equals zero, therefore 20 ÷ 4 = 5). (By the way - in 
+calculus, the quotient of two vectors is called a quaternion.) Speaking of the Higgs which resides on 
+the diagonal in Figure 1 and has spin 0: zero can be arrived at through (1 - 2) + 1 which uses both 
+subtraction and the experimental data of a photon existing in two places simultaneously (it uses the 
+graviton’s spin 2 being taken away from the photon’s spin 1, and the spin motion of 1 being in more 
+than one place at the same time). 
+ 
+According to their representation by vector-tensor-scalar geometry, the chargeless Majorana’s nega-
+tive vector-1 electrons minus the negative vector-2 electrons equal (-y) - (-y) = 0. This can be ex-
+pressed as y + (-y) = 0, which clearly highlights its similarity to the Riemann hypothesis’ ¼ + (-1/4) 
+= 0 (in terms of the paragraph’s first equation, this is : -1/4 – (-1/4) = 0. The last pair of expressions 
+resolve conflict regarding whether the first term in the lower half-plane of Riemann’s hypothesis is 
+positive or negative (either can be used). 
+ 
+Conclusion 
+This article proposes that the term “universal topology” isn’t limited to “the shape of the universe”. 
+Instead, every fermion’s and boson’s fundamental composition is of mathematics’ topological figures: 
+shapes known as the Mobius strip and figure-8 Klein bottle. The shapes can be generated from electric 
+pulses / binary digits - with trillions of them producing photons and gravitons that interact in a way 
+first suspected by Einstein to form mass and quantum spin. The Earthly counterpart of this spacetime 
+topology is material such as the topological insulator whose properties are explicable using the Mo-
+bius. Also very important to the explanation is a parallelogram described by so called vector-tensor-
+scalar (VTS) geometry. The geometry has major implications for the Higgs boson and an extension 
+labelled Elliptical VTS Geometry has consequences for the Higgs field as well as meaning conscious-
+ness is not restricted to the brain. Topological insulation is connected to  the Riemann hypothesis and 
+to Wick Rotation which is often regarded as nothing more than mathematical convenience but is seen 
+here as key to understanding time and vital to revolutionary developments in space-time travel. 
+ 
+REFERENCES 
+[1] Tegmark, Max (November 1998). Is ‘the Theory of Everything’ Merely the Ultimate Ensemble 
+Theory? Annals of Physics. 270 (1): 1–51. doi: 10.1006/aphy.1998.5855  
+[2] Tegmark, M., Our Mathematical Universe. Random House/Knopf, January 2014  
+[3] Polthier, Konrad. ”Imaging maths - Inside the Klein bottle”. http://plus.maths.org/content/os/is-
+sue26/features/mathart/ index   
+Vol. 1 No. 1 (2025): 10-19
+18 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+CC BY 4.0 Deed Attribution 4.0 International 
+This article is distributed under the terms of the Creative Commons CC BY 4.0 Deed Attribution 4.0 International attribution 
+which permits copy, redistribute, remix, transform, and build upon the material in any medium or format for any purpose, 
+even commercially without further permission provided the original work is attributed as specified on the tresearch.ee and 
+Open Access pages https://social.tresearch.ee 
+ 
+ 
+ 
+ 
+ 
+[4] Einstein, Albert (1919). “Spielen Gravitationfelder im Aufbau der Elementarteilchen eine 
+Wesentliche Rolle?” [Do gravitational fields play an essential role in the structure of elementary par-
+ticles?]. Sitzungsberichte der Preussischen Akademie der Wissenschaften, [Math. Phys.], 349-356, 
+Berlin  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+[5] 
+John 
+G. 
+Cramer, 
+"Advanced 
+Waves 
+Detected", 
+2022,
+(https://npl.washing-
+ton.edu/AV/altvw219.html.
+[6] Robert D. Klauber. Scalars: Spin 0 Fields. 2018 - http://www.quantumfieldtheory.info/
+[7]  Kerri Welch. The Meaning of Imaginary Time: Creativity’s Dialog with Timelessness (public
+domain figure supplied by WordPress). https://textureoftime.wordpress.com/2015/07/15/the-mean-
+ing-of-imaginary-time/ (2015)
+[8] "New spin on quantum theory forces rethink of a fundamental physics law" by Karmela Padavic-
+Callaghan - New Scientist (13 August 2024) - https://www.newscientist.com/article/2443380-new-
+spin-on-quantum-theory-forces-rethink-of-a-fundamental-physics-law
+[9] “Ask Ethan: What's The Difference Between A Fermion And A Boson?” Ethan Siegel.
+https://www.forbes.com/sites/startswithabang/2017/04/01/ask-ethan-whats-the-difference-between-
+a-fermion-and-a-boson/
+Vol. 1 No. 1 (2025): 10-19
+19 
