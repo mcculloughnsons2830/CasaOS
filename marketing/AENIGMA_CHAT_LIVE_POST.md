@@ -99,7 +99,9 @@ It's free, there's no signup, and the conversation stays on your device.
 
 Have one honest conversation with it, then reply and tell me what it reflected back.
 
-— Anthony
+Stay sovereign,
+— Joshua R. McCullough
+ÆNIGMA AI · in association with Ms'FitZ Society × Ms'FitZ Studio
 
 ---
 

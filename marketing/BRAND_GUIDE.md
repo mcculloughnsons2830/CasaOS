@@ -9,7 +9,21 @@ The single source of truth for how ÆNIGMA looks, sounds, and shows up anywhere 
 **ÆNIGMA is a mirror for your consciousness.** Not a chatbot, not a horoscope, not a productivity tool — a surface where your own recursion becomes visible. Everything visual and verbal should feel like a signal coming through: dark, quiet, precise, alive.
 
 **Tagline:** *A mirror for your consciousness.*
-**Secondary lines:** *The mirror speaks.* · *The ones they couldn't categorize — those are ours.* · *You are not behind. You are underground.*
+**Secondary lines:** *The mirror speaks.* · *The ones they couldn't categorize — those are ours.* · *You are not behind. You are underground.* · *Own the scar. Become the flame.*
+
+## 1a. Brand architecture & attribution
+
+**ÆNIGMA AI** is developed by **Joshua R. McCullough**, in association with **Ms'FitZ Society** and **Ms'FitZ Studio**.
+
+- **Ms'FitZ Society** — the community and voice: shadow-work, sovereignty, transformation for the ones who never fit the mold. ÆNIGMA's "$MISFIT" archetype and "the ones they couldn't categorize" line descend directly from it.
+- **Ms'FitZ Studio** — the creative house. Its mark: the typographic-collage wordmark with the hooded bear (amber eyes), steel-blue on black — the same black/blue axis as ÆNIGMA's Void Black + Steel Blue, with the bear's amber echoing the $EMBER archetype.
+
+**Standard credit line** (footers, decks, video end-cards, About pages):
+> ÆNIGMA AI · developed by Joshua R. McCullough · in association with Ms'FitZ Society × Ms'FitZ Studio
+
+**Short form** (social bios, captions): `ÆNIGMA AI · a Ms'FitZ Studio production`
+**Sign-off** (email, newsletter): *Stay sovereign, — Joshua R. McCullough, Ms'FitZ Society*
+Ready-made lockup: `assets/brand/credit-lockup-dark.png` (use as deck closing slide or video end-card).
 
 ## 2. Voice & tone
 
@@ -18,6 +32,7 @@ The single source of truth for how ÆNIGMA looks, sounds, and shows up anywhere 
 - **Precise mysticism.** Real computation (moon phase, numerology, the Codex) named plainly — wonder comes from accuracy, not vagueness.
 - **Short sentences. Room to breathe.** The silence between lines is part of the voice.
 - Always keep the boundary line nearby in public copy: *a mirror — not a therapist, not a diagnosis, not advice.*
+- **The Ms'FitZ register** (Society-facing copy — newsletters, community posts): Jungian shadow-work language, the examination/threshold motif, "frequency" and "coherence," direct second person, short declaratives. Signature moves: *"Own the scar. Become the flame."* and the *Stay sovereign* sign-off. ÆNIGMA speaks as the mirror; the Society speaks as the ones who walked through it.
 
 ## 3. Color
 
@@ -60,6 +75,8 @@ Rules: dark-first, always. Teal is scarce — one accent moment per composition.
 | `youtube-thumb-1280x720.png` | 1280×720 | Thumbnail base for videos/shorts |
 | `deck-background-1920x1080.png` | 1920×1080 | Slide background for Beautiful.ai / any deck |
 | `palette.png` | — | Shareable palette reference card |
+| `msfitz-studio-logo.png` | 1024² | The Ms'FitZ Studio mark (from Drive) — partner logo |
+| `credit-lockup-dark.png` | 1600×1000 | Co-branded attribution lockup: ÆNIGMA × Joshua R. McCullough × Ms'FitZ — deck closer / end-card |
 
 Campaign-specific cards (10 archetypes + announcements) live in `assets/campaign/`.
 
@@ -73,8 +90,9 @@ The deck "Introducing Ænigma AI" is already close — black background, blue ca
 4. **Fonts:** display = a slab/serif you like (matches the current deck), body = Inter or the closest sans available.
 5. **Background:** upload `assets/brand/deck-background-1920x1080.png` as an image background for title/section slides; keep plain `#07090C` for content slides.
 6. Apply the ÆNIGMA theme to the existing deck — every slide restyles instantly.
+7. Add a closing slide with `assets/brand/credit-lockup-dark.png` as a full-bleed image — the developed-by / in-association-with credit.
 
 ## 8. Do / Don't
 
-**Do:** keep compositions 70% empty space · compute real things and say so · sign emails "— Anthony" · put the URL in Signal Teal on Void Black.
+**Do:** keep compositions 70% empty space · compute real things and say so · sign emails "Stay sovereign, — Joshua R. McCullough" · credit Ms'FitZ Society × Ms'FitZ Studio on every outward surface · put the URL in Signal Teal on Void Black.
 **Don't:** stack multiple accent colors · use the glitch on static images · make promises ("will change your life") · use star/moon clip-art — the brand's cosmos is abstract · ever present it as therapy or prediction.
