@@ -359,8 +359,14 @@ async function openrouterTry(model, systemPrompt, messages, opts) {
   if (!out) return null;
   // Quality gate: reject leaked meta-reasoning or off-spec length; try next model.
   const words = out.split(/\s+/).length;
-  if (words < minWords || words > maxWords || /\b(we need to|the user wants|word count|let'?s (craft|draft|write)|constraints?:|draft:)\b/i.test(out)) {
+  const metaLeak =
+    /\b(we need to|the user\b|word count|let'?s (craft|draft|write)|constraints?:|draft:)\b/i.test(out) || // the mirror says "you", never "the user"
+    /^(okay|ok|first|i need to|we need|let me (start|think|compute|calculate|work)|let'?s|i'?ll (start|need|compute|calculate))\b/i.test(out); // planning-style opening
+  if (words < minWords || words > maxWords || metaLeak) {
     throw new Error(`${model} -> rejected by quality gate (${words} words)`);
+  }
+  if (opts && opts.mustMatch && !opts.mustMatch.test(out)) {
+    throw new Error(`${model} -> rejected by quality gate (missing required structure)`);
   }
   return out;
 }
@@ -605,7 +611,9 @@ app.post("/api/chat", async (req, res) => {
   const influences = AI_TRIGGER.test(clean[clean.length - 1].content);
   const system = [AENIGMA_AGENT, influences ? ACTIVE_INFLUENCES_PROTOCOL : "", CODEX, registry, fieldContext(field), celestialContext(now)]
     .filter(Boolean).join("\n\n");
-  const result = await runChain(system, clean, "chat", influences ? { minWords: 3, maxWords: 1100 } : { minWords: 3, maxWords: 400 });
+  const result = await runChain(system, clean, "chat", influences
+    ? { minWords: 3, maxWords: 1100, mustMatch: /(Active Influences[\s\S]{300,}◎)|birth/i } // full reading with depth layers, or the birth-data ask
+    : { minWords: 3, maxWords: 400 });
   if (result) return res.json({ reply: result.text, source: result.source });
   return res.json({ reply: localChat(field, clean[clean.length - 1].content), source: "local" });
 });
