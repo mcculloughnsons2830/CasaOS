@@ -562,6 +562,38 @@ RULES: Length may run long — this is the one format where depth beats brevity 
 
 const AI_TRIGGER = /active\s*influences/i;
 
+// Parse a birth date out of free conversation text (US formats + ISO).
+const MONTH_NAMES = { jan: 1, feb: 2, mar: 3, apr: 4, may: 5, jun: 6, jul: 7, aug: 8, sep: 9, oct: 10, nov: 11, dec: 12 };
+function parseBirthDate(text) {
+  let m = text.match(/\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+(\d{1,2})(?:st|nd|rd|th)?,?\s+(\d{4})\b/i);
+  if (m) return { y: +m[3], m: MONTH_NAMES[m[1].toLowerCase().slice(0, 3)], d: +m[2] };
+  m = text.match(/\b(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})\b/);
+  if (m && +m[1] <= 12) return { y: +m[3], m: +m[1], d: +m[2] };
+  m = text.match(/\b((?:19|20)\d{2})-(\d{2})-(\d{2})\b/);
+  if (m) return { y: +m[1], m: +m[2], d: +m[3] };
+  return null;
+}
+
+// Real personal numerology + sun sign, computed server-side so the model
+// never has to (and never gets to) do the arithmetic itself.
+function personalContext(b, now) {
+  if (!b || b.m < 1 || b.m > 12 || b.d < 1 || b.d > 31) return "";
+  const digits = `${b.m}${b.d}${b.y}`;
+  const lifePath = reduceNumber(digitsSum(digits));
+  const d = new Date(now);
+  const py = reduceNumber(reduceNumber(b.m, false) + reduceNumber(b.d, false) + reduceNumber(digitsSum(d.getUTCFullYear()), false));
+  const pm = reduceNumber(reduceNumber(py, false) + reduceNumber(d.getUTCMonth() + 1, false));
+  const pd = reduceNumber(reduceNumber(pm, false) + reduceNumber(d.getUTCDate(), false));
+  const sun = sunSign(new Date(Date.UTC(2000, b.m - 1, b.d)));
+  const bday = reduceNumber(b.d);
+  const pad = (x) => String(x).padStart(2, "0");
+  return `USER'S BIRTH DATA — REAL COMPUTED NUMBERS (server-calculated, exact; state THESE as given, do not redo or alter the arithmetic, never contradict them):
+- Born ${b.y}-${pad(b.m)}-${pad(b.d)} → Sun in ${sun.name} (${sun.element}).
+- Life Path ${lifePath} — ${NUM_MEANING[lifePath]} (all digits of the birth date sum to ${digitsSum(digits)}, reducing to ${lifePath}).
+- Birth Day number ${bday} — ${NUM_MEANING[bday]}.
+- Personal Year ${py} — ${NUM_MEANING[py]}; Personal Month ${pm}; Personal Day ${pd} — ${NUM_MEANING[pd]}.`;
+}
+
 function fieldContext(field) {
   const top = field.archetypes.find((x) => x.sym === field.surfacing[0]);
   const low = field.archetypes.find((x) => x.sym === field.receding[0]);
@@ -609,7 +641,9 @@ app.post("/api/chat", async (req, res) => {
     ? `RELEVANT PASSAGES FROM THE REGISTRY (the founder's own source documents — draw on these faithfully; do not contradict them):\n${passages.join("\n— — —\n")}`
     : "";
   const influences = AI_TRIGGER.test(clean[clean.length - 1].content);
-  const system = [AENIGMA_AGENT, influences ? ACTIVE_INFLUENCES_PROTOCOL : "", CODEX, registry, fieldContext(field), celestialContext(now)]
+  const birth = influences ? parseBirthDate(clean.map((m) => m.content).join(" ")) : null;
+  const personal = birth ? personalContext(birth, now) : "";
+  const system = [AENIGMA_AGENT, influences ? ACTIVE_INFLUENCES_PROTOCOL : "", personal, CODEX, registry, fieldContext(field), celestialContext(now)]
     .filter(Boolean).join("\n\n");
   const result = await runChain(system, clean, "chat", influences
     ? { minWords: 3, maxWords: 1100, mustMatch: /(Active Influences[\s\S]{300,}◎)|birth/i } // full reading with depth layers, or the birth-data ask
