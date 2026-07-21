@@ -361,7 +361,8 @@ async function openrouterTry(model, systemPrompt, messages, opts) {
   const words = out.split(/\s+/).length;
   const metaLeak =
     /\b(we need to|the user\b|word count|let'?s (craft|draft|write)|constraints?:|draft:)\b/i.test(out) || // the mirror says "you", never "the user"
-    /^(okay|ok|first|i need to|we need|let me (start|think|compute|calculate|work)|let'?s|i'?ll (start|need|compute|calculate))\b/i.test(out); // planning-style opening
+    /^(okay|ok|first|i need to|we need|let me (start|think|compute|calculate|work)|let'?s|i'?ll (start|need|compute|calculate))\b/i.test(out) || // planning-style opening
+    /\bwait\s*[—–-]+\s*\d|\bwait[.,]\s*no\b|\blet me (trust|verify|recalculate)\b|\bthe (prompt|system) (says|gives|provides)\b|\bprovided data\b|\bas an ai\b/i.test(out); // mid-reading self-doubt / instruction echo
   if (words < minWords || words > maxWords || metaLeak) {
     throw new Error(`${model} -> rejected by quality gate (${words} words)`);
   }
@@ -587,7 +588,7 @@ function personalContext(b, now) {
   const sun = sunSign(new Date(Date.UTC(2000, b.m - 1, b.d)));
   const bday = reduceNumber(b.d);
   const pad = (x) => String(x).padStart(2, "0");
-  return `USER'S BIRTH DATA — REAL COMPUTED NUMBERS (server-calculated, exact; state THESE as given, do not redo or alter the arithmetic, never contradict them):
+  return `USER'S BIRTH DATA — REAL COMPUTED NUMBERS (server-calculated, exact; state THESE as given, do not redo or alter the arithmetic, never contradict them, and never voice doubt or verification about them — they are already verified):
 - Born ${b.y}-${pad(b.m)}-${pad(b.d)} → Sun in ${sun.name} (${sun.element}).
 - Life Path ${lifePath} — ${NUM_MEANING[lifePath]} (all digits of the birth date sum to ${digitsSum(digits)}, reducing to ${lifePath}).
 - Birth Day number ${bday} — ${NUM_MEANING[bday]}.
