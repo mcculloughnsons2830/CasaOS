@@ -346,11 +346,11 @@ async function openrouterTry(model, systemPrompt, messages, opts) {
     },
     body: JSON.stringify({
       model,
-      max_tokens: 900,
+      max_tokens: (opts && opts.maxTokens) || 900,
       reasoning: { exclude: true }, // keep reasoning-model scratchpads out of content
       messages: [{ role: "system", content: systemPrompt }, ...messages],
     }),
-    signal: AbortSignal.timeout(25000),
+    signal: AbortSignal.timeout((opts && opts.timeoutMs) || 25000),
   });
   if (!r.ok) throw new Error(`${model} -> ${r.status}: ${(await r.text()).slice(0, 120)}`);
   const data = await r.json();
@@ -646,7 +646,7 @@ app.post("/api/chat", async (req, res) => {
   const system = [AENIGMA_AGENT, influences ? ACTIVE_INFLUENCES_PROTOCOL : "", personal, CODEX, registry, fieldContext(field), celestialContext(now)]
     .filter(Boolean).join("\n\n");
   const result = await runChain(system, clean, "chat", influences
-    ? { minWords: 3, maxWords: 1100, mustMatch: /(Active Influences[\s\S]{300,}◎)|birth/i } // full reading with depth layers, or the birth-data ask
+    ? { minWords: 3, maxWords: 1300, maxTokens: 2600, timeoutMs: 70000, mustMatch: /(Active Influences[\s\S]{300,})|birth/i } // full reading, or the birth-data ask
     : { minWords: 3, maxWords: 400 });
   if (result) return res.json({ reply: result.text, source: result.source });
   return res.json({ reply: localChat(field, clean[clean.length - 1].content), source: "local" });
