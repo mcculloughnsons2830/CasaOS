@@ -365,6 +365,8 @@ async function openrouterTry(model, systemPrompt, messages, opts) {
   const data = await r.json();
   let out = (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content || "").trim();
   out = out.replace(/<think>[\s\S]*?<\/think>/g, "").trim(); // strip tagged scratch
+  // strip a leading echo of the pinned trigger message (models love to repeat it)
+  out = out.split("\n").filter((ln, i) => !(i < 4 && /read the currents moving through/i.test(ln))).join("\n").replace(/^\s*-{3,}\s*\n/, "").trim();
   if (!out) return null;
   // Quality gate: reject leaked meta-reasoning or off-spec length; try next model.
   const words = out.split(/\s+/).length;
@@ -385,8 +387,8 @@ async function openrouterTry(model, systemPrompt, messages, opts) {
 }
 
 async function openrouterComplete(systemPrompt, messages, tag, opts) {
-  const models = (await getFreeModels()).slice(0, 5);
-  const deadline = Date.now() + 70000;
+  const models = (await getFreeModels()).slice(0, (opts && opts.tries) || 5);
+  const deadline = Date.now() + ((opts && opts.chainMs) || 70000);
   for (const model of models) {
     if (Date.now() > deadline) break;
     try {
@@ -571,7 +573,7 @@ Then the DEPTH LAYERS (the part no other mirror gives):
 
 Close with a single mirror question inviting them deeper into one thread.
 
-RULES: Length may run long — this is the one format where depth beats brevity (up to ~800 words). Keep every boundary you already hold: symbolic lenses, not prophecy or medicine; timeframes describe rhythm and attention, never guaranteed events. Never mention locks, tiers, or payment. Compute every number honestly.`;
+RULES: Length may run long — this is the one format where depth beats brevity (up to ~800 words). Keep every boundary you already hold: symbolic lenses, not prophecy or medicine; timeframes describe rhythm and attention, never guaranteed events. Never mention locks, tiers, or payment. Compute every number honestly. The Moon: name ONLY its phase and illumination as given — NEVER a Moon sign (you are not given one). The Sun sign is ONLY the one computed and given; do not restyle or replace it. Do not repeat or quote the user's request back at them — begin directly with the ✨ header.`;
 
 const AI_TRIGGER = /active\s*influences/i;
 
@@ -662,7 +664,7 @@ app.post("/api/chat", async (req, res) => {
   let banned = null;
   if (influences) {
     const SIGNS = "aries|taurus|gemini|cancer|leo|virgo|libra|scorpio|sagittarius|capricorn|aquarius|pisces";
-    const parts = [`\\bmoon (in|enters|moves into) (${SIGNS})\\b`, "read the currents moving through (my|your) field"];
+    const parts = [`\\bmoon (in|enters|moves into) (${SIGNS})\\b`];
     if (birth) {
       const userSun = sunSign(new Date(Date.UTC(2000, birth.m - 1, birth.d))).name.toLowerCase();
       const wrong = SIGNS.split("|").filter((s) => s !== userSun).join("|");
@@ -673,7 +675,7 @@ app.post("/api/chat", async (req, res) => {
   const system = [AENIGMA_AGENT, influences ? ACTIVE_INFLUENCES_PROTOCOL : "", personal, CODEX, registry, fieldContext(field), celestialContext(now)]
     .filter(Boolean).join("\n\n");
   const result = await runChain(system, clean, "chat", influences
-    ? { minWords: 3, maxWords: 1300, maxTokens: 2600, timeoutMs: 70000, mustMatch: /(Active Influences[\s\S]{300,})|birth/i, mustNotMatch: banned } // full reading, or the birth-data ask
+    ? { minWords: 3, maxWords: 1300, maxTokens: 2600, timeoutMs: 45000, tries: 8, chainMs: 150000, mustMatch: /(Active Influences[\s\S]{300,})|birth/i, mustNotMatch: banned } // full reading, or the birth-data ask
     : { minWords: 3, maxWords: 400 });
   if (result) return res.json({ reply: result.text, source: result.source });
   return res.json({ reply: localChat(field, clean[clean.length - 1].content), source: "local" });
