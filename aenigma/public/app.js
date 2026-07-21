@@ -305,6 +305,9 @@
           <span class="chat-id"><span class="brand-eye" aria-hidden="true"></span> ÆNIGMA <span class="ai-badge">✦ AI</span></span>
           <button class="chat-clear" id="chat-clear" type="button" title="New conversation">＋ New</button>
         </div>
+        <div class="pinned-row">
+          <button class="pinned-prompt" id="pin-influences" type="button" title="Your full influence reading — every layer, nothing locked">✨°Active Influences°✨</button>
+        </div>
         <div class="chat-thread" id="chat-thread">${thread}</div>
         <form class="chat-inputbar" id="chat-form">
           <textarea id="chat-input" rows="1" placeholder="Speak to ÆNIGMA…" autocomplete="off"></textarea>
@@ -370,6 +373,9 @@
     form.addEventListener("submit", (e) => { e.preventDefault(); sendChat(input.value); });
     view.querySelectorAll(".starter").forEach((b) =>
       b.addEventListener("click", () => sendChat(b.dataset.q)));
+    const pin = document.getElementById("pin-influences");
+    if (pin) pin.addEventListener("click", () =>
+      sendChat("✨°Active Influences°✨ — read the currents moving through my field right now."));
     const clear = document.getElementById("chat-clear");
     if (clear) clear.addEventListener("click", () => {
       if (loadChat().length && !confirm("Start a new conversation? This clears the current one.")) return;
