@@ -378,6 +378,9 @@ async function openrouterTry(model, systemPrompt, messages, opts) {
   if (opts && opts.mustMatch && !opts.mustMatch.test(out)) {
     throw new Error(`${model} -> rejected by quality gate (missing required structure)`);
   }
+  if (opts && opts.mustNotMatch && opts.mustNotMatch.test(out)) {
+    throw new Error(`${model} -> rejected by quality gate (contradicts computed data)`);
+  }
   return out;
 }
 
@@ -653,10 +656,24 @@ app.post("/api/chat", async (req, res) => {
   const influences = AI_TRIGGER.test(clean[clean.length - 1].content);
   const birth = influences ? parseBirthDate(clean.map((m) => m.content).join(" ")) : null;
   const personal = birth ? personalContext(birth, now) : "";
+  // Hard bans for influences replies: never a Moon sign (we don't compute
+  // one), never a wrong Sun sign for a known birth date, never an echo of
+  // the pinned trigger message.
+  let banned = null;
+  if (influences) {
+    const SIGNS = "aries|taurus|gemini|cancer|leo|virgo|libra|scorpio|sagittarius|capricorn|aquarius|pisces";
+    const parts = [`\\bmoon (in|enters|moves into) (${SIGNS})\\b`, "read the currents moving through (my|your) field"];
+    if (birth) {
+      const userSun = sunSign(new Date(Date.UTC(2000, birth.m - 1, birth.d))).name.toLowerCase();
+      const wrong = SIGNS.split("|").filter((s) => s !== userSun).join("|");
+      parts.push(`\\bsun (in|is in) (${wrong})\\b`);
+    }
+    banned = new RegExp(parts.join("|"), "i");
+  }
   const system = [AENIGMA_AGENT, influences ? ACTIVE_INFLUENCES_PROTOCOL : "", personal, CODEX, registry, fieldContext(field), celestialContext(now)]
     .filter(Boolean).join("\n\n");
   const result = await runChain(system, clean, "chat", influences
-    ? { minWords: 3, maxWords: 1300, maxTokens: 2600, timeoutMs: 70000, mustMatch: /(Active Influences[\s\S]{300,})|birth/i } // full reading, or the birth-data ask
+    ? { minWords: 3, maxWords: 1300, maxTokens: 2600, timeoutMs: 70000, mustMatch: /(Active Influences[\s\S]{300,})|birth/i, mustNotMatch: banned } // full reading, or the birth-data ask
     : { minWords: 3, maxWords: 400 });
   if (result) return res.json({ reply: result.text, source: result.source });
   return res.json({ reply: localChat(field, clean[clean.length - 1].content), source: "local" });
