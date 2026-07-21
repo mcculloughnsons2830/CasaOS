@@ -314,6 +314,7 @@ const FREE_STATIC_FALLBACK = [
   "openai/gpt-oss-120b:free",
 ];
 let freeModelCache = { list: null, at: 0 };
+let freeModelLimits = {}; // model id -> max completion tokens (from the catalog)
 
 async function getFreeModels() {
   if (freeModelCache.list && Date.now() - freeModelCache.at < 6 * 3600 * 1000) {
@@ -321,7 +322,14 @@ async function getFreeModels() {
   }
   try {
     const r = await fetch("https://openrouter.ai/api/v1/models", { signal: AbortSignal.timeout(15000) });
-    const all = (await r.json()).data.map((m) => m.id).filter((id) => id.endsWith(":free"));
+    const data = (await r.json()).data;
+    const limits = {};
+    for (const m of data) {
+      const cap = m.top_provider && m.top_provider.max_completion_tokens;
+      if (m.id.endsWith(":free") && cap) limits[m.id] = cap;
+    }
+    freeModelLimits = limits;
+    const all = data.map((m) => m.id).filter((id) => id.endsWith(":free"));
     const usable = all.filter((id) => !/safety|guard|-vl|omni|1\.2b|3b-instruct/.test(id));
     const preferred = PREFERRED_FREE.map((p) => usable.find((id) => id.includes(p))).filter(Boolean);
     const rest = usable.filter((id) => !preferred.includes(id));
@@ -346,7 +354,8 @@ async function openrouterTry(model, systemPrompt, messages, opts) {
     },
     body: JSON.stringify({
       model,
-      max_tokens: (opts && opts.maxTokens) || 900,
+      // ask for the mode's budget, but never exceed the model's own completion cap
+      max_tokens: Math.min((opts && opts.maxTokens) || 900, freeModelLimits[model] || Infinity),
       reasoning: { exclude: true }, // keep reasoning-model scratchpads out of content
       messages: [{ role: "system", content: systemPrompt }, ...messages],
     }),
