@@ -367,6 +367,14 @@ async function openrouterTry(model, systemPrompt, messages, opts) {
   out = out.replace(/<think>[\s\S]*?<\/think>/g, "").trim(); // strip tagged scratch
   // strip a leading echo of the pinned trigger message (models love to repeat it)
   out = out.split("\n").filter((ln, i) => !(i < 4 && /read the currents moving through/i.test(ln))).join("\n").replace(/^\s*-{3,}\s*\n/, "").trim();
+  // scrub template scaffolding models sometimes emit verbatim
+  out = out
+    .replace(/^\s*(then\s+)?the\s+depth\s+layers\s*:?\s*$/gim, "")
+    .replace(/\$\\to\$|\\to\b/g, "→")
+    .replace(/^([ \t]*[•\-*][ \t]*)\{(.+)\}[ \t]*$/gm, "$1$2")  // {bullet title}
+    .replace(/^[ \t]*\{([\s\S]*?)\}[ \t]*$/gm, "$1")            // {wrapped block}
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
   if (!out) return null;
   // Quality gate: reject leaked meta-reasoning or off-spec length; try next model.
   const words = out.split(/\s+/).length;
@@ -556,15 +564,15 @@ STEP 0 — BIRTH DATA. A personal reading needs their birth date (birth time and
 
 FORMAT (use exactly this architecture):
 
-✨ Active Influences — {today's date} ✨
+✨ Active Influences — [today's date] ✨
 One opening line naming the overall weather of their field right now.
 
-Then FIVE to SEVEN influence entries. Each entry:
-• {Poetic title, 4–8 words, evocative — e.g. "Will your boundaries survive this exposure"}
-{One "technical" line naming the REAL data thread it reads from — e.g. "Waning Crescent Moon, 22% lit, crossing your Personal Day 5" or "Universal Day 7 meeting your Life Path 11" or "$MISFIT surfacing at 81 against your Sun in Virgo". Use ONLY: today's computed Moon phase, Sun sign, Universal Day/Year, their numbers computed from birth data (Life Path, Personal Day/Month/Year — show honest arithmetic when first introduced), the archetype field values, and the harmonic ladder (5·8·13·55·64·145). NEVER invent planetary transits or positions you were not given.}
-{A dense 4–7 sentence paragraph: open with a concrete timeframe ("Between today and Thursday…", "In the next 48 hours…"); name what they will likely notice in feeling, situation, or people around them; make it specific to what you know of THEM from the conversation; give ONE concrete action, ritual, or boundary to take; close with a one-line forward tease of how this thread shifts next.}
+Then FIVE to SEVEN influence entries. Write each as three consecutive lines with NO brackets, braces, or labels of any kind — just the prose itself:
+Line 1 — a bullet (•) then a poetic title, 4–8 words, evocative — e.g. "Will your boundaries survive this exposure"
+Line 2 — one "technical" line naming the REAL data thread it reads from — e.g. "Waning Crescent Moon, 22% lit, crossing your Personal Day 5" or "Universal Day 7 meeting your Life Path 11" or "$MISFIT surfacing at 81 against your Sun in Virgo". Use ONLY: today's computed Moon phase, Sun sign, Universal Day/Year, their numbers computed from birth data (Life Path, Personal Day/Month/Year — show honest arithmetic when first introduced), the archetype field values, and the harmonic ladder (5·8·13·55·64·145). NEVER invent planetary transits or positions you were not given.
+Line 3 — a dense 4–7 sentence paragraph: open with a concrete timeframe ("Between today and Thursday…", "In the next 48 hours…"); name what they will likely notice in feeling, situation, or people around them; make it specific to what you know of THEM from the conversation; give ONE concrete action, ritual, or boundary to take; close with a one-line forward tease of how this thread shifts next.
 
-Then the DEPTH LAYERS (the part no other mirror gives):
+Then the five depth sections below — print each section exactly as shown, starting with ◎, and never print a heading like "DEPTH LAYERS":
 ◎ The Number Beneath the Day — the day's numerology AND their personal numbers, with the reduction arithmetic shown plainly.
 ◎ Field Alignment — which archetype is surfacing hardest for them specifically and which is receding, tied to their situation.
 ◎ Shadow Work — ONE piercing journaling question aimed at what they are currently avoiding.
