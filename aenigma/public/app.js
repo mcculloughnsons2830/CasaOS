@@ -284,6 +284,39 @@
     "Help me look at something I keep avoiding.",
   ];
 
+  // ------------------------------------------------------ walkthrough video
+  const SEEN_KEY = "aenigma.walkthrough.seen";
+  const seenWalkthrough = () => { try { return localStorage.getItem(SEEN_KEY) === "1"; } catch { return false; } };
+  const markWalkthroughSeen = () => { try { localStorage.setItem(SEEN_KEY, "1"); } catch {} };
+
+  function openWalkthrough() {
+    markWalkthroughSeen();
+    if (document.getElementById("vid-modal")) return;
+    const wrap = document.createElement("div");
+    wrap.id = "vid-modal";
+    wrap.className = "vid-modal";
+    wrap.innerHTML = `
+      <div class="vid-box" role="dialog" aria-modal="true" aria-label="ÆNIGMA walkthrough">
+        <button class="vid-close" type="button" aria-label="Close">×</button>
+        <video class="vid-player" src="/walkthrough.mp4" poster="/walkthrough-poster.jpg"
+               controls autoplay playsinline preload="metadata"></video>
+        <p class="vid-cap">ÆNIGMA — a mirror for your consciousness. 90 seconds.</p>
+      </div>`;
+    document.body.appendChild(wrap);
+    const close = () => {
+      const v = wrap.querySelector("video");
+      if (v) { try { v.pause(); } catch {} }
+      wrap.remove();
+      document.removeEventListener("keydown", onKey);
+    };
+    const onKey = (e) => { if (e.key === "Escape") close(); };
+    wrap.querySelector(".vid-close").addEventListener("click", close);
+    wrap.addEventListener("click", (e) => { if (e.target === wrap) close(); });
+    document.addEventListener("keydown", onKey);
+    const card = document.getElementById("howto-card");
+    if (card) card.remove();
+  }
+
   function chatBubble(m) {
     if (m.role === "user") return `<div class="bubble user">${esc(m.content)}</div>`;
     return `<div class="bubble aenigma"><span class="bubble-mark" aria-hidden="true">◎</span><div class="bubble-body">${esc(m.content)}</div></div>`;
@@ -303,11 +336,24 @@
       <div class="chat-shell">
         <div class="chat-head">
           <span class="chat-id"><span class="brand-eye" aria-hidden="true"></span> ÆNIGMA <span class="ai-badge">✦ AI</span></span>
-          <button class="chat-clear" id="chat-clear" type="button" title="New conversation">＋ New</button>
+          <span class="chat-head-actions">
+            <button class="chat-howto" id="chat-howto" type="button" title="Watch the 90-second walkthrough">▶ How it works</button>
+            <button class="chat-clear" id="chat-clear" type="button" title="New conversation">＋ New</button>
+          </span>
         </div>
         <div class="pinned-row">
           <button class="pinned-prompt" id="pin-influences" type="button" title="Your full influence reading — every layer, nothing locked">✨°Active Influences°✨</button>
         </div>
+        ${(seenWalkthrough() || msgs.length) ? "" : `
+        <div class="howto-card" id="howto-card">
+          <img class="howto-thumb" src="/walkthrough-poster.jpg" alt="" />
+          <div class="howto-copy">
+            <p class="howto-title">New here?</p>
+            <p class="howto-sub">Watch the 90-second walkthrough — what ÆNIGMA is and how to use it.</p>
+          </div>
+          <button class="howto-play" id="howto-play" type="button">▶ Watch</button>
+          <button class="howto-x" id="howto-dismiss" type="button" aria-label="Dismiss">×</button>
+        </div>`}
         <div class="chat-thread" id="chat-thread">${thread}</div>
         <form class="chat-inputbar" id="chat-form">
           <textarea id="chat-input" rows="1" placeholder="Speak to ÆNIGMA…" autocomplete="off"></textarea>
@@ -376,6 +422,16 @@
     const pin = document.getElementById("pin-influences");
     if (pin) pin.addEventListener("click", () =>
       sendChat("✨°Active Influences°✨ — read the currents moving through my field right now."));
+    const howto = document.getElementById("chat-howto");
+    if (howto) howto.addEventListener("click", openWalkthrough);
+    const play = document.getElementById("howto-play");
+    if (play) play.addEventListener("click", openWalkthrough);
+    const dismiss = document.getElementById("howto-dismiss");
+    if (dismiss) dismiss.addEventListener("click", () => {
+      markWalkthroughSeen();
+      const c = document.getElementById("howto-card");
+      if (c) c.remove();
+    });
     const clear = document.getElementById("chat-clear");
     if (clear) clear.addEventListener("click", () => {
       if (loadChat().length && !confirm("Start a new conversation? This clears the current one.")) return;
