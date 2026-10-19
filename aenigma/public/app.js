@@ -1308,8 +1308,8 @@
   ];
   function paintNav() {
     const h = location.hash || "#/reading";
-    document.querySelectorAll(".tabbar .tab").forEach((t) => t.classList.toggle("active", h.startsWith(t.dataset.hash)));
-    document.querySelectorAll(".sidenav .nav-item").forEach((t) => t.classList.toggle("active", h.startsWith(t.dataset.hash)));
+    document.querySelectorAll(".tabbar .tab").forEach((t) => t.classList.toggle("active", h.startsWith(t.getAttribute("href"))));
+    document.querySelectorAll(".sidenav .nav-item").forEach((t) => t.classList.toggle("active", h.startsWith(t.getAttribute("href"))));
   }
   function render() {
     clearInterval(opsTimer);
@@ -1352,7 +1352,7 @@
     applyAppearance(localStorage.getItem("aenigma.appearance") || "dark");
     window.addEventListener("hashchange", render);
     document.querySelectorAll(".tabbar .tab, .sidenav .nav-item").forEach((t) => {
-      t.addEventListener("click", (e) => { e.preventDefault(); location.hash = t.dataset.hash; });
+      t.addEventListener("click", (e) => { e.preventDefault(); location.hash = t.getAttribute("href"); });
     });
     refreshWallet();
     fetchVersion();
