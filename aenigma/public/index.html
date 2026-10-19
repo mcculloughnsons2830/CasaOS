@@ -6,7 +6,7 @@
   <meta name="color-scheme" content="dark" />
   <title>ÆNIGMA — a mirror for your consciousness</title>
   <meta name="description" content="ÆNIGMA (beta) — real-time resonance for the archetypes moving through you. Reflect, discover, unlock the hidden." />
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2307090C'/%3E%3Ccircle cx='16' cy='16' r='9' fill='none' stroke='%232FE6C8' stroke-width='2'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%232FE6C8'/%3E%3C/svg%3E" />
+  <link rel="icon" href="/bear-logo.png" />
 
   <!-- Social preview: link unfurls as the ÆNIGMA card -->
   <meta property="og:type" content="website" />
@@ -24,40 +24,60 @@
 
   <link rel="stylesheet" href="/style.css" />
 </head>
-<body data-palette="#0FA890,#E0512E,#8B63E8,#B08420">
+<body>
+  <div class="geo-bg" aria-hidden="true"></div>
+
   <div id="beta-bar">
     <span class="beta-chip">BETA</span>
     <span>The field is simulated for this beta. Reflections stay on your device. For self-reflection &amp; entertainment — not medical or psychological advice.</span>
   </div>
 
   <header id="topbar">
-    <a class="brand" href="#/signal"><span class="brand-eye" aria-hidden="true"></span> ÆNIGMA <span class="brand-sub">FEED</span></a>
-    <div class="field-active"><span class="dot" aria-hidden="true"></span> FIELD ACTIVE</div>
+    <a class="brand" href="#/"><img class="brand-logo" src="/bear-logo.png" alt="Ms'FitZ bear logo" /><span>ÆNIGMA</span><span class="brand-sub">FEED</span></a>
+    <nav id="topnav" aria-label="Primary">
+      <a href="#/command" data-route="command">Command Center</a>
+      <a href="#/lab" data-route="lab">Reflection Lab</a>
+      <a href="#/archetype/" id="nav-archetype" data-route="archetype">Archetype Terminal</a>
+      <a href="#/chat" data-route="chat">Talk to ÆNIGMA</a>
+      <a href="#/reading" data-route="reading">Reading</a>
+      <a href="#/corpus" data-route="corpus">Corpus</a>
+      <a href="#/quantum" data-route="quantum">Quantum</a>
+      <a href="#/prediction" data-route="prediction">Prediction</a>
+      <a href="#/architect" data-route="architect">Architect</a>
+    </nav>
+    <a class="btn" id="enter-field" href="#/command">Enter The Field</a>
   </header>
 
   <div id="ticker" aria-label="Live archetype resonance ticker"><div id="ticker-track"></div></div>
 
-  <div id="shell">
-    <nav id="sidenav" aria-label="Primary">
-      <a href="#/chat"    data-route="chat" class="nav-primary"><span class="nav-name">◎ Talk to ÆNIGMA</span><span class="nav-tag">YOUR MIRROR · AI</span></a>
-      <a href="#/signal"  data-route="signal"><span class="nav-name">The Signal</span><span class="nav-tag">LIVE FIELD</span></a>
-      <a href="#/mirror"  data-route="mirror"><span class="nav-name">The Daily Mirror</span><span class="nav-tag">TODAY'S READ</span></a>
-      <a href="#/reflect" data-route="reflect"><span class="nav-name">Reflections</span><span class="nav-tag">YOUR WORK</span></a>
-      <a href="#/codex"   data-route="codex"><span class="nav-name">The Codex</span><span class="nav-tag">SHARE THE FIELD</span></a>
-      <a href="#/pulses"  data-route="pulses"><span class="nav-name">Pulses</span><span class="nav-tag">ALERTS</span></a>
-      <a href="#/society" data-route="society"><span class="nav-name">The Society</span><span class="nav-tag">MEMBERSHIP</span></a>
-      <div class="nav-foot">ÆNIGMA · A mirror for your consciousness.</div>
-    </nav>
+  <main id="view" tabindex="-1"></main>
 
-    <main id="view" tabindex="-1"></main>
-  </div>
+  <footer id="site-footer">
+    <div class="foot-inner">
+      <img class="foot-logo" src="/bear-logo.png" alt="Ms'FitZ bear logo" />
+      <div class="foot-brand">
+        <p class="foot-line">Developed by Joshua R. McCullough — in association with Ms'FitZ Studio</p>
+        <p class="foot-line foot-soc">Ms'FitZ Society × Ms'FitZ Studio</p>
+        <p class="foot-disclaimer">For self-reflection and entertainment — not medical or psychological advice.</p>
+      </div>
+      <div class="foot-actions">
+        <button class="btn ghost" id="share-field" type="button">↗ Share the field</button>
+        <button class="btn ghost" id="foot-howto" type="button">▶ Watch the walkthrough</button>
+      </div>
+    </div>
+  </footer>
 
   <nav id="tabbar" aria-label="Primary mobile">
-    <a href="#/signal"  data-route="signal">Signal</a>
-    <a href="#/reflect" data-route="reflect">Reflect</a>
-    <a href="#/chat"    data-route="chat" class="tab-center"><span class="tab-orb">◎</span><span>ÆNIGMA</span></a>
-    <a href="#/codex"   data-route="codex">Codex</a>
+    <a href="#/" data-route="landing">Field</a>
+    <a href="#/command" data-route="command">Center</a>
+    <a href="#/chat" data-route="chat" class="tab-center"><span class="tab-orb">◎</span><span>ÆNIGMA</span></a>
+    <a href="#/lab" data-route="lab">Lab</a>
     <a href="#/society" data-route="society">Society</a>
+    <a href="#/reading" data-route="reading">Reading</a>
+    <a href="#/corpus" data-route="corpus">Corpus</a>
+    <a href="#/quantum" data-route="quantum">Quantum</a>
+    <a href="#/prediction" data-route="prediction">Predict</a>
+    <a href="#/architect" data-route="architect">Architect</a>
   </nav>
 
   <div id="tooltip" role="status" aria-hidden="true"></div>
