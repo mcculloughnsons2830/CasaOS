@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-appearance="dark" data-accent="emerald">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -26,65 +26,61 @@
 </head>
 <body>
   <div class="geo-bg" aria-hidden="true"></div>
+  <canvas id="stars" aria-hidden="true"></canvas>
 
   <div id="beta-bar">
     <span class="beta-chip">BETA</span>
     <span>The field is simulated for this beta. Reflections stay on your device. For self-reflection &amp; entertainment — not medical or psychological advice.</span>
   </div>
 
-  <header id="topbar">
-    <a class="brand" href="#/"><img class="brand-logo" src="/bear-logo.png" alt="Ms'FitZ bear logo" /><span>ÆNIGMA</span><span class="brand-sub">FEED</span></a>
-    <nav id="topnav" aria-label="Primary">
-      <a href="#/command" data-route="command">Command Center</a>
-      <a href="#/lab" data-route="lab">Reflection Lab</a>
-      <a href="#/archetype/" id="nav-archetype" data-route="archetype">Archetype Terminal</a>
-      <a href="#/chat" data-route="chat">Talk to ÆNIGMA</a>
-      <a href="#/reading" data-route="reading">Reading</a>
-      <a href="#/corpus" data-route="corpus">Corpus</a>
-      <a href="#/quantum" data-route="quantum">Quantum</a>
-      <a href="#/prediction" data-route="prediction">Prediction</a>
-      <a href="#/architect" data-route="architect">Architect</a>
-      <a href="#/profile" data-route="profile">Profile</a>
-      <a href="#/ops" data-route="ops">Operations</a>
+  <div id="shell">
+    <nav id="iconrail" aria-label="Sections">
+      <a href="#/" class="rail-logo" data-route="home" title="ÆNIGMA — home">
+        <span class="orb orb-sm" aria-hidden="true"></span>
+      </a>
+      <a href="#/" data-route="home" title="Chat"><span class="ri">✦</span><span class="ri-lbl">Chat</span></a>
+      <a href="#/instruments" data-route="instruments" title="Instruments"><span class="ri">◈</span><span class="ri-lbl">Tools</span></a>
+      <a href="#/settings" data-route="settings" title="Settings"><span class="ri">⚙</span><span class="ri-lbl">Setup</span></a>
+      <a href="#/profile" class="rail-avatar" data-route="profile" title="My profile"><span class="ri">●</span><span class="ri-lbl">Me</span></a>
     </nav>
-    <a class="btn" id="enter-field" href="#/command">Enter The Field</a>
-  </header>
 
-  <div id="ticker" aria-label="Live archetype resonance ticker"><div id="ticker-track"></div></div>
+    <aside id="sidebar">
+      <div class="side-head"><span class="orb orb-xs" aria-hidden="true"></span><span class="side-word">ÆNIGMA</span></div>
+      <input id="side-search" type="search" placeholder="Search" autocomplete="off" aria-label="Search sections" />
+      <nav id="sidenav" aria-label="Primary">
+        <a href="#/" data-route="home"><span class="ni">✦</span>Chat</a>
+        <a href="#/instruments" data-route="instruments"><span class="ni">◈</span>Instruments</a>
+        <a href="#/profile" data-route="profile"><span class="ni">●</span>Profile</a>
+        <a href="#/settings" data-route="settings"><span class="ni">⚙</span>Settings</a>
+      </nav>
+      <a class="side-sub" href="#/plans"><span class="ni">▲</span><span>Subscription</span><span class="side-bal" id="side-bal">…</span></a>
+    </aside>
 
-  <main id="view" tabindex="-1"></main>
-
-  <footer id="site-footer">
-    <div class="foot-inner">
-      <img class="foot-logo" src="/bear-logo.png" alt="Ms'FitZ bear logo" />
-      <div class="foot-brand">
-        <p class="foot-line">Developed by Joshua R. McCullough — in association with Ms'FitZ Studio</p>
-        <p class="foot-line foot-soc">Ms'FitZ Society × Ms'FitZ Studio</p>
-        <p class="foot-disclaimer">For self-reflection and entertainment — not medical or psychological advice.</p>
-      </div>
-      <div class="foot-actions">
-        <button class="btn ghost" id="share-field" type="button">↗ Share the field</button>
-        <button class="btn ghost" id="foot-howto" type="button">▶ Watch the walkthrough</button>
-      </div>
+    <div id="content">
+      <header id="slimbar">
+        <span id="crumb">ÆNIGMA</span>
+        <span class="slim-right">
+          <a id="credit-pill" href="#/plans" hidden title="Credit balance — view plans">◈ <b id="credit-n">…</b></a>
+          <a class="gear" href="#/settings" title="Settings" aria-label="Settings">⚙</a>
+        </span>
+      </header>
+      <main id="view" tabindex="-1"></main>
+      <footer id="site-footer">
+        <div class="foot-inner slim">
+          <p class="foot-line">Developed by Joshua R. McCullough — in association with Ms'FitZ Studio</p>
+          <p class="foot-disclaimer">For self-reflection and entertainment — not medical or psychological advice.</p>
+        </div>
+      </footer>
     </div>
-  </footer>
+  </div>
 
   <nav id="tabbar" aria-label="Primary mobile">
-    <a href="#/" data-route="landing">Field</a>
-    <a href="#/command" data-route="command">Center</a>
-    <a href="#/chat" data-route="chat" class="tab-center"><span class="tab-orb">◎</span><span>ÆNIGMA</span></a>
-    <a href="#/lab" data-route="lab">Lab</a>
-    <a href="#/society" data-route="society">Society</a>
-    <a href="#/reading" data-route="reading">Reading</a>
-    <a href="#/corpus" data-route="corpus">Corpus</a>
-    <a href="#/quantum" data-route="quantum">Quantum</a>
-    <a href="#/prediction" data-route="prediction">Predict</a>
-    <a href="#/architect" data-route="architect">Architect</a>
-    <a href="#/profile" data-route="profile">Profile</a>
-    <a href="#/ops" data-route="ops">Ops</a>
+    <a href="#/" data-route="home"><span class="ti">✦</span><span>Chat</span></a>
+    <a href="#/instruments" data-route="instruments"><span class="ti">◈</span><span>Tools</span></a>
+    <a href="#/settings" data-route="settings"><span class="ti">⚙</span><span>Setup</span></a>
+    <a href="#/profile" data-route="profile"><span class="ti">●</span><span>Me</span></a>
   </nav>
 
-  <div id="tooltip" role="status" aria-hidden="true"></div>
   <script src="/app.js"></script>
 </body>
 </html>

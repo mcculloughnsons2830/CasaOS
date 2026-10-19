@@ -8,6 +8,11 @@ const fs = require("fs");
 const Anthropic = require("@anthropic-ai/sdk");
 
 const app = express();
+// Stripe webhook — registered BEFORE express.json() so the raw body survives
+// for HMAC signature verification.
+app.post("/api/stripe/webhook", express.raw({ type: "application/json" }), (req, res) => {
+  stripeWebhook(req, res);
+});
 app.use(express.json({ limit: "16kb" }));
 const PORT = process.env.PORT || 3000;
 
@@ -1316,6 +1321,184 @@ app.get("/api/theorems", (_req, res) => {
     bfn: thBFN(field, Date.now()),
   });
 });
+
+// ---------------------------------------------------------------------------
+// Billing — credit wallet + Stripe Checkout (ORION-style tiers).
+// Server-side ledger in aenigma/data/credits.json keyed by sha256(email).
+// Free tier = 60 trial credits on first sight, no card. Graceful 503s when
+// Stripe keys are absent — the app never crashes without them.
+// Env: STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET,
+//      STRIPE_PRICE_STANDARD / _PRO / _PROPLUS / _PREMIUM, APP_URL.
+// ---------------------------------------------------------------------------
+const crypto = require("crypto");
+const CREDITS_FILE = path.join(DATA_DIR, "credits.json");
+const TRIAL_CREDITS = 60;
+const TIERS = {
+  standard: { name: "Standard", price: 22.22, credits: 222, priceId: process.env.STRIPE_PRICE_STANDARD || "" },
+  pro:      { name: "Pro",      price: 44.44, credits: 444, priceId: process.env.STRIPE_PRICE_PRO || "" },
+  proplus:  { name: "Pro+",     price: 88.88, credits: 888, priceId: process.env.STRIPE_PRICE_PROPLUS || "" },
+  premium:  { name: "Premium",  price: 222.22, credits: 2222, priceId: process.env.STRIPE_PRICE_PREMIUM || "" },
+};
+const APP_URL = (process.env.APP_URL || "https://casaos-production-f40b.up.railway.app").replace(/\/$/, "");
+
+const Credits = {
+  data: { wallets: {}, ledger: [] },
+  load() {
+    try {
+      const raw = fs.readFileSync(CREDITS_FILE, "utf8");
+      const d = JSON.parse(raw);
+      if (d && d.wallets) this.data = d;
+    } catch {}
+    if (!Array.isArray(this.data.ledger)) this.data.ledger = [];
+  },
+  save() {
+    try { fs.writeFileSync(CREDITS_FILE, JSON.stringify(this.data)); } catch (e) {
+      console.log("credits: persist failed:", e.message);
+    }
+  },
+  key(email) { return crypto.createHash("sha256").update(String(email).toLowerCase().trim()).digest("hex"); },
+  validEmail(email) { return typeof email === "string" && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email.trim()); },
+  get(email) {
+    const k = this.key(email);
+    let w = this.data.wallets[k];
+    if (!w) {
+      w = { email: String(email).toLowerCase().trim(), balance: TRIAL_CREDITS, tier: "trial", trial: true, updated: new Date().toISOString() };
+      this.data.wallets[k] = w;
+      this.log(email, "trial_grant", TRIAL_CREDITS, w.balance);
+      this.save();
+    }
+    return w;
+  },
+  log(email, action, delta, balance) {
+    this.data.ledger.push({ ts: new Date().toISOString(), email: String(email).toLowerCase().trim(), action, delta, balance });
+    if (this.data.ledger.length > 2000) this.data.ledger = this.data.ledger.slice(-2000);
+  },
+  consume(email, action, cost) {
+    const w = this.get(email);
+    cost = Math.max(1, Math.floor(Number(cost) || 0));
+    if (w.balance < cost) return { ok: false, balance: w.balance, needed: cost };
+    w.balance -= cost;
+    w.updated = new Date().toISOString();
+    this.log(email, action, -cost, w.balance);
+    this.save();
+    return { ok: true, balance: w.balance };
+  },
+  grant(email, tier, credits, reason) {
+    const w = this.get(email);
+    w.balance += credits;
+    w.tier = tier;
+    w.trial = false;
+    w.updated = new Date().toISOString();
+    this.log(email, reason || ("grant:" + tier), credits, w.balance);
+    this.save();
+    return w;
+  },
+};
+Credits.load();
+
+function stripeKey() { return process.env.STRIPE_SECRET_KEY || ""; }
+
+app.get("/api/billing/me", (req, res) => {
+  const email = String(req.query.email || "");
+  if (!Credits.validEmail(email)) return res.status(400).json({ error: "valid email required" });
+  const w = Credits.get(email);
+  res.json({ email: w.email, balance: w.balance, tier: w.tier, trial: w.trial });
+});
+
+app.post("/api/billing/consume", (req, res) => {
+  const { email, action, cost } = req.body || {};
+  if (!Credits.validEmail(email)) return res.status(400).json({ ok: false, error: "valid email required" });
+  const r = Credits.consume(email, String(action || "action").slice(0, 40), cost);
+  if (!r.ok) return res.status(402).json(r);
+  res.json(r);
+});
+
+app.get("/api/billing/tiers", (_req, res) => {
+  const configured = Boolean(stripeKey()) && Object.values(TIERS).every((t) => t.priceId);
+  res.json({
+    configured,
+    tiers: Object.entries(TIERS).map(([id, t]) => ({ id, name: t.name, price: t.price, credits: t.credits })),
+    trial_credits: TRIAL_CREDITS,
+    costs: { quantum_run: 5, prediction_run: 5, architect_message: 2 },
+  });
+});
+
+app.post("/api/billing/checkout", async (req, res) => {
+  try {
+    const { email, tier } = req.body || {};
+    if (!Credits.validEmail(email)) return res.status(400).json({ error: "valid email required" });
+    const t = TIERS[String(tier || "")];
+    if (!t) return res.status(400).json({ error: "unknown tier" });
+    if (!stripeKey() || !t.priceId) {
+      return res.status(503).json({ error: "Checkout opens after keys are set — Stripe price IDs are not configured yet." });
+    }
+    const body = new URLSearchParams({
+      mode: "subscription",
+      customer_email: String(email).toLowerCase().trim(),
+      "line_items[0][price]": t.priceId,
+      "line_items[0][quantity]": "1",
+      success_url: APP_URL + "/#/plans?paid=1",
+      cancel_url: APP_URL + "/#/plans",
+      "metadata[tier]": String(tier),
+      "metadata[email]": String(email).toLowerCase().trim(),
+    });
+    const r = await fetch("https://api.stripe.com/v1/checkout/sessions", {
+      method: "POST",
+      headers: { Authorization: "Bearer " + stripeKey(), "Content-Type": "application/x-www-form-urlencoded" },
+      body: body.toString(),
+    });
+    const j = await r.json();
+    if (!r.ok) return res.status(502).json({ error: "Stripe error: " + (j.error && j.error.message ? j.error.message : r.status) });
+    res.json({ url: j.url });
+  } catch (e) {
+    res.status(500).json({ error: "checkout failed: " + e.message });
+  }
+});
+
+function verifyStripeSig(rawBody, sigHeader, secret) {
+  if (!sigHeader || !secret) return false;
+  const parts = Object.fromEntries(sigHeader.split(",").map((kv) => kv.split("=")));
+  const t = parts.t, v1 = parts.v1;
+  if (!t || !v1) return false;
+  if (Math.abs(Date.now() / 1000 - Number(t)) > 300) return false; // 5-min tolerance
+  const expected = crypto.createHmac("sha256", secret).update(t + "." + rawBody).digest("hex");
+  const a = Buffer.from(v1, "utf8"), b = Buffer.from(expected, "utf8");
+  return a.length === b.length && crypto.timingSafeEqual(a, b);
+}
+
+function stripeWebhook(req, res) {
+  const secret = process.env.STRIPE_WEBHOOK_SECRET || "";
+  const raw = req.body ? req.body.toString("utf8") : "";
+  if (!secret) { console.log("webhook: no STRIPE_WEBHOOK_SECRET set — rejecting"); return res.status(503).send("webhook not configured"); }
+  if (!verifyStripeSig(raw, req.headers["stripe-signature"], secret)) {
+    console.log("webhook: bad signature");
+    return res.status(400).send("bad signature");
+  }
+  let evt;
+  try { evt = JSON.parse(raw); } catch { return res.status(400).send("bad json"); }
+  try {
+    if (evt.type === "checkout.session.completed") {
+      const s = evt.data.object;
+      const tier = s.metadata && s.metadata.tier;
+      const email = (s.metadata && s.metadata.email) || s.customer_email || "";
+      if (TIERS[tier] && Credits.validEmail(email)) {
+        const w = Credits.grant(email, tier, TIERS[tier].credits, "subscribe:" + tier);
+        console.log(`webhook: ${email} subscribed ${tier} → balance ${w.balance}`);
+      }
+    } else if (evt.type === "invoice.payment_succeeded") {
+      const inv = evt.data.object;
+      const line = inv.lines && inv.lines.data && inv.lines.data[0];
+      const priceId = line && line.price && line.price.id;
+      const email = inv.customer_email || "";
+      const tierId = Object.keys(TIERS).find((k) => TIERS[k].priceId === priceId);
+      if (tierId && Credits.validEmail(email)) {
+        const w = Credits.grant(email, tierId, TIERS[tierId].credits, "renew:" + tierId);
+        console.log(`webhook: ${email} renewed ${tierId} → balance ${w.balance}`);
+      }
+    }
+  } catch (e) { console.log("webhook handler error:", e.message); }
+  res.json({ received: true });
+}
 
 app.use(express.static(path.join(__dirname, "public")));
 app.get("*", (_req, res) => res.sendFile(path.join(__dirname, "public", "index.html")));

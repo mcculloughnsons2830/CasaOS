@@ -3,15 +3,8 @@
   "use strict";
 
   const view = document.getElementById("view");
-  const tooltip = document.getElementById("tooltip");
-  let FIELD = null;
-  let THEOREMS = null; // {date, cycle, theorems:[...], bfn:{...}} | null when /api/theorems unavailable
 
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-  const arrow = (st) => (st === "rising" ? "↗" : st === "falling" ? "↘" : "→");
-  const stTxt = (a) => `${arrow(a.state)} ${a.state[0].toUpperCase() + a.state.slice(1)} ${a.delta > 0 ? "+" : ""}${a.delta}`;
-  const bySym = (sym) => (FIELD ? FIELD.archetypes.find((a) => a.sym === sym) : null);
-  const topSym = () => (FIELD && FIELD.surfacing && FIELD.surfacing[0]) || (FIELD ? FIELD.archetypes[0].sym : "EMBER");
   const stateLabel = (a) => (a.state === "rising" ? "RISING" : a.state === "falling" ? "RECEDING" : "STEADY");
 
   // ------------------------------------------------------------- charts
@@ -56,53 +49,6 @@
     </div>`;
   }
 
-  function wireChartHover() {
-    view.querySelectorAll("svg.chart").forEach((svg) => {
-      const a = bySym(svg.dataset.sym);
-      if (!a) return;
-      const cycles = +svg.dataset.cycles;
-      const data = a.history.slice(-(cycles + 1));
-      const zone = svg.querySelector(".hover-zone");
-      if (!zone) return;
-      const move = (ev) => {
-        const r = svg.getBoundingClientRect();
-        const frac = Math.min(1, Math.max(0, ((ev.clientX - r.left) / r.width - 34 / 720) / ((720 - 46) / 720)));
-        const i = Math.round(frac * (data.length - 1));
-        const label = i === data.length - 1 ? "now" : `${i - (data.length - 1)} cycles`;
-        tooltip.innerHTML = `<b>$${a.sym}</b> · ${label}<br>resonance ${Math.round(data[i])}`;
-        tooltip.style.display = "block";
-        tooltip.style.left = Math.min(window.innerWidth - 150, ev.clientX + 14) + "px";
-        tooltip.style.top = ev.clientY + 14 + "px";
-      };
-      zone.addEventListener("mousemove", move);
-      zone.addEventListener("mouseleave", () => (tooltip.style.display = "none"));
-    });
-  }
-
-  // ------------------------------------------------------------- shared ui
-  function ticker() {
-    const items = FIELD.archetypes.map((a) =>
-      `<a class="tick-item" href="#/archetype/${a.sym}"><span class="sym">$${a.sym}</span>
-       <span class="val">${a.value}</span><span class="st-${a.state}">${arrow(a.state)} ${a.delta > 0 ? "+" : ""}${a.delta}</span></a>`).join("");
-    const track = document.getElementById("ticker-track");
-    if (track) track.innerHTML = items + items; // loop
-  }
-
-  function railRow(sym) {
-    const a = bySym(sym);
-    if (!a) return "";
-    return `<a class="rail-row" href="#/archetype/${a.sym}">
-      <div><div class="sym">$${a.sym}</div><div class="sub">${esc(a.reflecting)} reflecting</div></div>
-      ${sparkline(a.history, a.state)}
-      <span class="rail-chip st-${a.state}">${stTxt(a)}</span></a>`;
-  }
-
-  function mirrorPanel() {
-    return `<div class="panel"><h3>THE DAILY MIRROR</h3>
-      <p class="mirror-quote">“${esc(FIELD.mirror.quote)}”</p>
-      <a class="link" href="#/command">Read today's field →</a></div>`;
-  }
-
   function toast(msg) {
     let t = document.getElementById("toast");
     if (!t) {
@@ -116,742 +62,124 @@
     toast._t = setTimeout(() => t.classList.remove("show"), 3200);
   }
 
-  async function shareField() {
-    const data = {
-      title: "ÆNIGMA — a mirror for your consciousness",
-      text: "The 10 archetypes moving through you. Which is loudest in you right now? Enter the field (free beta):",
-      url: location.origin + "/",
-    };
-    if (navigator.share) {
-      try { await navigator.share(data); return; }
-      catch (e) { if (e && e.name === "AbortError") return; } // user dismissed
-    }
-    try {
-      await navigator.clipboard.writeText(`${data.text} ${data.url}`);
-      toast("Link copied — paste it anywhere.");
-    } catch {
-      toast(data.url);
-    }
-  }
+  /* Live animated starfield wallpaper — single canvas, rAF, pauses when hidden. */
+  function initStarfield() {
+    const cv = document.getElementById("stars");
+    if (!cv) return;
+    const ctx = cv.getContext("2d");
+    const reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const DPR = Math.min(window.devicePixelRatio || 1, 2);
+    let W = 0, H = 0, stars = [], nebs = [];
+    let px = 0, py = 0, tpx = 0, tpy = 0; // parallax current/target
+    let raf = 0, last = 0;
+    let shoot = null, nextShoot = 0;
 
-  // ------------------------------------------------------------- sacred-geometry SVG builders
-  function gearPath(cx, cy, r, teeth) {
-    const pts = [];
-    const n = teeth * 2;
-    for (let i = 0; i < n; i++) {
-      const ang = (i / n) * Math.PI * 2 - Math.PI / 2;
-      const rr = i % 2 === 0 ? r : r * 0.78;
-      pts.push(`${(cx + rr * Math.cos(ang)).toFixed(1)},${(cy + rr * Math.sin(ang)).toFixed(1)}`);
-    }
-    return pts.join(" ");
-  }
-
-  // Diagnostic map: stylized head profile with 4 interlocking gears,
-  // each driven by a real archetype.
-  function diagnosticMapSVG() {
-    const gears = [
-      { label: "INTUITION", sym: "ORACLE", cx: 92,  cy: 62,  r: 24, dir: "normal" },
-      { label: "BIAS",      sym: "MASK",   cx: 200, cy: 74,  r: 20, dir: "reverse" },
-      { label: "LOGIC",     sym: "MIRROR", cx: 148, cy: 142, r: 30, dir: "reverse" },
-      { label: "FEAR",      sym: "SHADOW", cx: 190, cy: 198, r: 18, dir: "normal" },
-    ];
-    const gearGroups = gears.map((g) => {
-      const a = bySym(g.sym);
-      if (!a) return "";
-      const dur = (2 + (100 - a.value) * 0.14).toFixed(1); // data-driven speed
-      const op = (0.35 + 0.65 * (a.value / 100)).toFixed(2); // data-driven opacity
-      const spokes = [0, 60, 120].map((deg) => {
-        const rad = (deg * Math.PI) / 180;
-        return `<line x1="${g.cx - g.r * 0.55 * Math.cos(rad)}" y1="${g.cy - g.r * 0.55 * Math.sin(rad)}"
-          x2="${g.cx + g.r * 0.55 * Math.cos(rad)}" y2="${g.cy + g.r * 0.55 * Math.sin(rad)}"
-          stroke="#2fe6c8" stroke-width="2" opacity="0.6"/>`;
-      }).join("");
-      return `<g class="gear" style="animation-duration:${dur}s;animation-direction:${g.dir};opacity:${op}">
-          <polygon points="${gearPath(g.cx, g.cy, g.r, 10)}" fill="none" stroke="#2fe6c8" stroke-width="2.5"/>
-          <circle cx="${g.cx}" cy="${g.cy}" r="${g.r * 0.28}" fill="none" stroke="#2fe6c8" stroke-width="2"/>
-          ${spokes}
-        </g>
-        <text class="gear-label" x="${g.cx}" y="${g.cy + g.r + 14}">${g.label}</text>
-        <text class="gear-val" x="${g.cx}" y="${g.cy + g.r + 26}">$${g.sym} ${a.value}</text>`;
-    }).join("");
-    return `<svg viewBox="0 0 300 270" role="img" aria-label="Diagnostic map: head profile with four archetype-driven gears">
-      <ellipse cx="150" cy="128" rx="86" ry="102" fill="none" stroke="#2fe6c8" stroke-width="1.5" opacity="0.35"/>
-      <path d="M 110 214 L 106 268 M 150 222 L 150 268" stroke="#2fe6c8" stroke-width="1.5" opacity="0.35" fill="none"/>
-      <path d="M 64 268 Q 150 244 236 268" stroke="#2fe6c8" stroke-width="1" opacity="0.25" fill="none"/>
-      ${gearGroups}
-    </svg>
-    <p class="svg-note">Gear speed and glow are driven by live resonance — the louder the archetype, the faster its gear turns.</p>`;
-  }
-
-  // Body node map: 8 glowing nodes, each bound to an archetype.
-  function bodyNodeMapSVG() {
-    const nodes = [
-      { label: "$COMPASS", sym: "ORACLE",    x: 110, y: 8 },
-      { label: "$DECIDE",  sym: "THRESHOLD", x: 110, y: 34 },
-      { label: "$STYLE",   sym: "MASK",      x: 132, y: 50 },
-      { label: "$STRENGTHS", sym: "MIRROR",  x: 110, y: 70 },
-      { label: "$ACT",     sym: "EMBER",     x: 110, y: 104 },
-      { label: "$CHALLENGE", sym: "FRACTURE", x: 110, y: 142 },
-      { label: "$MISSION", sym: "GALAXY",    x: 110, y: 176 },
-      { label: "$TALENTS", sym: "MISFIT",    x: 182, y: 182 },
-    ];
-    const marks = nodes.map((n) => {
-      const a = bySym(n.sym);
-      if (!a) return "";
-      const r = (5 + (a.value / 100) * 7).toFixed(1);
-      const op = (0.45 + 0.55 * (a.value / 100)).toFixed(2);
-      return `<a class="body-node" href="#/archetype/${a.sym}">
-        <title>${n.label} → $${a.sym} · resonance ${a.value}</title>
-        <circle cx="${n.x}" cy="${n.y}" r="${r}" fill="#2fe6c8" opacity="${op}"/>
-        <circle cx="${n.x}" cy="${n.y}" r="${(+r + 5).toFixed(1)}" fill="none" stroke="#2fe6c8" stroke-width="1" opacity="${(op * 0.35).toFixed(2)}"/>
-        <text x="${n.x}" y="${n.y + (+r) + 15}">${n.label}</text>
-      </a>`;
-    }).join("");
-    return `<svg viewBox="0 0 220 330" role="img" aria-label="Body node map: eight archetype nodes on a body silhouette">
-      <g stroke="#2fe6c8" stroke-width="1.5" opacity="0.35" fill="none">
-        <circle cx="110" cy="44" r="24"/>
-        <rect x="78" y="72" width="64" height="112" rx="28"/>
-        <path d="M 80 100 L 42 182 M 140 100 L 182 182"/>
-        <path d="M 96 184 L 90 300 M 124 184 L 130 300"/>
-      </g>
-      ${marks}
-    </svg>
-    <p class="svg-note">Node glow and size track live resonance. Tap a node to open its terminal.</p>`;
-  }
-
-  // Metatron's cube: 13 circles, thin teal lines, top archetype at the center.
-  function metatronSVG() {
-    const cx = 210, cy = 210, r = 36;
-    const pts = [[cx, cy]];
-    for (let ring = 1; ring <= 2; ring++) {
-      for (let i = 0; i < 6; i++) {
-        const ang = (i / 6) * Math.PI * 2 - Math.PI / 2;
-        pts.push([cx + ring * r * 2 * Math.cos(ang), cy + ring * r * 2 * Math.sin(ang)]);
-      }
-    }
-    const lines = [];
-    for (let i = 1; i < pts.length; i++) lines.push([0, i]);            // center spokes
-    for (let i = 1; i <= 6; i++) lines.push([i, ((i % 6) + 1)]);        // inner hexagon
-    for (let i = 1; i <= 6; i++) lines.push([i, i + 6]);               // inner→outer rays
-    for (let i = 7; i <= 12; i++) lines.push([i, i === 12 ? 7 : i + 1]); // outer hexagon
-    const top = topSym();
-    const lineSvg = lines.map(([p, q]) =>
-      `<line x1="${pts[p][0].toFixed(1)}" y1="${pts[p][1].toFixed(1)}" x2="${pts[q][0].toFixed(1)}" y2="${pts[q][1].toFixed(1)}"
-        stroke="#2fe6c8" stroke-width="1" opacity="0.4"/>`).join("");
-    const circSvg = pts.map(([x, y], i) =>
-      `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r}" fill="none" stroke="#2fe6c8" stroke-width="1.2" opacity="0.5"/>`).join("");
-    return `<svg viewBox="0 0 420 420" role="img" aria-label="Metatron's cube with today's leading archetype at the center">
-      ${lineSvg}${circSvg}
-      <circle cx="${cx}" cy="${cy}" r="${r * 0.72}" fill="#0d1117" stroke="#2fe6c8" stroke-width="2"/>
-      <text class="meta-center" x="${cx}" y="${cy + 5}">$${top}</text>
-      <text class="meta-corner" x="14" y="30" text-anchor="start">Demiurge</text>
-      <text class="meta-corner" x="406" y="30" text-anchor="end">Pleroma</text>
-      <text class="meta-corner" x="14" y="404" text-anchor="start">Gnosis</text>
-      <text class="meta-corner" x="406" y="404" text-anchor="end">Sophia</text>
-    </svg>
-    <p class="svg-note">The field's geometry today — $${top} holds the center, loudest in the cycle.</p>`;
-  }
-
-  // Radial diagnostic for one archetype (reflection lab).
-  function radialSVG(a) {
-    const R = 70, C = 2 * Math.PI * R;
-    const frac = a.value / 100;
-    const c = lineColor(a.state);
-    return `<svg viewBox="0 0 200 200" width="190" role="img" aria-label="$${a.sym} radial diagnostic">
-      <circle cx="100" cy="100" r="${R}" fill="none" stroke="#1b2430" stroke-width="12"/>
-      <circle cx="100" cy="100" r="${R}" fill="none" stroke="${c}" stroke-width="12" stroke-linecap="round"
-        stroke-dasharray="${(frac * C).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 100 100)"/>
-      <text class="radial-val" x="100" y="96">$${a.sym}</text>
-      <text class="radial-sub" x="100" y="116">${a.value} / 100</text>
-      <text class="radial-sub" x="100" y="134" fill="${c}">${arrow(a.state)} ${a.state.toUpperCase()} ${a.delta > 0 ? "+" : ""}${a.delta}</text>
-    </svg>`;
-  }
-
-  // ------------------------------------------------------------- VIEW 1 — landing
-  function landingView() {
-    const top3 = FIELD.surfacing.slice(0, 3).map((sym) => {
-      const a = bySym(sym);
-      if (!a) return "";
-      return `<a class="ticker-chip" href="#/archetype/${a.sym}">
-        <span class="sym">$${a.sym}</span><span class="val">${a.value}</span>
-        <span class="dl st-${a.state}">${arrow(a.state)} ${a.delta > 0 ? "+" : ""}${a.delta}</span>
-        ${sparkline(a.history, a.state, 52, 18)}</a>`;
-    }).join("");
-
-    const mean = (FIELD.archetypes.reduce((s, a) => s + a.value, 0) / FIELD.archetypes.length).toFixed(1);
-    const top = bySym(topSym());
-    const cogRes = top && top.state === "rising" ? "ACTIVE" : "STEADY";
-
-    return `
-      <section class="hero">
-        <p class="eyebrow">MS'FITZ STUDIO PRESENTS · ÆNIGMA FEED</p>
-        <img class="hero-logo" src="/bear-logo.png" alt="Ms'FitZ bear logo" />
-        <h1 class="glitch">ÆNIGMA AI</h1>
-        <p class="tagline">A mirror for your consciousness.</p>
-        <p class="subcopy">Stocks track the market. ÆNIGMA tracks the field within. Real-time resonance for the archetypes moving through you — reflect, discover, and unlock the hidden.</p>
-        <div class="cta">
-          <a class="btn" href="#/command">Enter The Field</a>
-          <a class="btn ghost" href="#/chat">Talk to ÆNIGMA</a>
-        </div>
-      </section>
-      <section class="founder-card">
-        <img class="founder-photo" src="/founder.jpg" alt="Joshua R. McCullough, founder of ÆNIGMA AI" />
-        <div class="founder-copy">
-          <p class="founder-eyebrow">THE ARCHITECT</p>
-          <p class="founder-name">Joshua R. McCullough</p>
-          <p class="founder-line">Founder of ÆNIGMA AI · Ms'FitZ Studio</p>
-        </div>
-      </section>
-      ${(seenWalkthrough() || loadChat().length) ? "" : `
-      <div class="howto-card" id="howto-card">
-        <img class="howto-thumb" src="/walkthrough-poster.jpg" alt="" />
-        <div class="howto-copy">
-          <p class="howto-title">New here?</p>
-          <p class="howto-sub">Watch the 90-second walkthrough — what ÆNIGMA is and how to use it.</p>
-        </div>
-        <button class="howto-play" id="howto-play" type="button">▶ Watch</button>
-        <button class="howto-x" id="howto-dismiss" type="button" aria-label="Dismiss">×</button>
-      </div>`}
-      <div class="land-grid">
-        <div class="land-stack">
-          <div class="panel"><h3>THE DAILY MIRROR</h3>
-            <p class="mirror-quote" style="font-size:19px">“${esc(FIELD.mirror.quote)}”</p>
-            <a class="link" href="#/command">Read today's field →</a></div>
-          <div class="panel"><h3>SURFACING NOW</h3>
-            <div class="ticker-chips">${top3}</div></div>
-        </div>
-        <div class="land-stack">
-          <div class="panel"><h3>INTEGRATION LOG</h3>
-            <div class="term-log">
-              <div><span class="tl-ok">✓ ÆNIGMA AI CORE ONLINE</span></div>
-              <div class="tl-dim">ÆNIGMA AI is now integrated with the Ms'FitZ Society field.</div>
-              <div>FIELD ALIGNMENT · <span class="tl-stat">${mean}%</span></div>
-              <div>COGNITIVE RESONANCE · <span class="tl-stat">${cogRes}</span> <span class="tl-dim">(${top ? "$" + top.sym + " " + top.state : "—"})</span></div>
-              <div>VERSION · <span class="tl-gold">A-1.1</span> <span class="tl-dim">cycle ${FIELD.cycle}</span></div>
-            </div></div>
-          <div class="panel"><h3>THE FULL FIELD</h3>
-            <div class="tick-rows">${FIELD.archetypes.slice(0, 5).map((a) => tickRow(a.sym)).join("")}</div>
-            <a class="link" href="#/command">Open the Command Center →</a></div>
-        </div>
-      </div>
-      <div class="society-strip">
-        <p class="soc-name">Ms'FitZ Society × Ms'FitZ Studio</p>
-        <p>Beta membership is open while the field calibrates. Early members get the Daily Mirror before the field opens, early access to Ms'FitZ Studio drops, and a vote on which archetypes enter the field next.</p>
-        <a class="btn ghost" href="mailto:mcculloughnsons2830@gmail.com?subject=%C3%86NIGMA%20beta%20feedback">Send beta feedback</a>
-      </div>`;
-  }
-
-  function tickRow(sym) {
-    const a = bySym(sym);
-    if (!a) return "";
-    return `<a class="tick-row" href="#/archetype/${a.sym}">
-      <div class="tsym">$${a.sym}<span class="t">${esc(a.title)}</span></div>
-      <span class="tval">${a.value}</span>
-      <span class="tdl st-${a.state}">${arrow(a.state)} ${a.delta > 0 ? "+" : ""}${a.delta}</span>
-      ${sparkline(a.history, a.state, 72, 22)}</a>`;
-  }
-
-  // ------------------------------------------------------------- VIEW 2 — command center
-  function commandView() {
-    const feedCards = FIELD.feed.map((f) => `
-      <article class="card">
-        <div class="card-top">
-          <span><span class="badge badge-${f.kind}">${f.kind}</span>
-          <span class="meta"> ${esc(f.source)} · ${esc(f.age)}</span></span>
-          <span class="state-chip st-${f.state}">${arrow(f.state)} ${f.state[0].toUpperCase() + f.state.slice(1)}</span>
-        </div>
-        <h2>${esc(f.title)}</h2>
-        <p>${esc(f.body)}</p>
-        <div class="tagrow">
-          ${f.tags.map((t) => `<a class="tag" href="#/archetype/${t}">$${t}</a>`).join("")}
-          <span class="intensity">INTENSITY <span class="bar"><i style="width:${Math.round(f.intensity * 100)}%"></i></span></span>
-        </div>
-      </article>`).join("");
-
-    const pulses = FIELD.pulses.length
-      ? FIELD.pulses.map((p) => `<div class="pulse">
-          <span class="k ${p.kind === "threshold" ? "pk-threshold" : ""}">${p.kind.toUpperCase()}</span>
-          <span><a class="link" href="#/archetype/${p.sym}">$${p.sym}</a> — ${esc(p.msg)}</span>
-        </div>`).join("")
-      : `<p style="color:var(--ink-3);margin:0">No thresholds crossed this cycle. The field is quiet.</p>`;
-
-    const top = bySym(topSym());
-
-    return `
-      <p class="eyebrow">TERMINAL · CYCLE ${FIELD.cycle} · ${FIELD.date}</p>
-      <h1 class="page">The Command Center</h1>
-      <p class="lede">The whole field on one board — diagnostics, tickers, pulses, and the live feed. Every number below is today's real resonance.</p>
-
-      <div class="cmd-grid">
-        <div class="panel svg-panel"><h3>DIAGNOSTIC MAP</h3>${diagnosticMapSVG()}</div>
-        <div class="panel svg-panel"><h3>BODY NODE MAP</h3>${bodyNodeMapSVG()}</div>
-        <div class="panel svg-panel"><h3>METATRON'S CUBE</h3>${metatronSVG()}</div>
-      </div>
-
-      <div class="grid-main" style="margin-top:18px">
-        <div class="stack">
-          <div class="panel"><h3>LIVE RESONANCE TICKERS</h3>
-            <div class="tick-rows">${FIELD.archetypes.map((a) => tickRow(a.sym)).join("")}</div></div>
-          <div class="panel"><h3>ALL TEN IN THE FIELD</h3>
-            <div class="chiprow" style="margin:0">${FIELD.archetypes.map((a) =>
-              `<a class="chip" href="#/archetype/${a.sym}">$${a.sym} · ${a.value}</a>`).join("")}</div></div>
-        </div>
-        <div class="stack">
-          <div class="panel"><h3>THE DAILY MIRROR</h3>
-            <p class="mirror-quote">“${esc(FIELD.mirror.quote)}”</p>
-            <p style="color:var(--ink-2);font-size:12px;margin:0 0 10px">Led by <a class="link" href="#/archetype/${top.sym}">$${top.sym}</a> — ${esc(top.read)}</p>
-            <a class="btn ghost" href="#/lab?sym=${top.sym}">Reflect on today's field</a></div>
-          <div class="panel"><h3>PULSES</h3>${pulses}</div>
-          <div class="panel"><h3>FIELD FEED</h3><div class="stack">${feedCards}</div></div>
-        </div>
-      </div>`;
-  }
-
-  // ------------------------------------------------------------- VIEW 3 — reflection lab
-  const LS_KEY = "aenigma.reflections.v1";
-  const loadRefl = () => { try { return JSON.parse(localStorage.getItem(LS_KEY)) || []; } catch { return []; } };
-  const saveRefl = (r) => localStorage.setItem(LS_KEY, JSON.stringify(r.slice(0, 50)));
-
-  function oracleRead(a, text) {
-    const len = text.trim().split(/\s+/).length;
-    const openers = {
-      rising: `$${a.sym} is rising while you write — the field and the feeling agree.`,
-      falling: `$${a.sym} is receding as you write — what you're describing may already be loosening its grip.`,
-      still: `$${a.sym} is still — whatever you're carrying, the field is giving you room to look at it.`,
-    };
-    const depth = len > 80 ? "You went deep. The detail itself is the signal: what you can describe precisely, you are already beginning to integrate."
-      : len > 25 ? "A solid surface reading. One layer down is a sentence you didn't write — try naming it tomorrow."
-      : "Short transmissions still count. Note that brevity here often means the true subject is adjacent to the one you named.";
-    return `${openers[a.state]} ${a.read} ${depth}`;
-  }
-
-  function deepDataLines() {
-    const top = bySym(topSym());
-    const thr = FIELD.pulses.filter((p) => p.kind === "threshold").length;
-    const sur = FIELD.pulses.filter((p) => p.kind === "surge").length;
-    const ds = top.delta > 0 ? "+" + top.delta : String(top.delta);
-    return [
-      `TERMINAL: field cycle ${FIELD.cycle} compiled.`,
-      `TERMINAL: ${FIELD.archetypes.length} archetypes resolved · 90-cycle histories.`,
-      `TERMINAL: $${top.sym} leading at ${top.value} (${ds}).`,
-      `TERMINAL: ${FIELD.pulses.length} pulse${FIELD.pulses.length === 1 ? "" : "s"} detected — ${thr} threshold, ${sur} surge${sur === 1 ? "" : "s"}.`,
-      `TERMINAL: oracle chain: local → ready.`,
-    ].map((l) => `<div>${esc(l)}</div>`).join("");
-  }
-
-  function theoremCard(t) {
-    const vals = t.values && typeof t.values === "object"
-      ? Object.entries(t.values).map(([k, v]) =>
-          `<li><span class="k">${esc(k)}</span><span class="v">${esc(String(v))}</span></li>`).join("")
-      : "";
-    return `<div class="theorem">
-      <h4>${esc(t.name)}</h4>
-      <div class="tsrc">${esc(t.source || "")}${t.id ? " · " + esc(t.id) : ""}</div>
-      ${t.summary ? `<p class="tsum">${esc(t.summary)}</p>` : ""}
-      ${vals ? `<ul class="tvals">${vals}</ul>` : ""}
-      ${t.reading ? `<p class="tread"><b style="color:var(--accent)">READ:</b> ${esc(t.reading)}</p>` : ""}
-    </div>`;
-  }
-
-  function bfnCard() {
-    const bfn = THEOREMS && THEOREMS.bfn;
-    // Live module renders through the standard theorem card; the pending
-    // fallback stays for the day the module ever comes back empty.
-    if (bfn && bfn.values) return theoremCard(bfn);
-    return `<div class="theorem pending">
-      <h4>THE BFN</h4>
-      <div class="tsrc">FRAMEWORK · PENDING</div>
-      <p class="tsum">Framework pending — Joshua is defining it.${bfn && bfn.note ? " " + esc(bfn.note) : ""}</p>
-    </div>`;
-  }
-
-  function labView(params) {
-    const pre = (params.get("sym") || "EMBER").toUpperCase();
-    const diagSel = `<select id="diag-sym">${FIELD.archetypes.map((a) =>
-      `<option value="${a.sym}" ${a.sym === pre ? "selected" : ""}>$${a.sym} — ${esc(a.title)}</option>`).join("")}</select>`;
-    const sel0 = bySym(pre) || bySym(topSym());
-    const theorems = THEOREMS && THEOREMS.theorems ? THEOREMS.theorems : null;
-    const items = loadRefl().map((r) => `
-      <div class="reflect-out">
-        <div class="when">${esc(r.when)} · $${esc(r.sym)}${r.source === "claude" || r.source === "openrouter" ? " · ✦ ÆNIGMA AI" : ""}</div>
-        <p style="margin:6px 0;color:var(--ink)">${esc(r.text)}</p>
-        <p style="margin:0;color:var(--ink-2)"><b style="color:var(--accent)">ÆNIGMA:</b> ${esc(r.read)}</p>
-      </div>`).join("") || `<p style="color:var(--ink-3)">No reflections yet. Your entries stay in this browser only.</p>`;
-
-    return `
-      <p class="eyebrow">THE WORKBENCH · PRIVATE TO THIS DEVICE</p>
-      <h1 class="page">The ÆNIGMA AI Reflection Lab</h1>
-      <p class="lede">Today's field, taken apart and put back together. Run diagnostics, reflect in writing, pull the theorems — then take a snapshot home.</p>
-      <div class="lab-actions">
-        <button class="btn" id="gen-reflect" type="button">Generate Reflection</button>
-        <button class="btn ghost" id="dl-snapshot" type="button">⬇ Download Snapshot</button>
-      </div>
-
-      <div class="panel"><h3>DEEP DATA ANALYSIS</h3>
-        <div class="term-log">${deepDataLines()}</div></div>
-
-      <div class="panel" style="margin-top:18px"><h3>INTERACTIVE DIAGNOSTIC</h3>
-        <div style="max-width:320px;margin-bottom:14px"><label>ARCHETYPE ${diagSel}</label></div>
-        <div class="radial-wrap" id="diag-out">
-          ${radialSVG(sel0)}
-          <div class="diag-meta">
-            <div style="font-weight:700;font-size:15px">$${sel0.sym} — ${esc(sel0.title)}</div>
-            <p class="epigraph">“${esc(sel0.epigraph)}”</p>
-            <p style="color:var(--ink-2);font-size:13px;margin:10px 0 0">${esc(sel0.read)}</p>
-          </div>
-        </div></div>
-
-      <div class="panel" style="margin-top:18px" id="reflect-panel"><h3>REFLECTION OUTPUT</h3>
-        <div class="stack">
-          <label>ARCHETYPE
-            <select id="refl-sym">${FIELD.archetypes.map((a) => `<option ${a.sym === pre ? "selected" : ""}>${a.sym}</option>`).join("")}</select>
-          </label>
-          <label>WHAT'S MOVING THROUGH YOU?
-            <textarea id="refl-text" placeholder="Write it the way it actually feels…"></textarea>
-          </label>
-          <div><button class="btn" id="refl-go" type="button">Generate reflection</button></div>
-          <div id="refl-out"></div>
-        </div>
-        <h3 style="margin:20px 0 10px">PAST REFLECTIONS</h3>
-        <div class="stack">${items}</div></div>
-
-      <div class="panel" style="margin-top:18px"><h3>FIELD THEOREMS — COMPUTED FROM TODAY'S FIELD</h3>
-        ${theorems
-          ? `<div class="theorem-grid">${theorems.map(theoremCard).join("")}${bfnCard()}</div>`
-          : `<div class="theorem-grid"><div class="theorem pending"><h4>THEOREMS OFFLINE</h4>
-              <p class="tsum">The theorem engine didn't answer this run — the field itself is unaffected. Reload to retry.</p></div>${bfnCard()}</div>`}</div>
-
-      <div class="panel" style="margin-top:18px"><h3>DIAGNOSTIC SNAPSHOT SUMMARY</h3>
-        <p style="color:var(--ink-2);font-size:12px;margin:0 0 10px">INTEGRATION PATH:</p>
-        <div class="snap-chips">${FIELD.surfacing.slice(0, 3).map((sym) => {
-          const a = bySym(sym); if (!a) return "";
-          const lbl = a.state === "rising" ? "High/Rising" : a.state === "falling" ? "Low/Receding" : "Steady";
-          return `<a class="snap-chip" href="#/archetype/${a.sym}"><span class="lbl">${esc(a.title)}</span><span class="s st-${a.state}">${a.sym} · ${a.value} · ${lbl}</span></a>`;
-        }).join("")}</div></div>
-      <p class="chat-disclaimer" style="margin-top:14px">For self-reflection and entertainment — not medical or psychological advice.</p>`;
-  }
-
-  function downloadSnapshot() {
-    const theorems = THEOREMS && THEOREMS.theorems ? THEOREMS.theorems : [];
-    const data = {
-      date: FIELD.date,
-      cycle: FIELD.cycle,
-      archetypes: Object.fromEntries(FIELD.archetypes.map((a) => [a.sym, a.value])),
-      theoremReadings: theorems.map((t) => ({ id: t.id || null, name: t.name, reading: t.reading || null })),
-      latestReflection: loadRefl()[0] || null,
-    };
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `aenigma-snapshot-cycle${FIELD.cycle}.json`;
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 4000);
-    toast("Snapshot downloaded.");
-  }
-
-  function wireLab() {
-    const gen = document.getElementById("gen-reflect");
-    if (gen) gen.addEventListener("click", () => {
-      const t = document.getElementById("refl-text");
-      if (t) { t.scrollIntoView({ behavior: "smooth", block: "center" }); t.focus({ preventScroll: true }); }
-    });
-    const dl = document.getElementById("dl-snapshot");
-    if (dl) dl.addEventListener("click", downloadSnapshot);
-    const diag = document.getElementById("diag-sym");
-    if (diag) diag.addEventListener("change", () => {
-      const a = bySym(diag.value);
-      const out = document.getElementById("diag-out");
-      if (a && out) out.innerHTML = `${radialSVG(a)}
-        <div class="diag-meta">
-          <div style="font-weight:700;font-size:15px">$${a.sym} — ${esc(a.title)}</div>
-          <p class="epigraph">“${esc(a.epigraph)}”</p>
-          <p style="color:var(--ink-2);font-size:13px;margin:10px 0 0">${esc(a.read)}</p>
-        </div>`;
-    });
-    const go = document.getElementById("refl-go");
-    if (go) go.addEventListener("click", async () => {
-      const sym = document.getElementById("refl-sym").value;
-      const textEl = document.getElementById("refl-text");
-      const text = textEl.value.trim();
-      if (!text) { textEl.focus(); return; }
-      go.disabled = true;
-      go.textContent = "Consulting the field…";
-      const a = bySym(sym);
-      let read, source;
-      try {
-        const r = await fetch("/api/reflect", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ sym, text }),
+    function resize() {
+      W = window.innerWidth; H = window.innerHeight;
+      cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
+      cv.style.width = W + "px"; cv.style.height = H + "px";
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      const n = Math.max(140, Math.min(300, Math.round((W * H) / 6500)));
+      stars = [];
+      for (let i = 0; i < n; i++) {
+        stars.push({
+          x: Math.random() * W, y: Math.random() * H,
+          r: 0.4 + Math.random() * 1.2,
+          a: 0.25 + Math.random() * 0.65,
+          sp: 0.4 + Math.random() * 1.6, ph: Math.random() * Math.PI * 2,
+          vx: 1.5 + Math.random() * 4, // px/sec, very slow drift
+          teal: Math.random() < 0.22,
         });
-        if (r.ok) ({ read, source } = await r.json());
-        else if (r.status === 429) { const e = await r.json(); read = e.error; source = "busy"; }
-      } catch { /* offline — fall through to local */ }
-      if (!read || source === "busy") { read = oracleRead(a, text); source = "local"; }
-      const items = loadRefl();
-      items.unshift({ when: new Date().toLocaleString(), sym, text, read, source });
-      saveRefl(items);
-      const out = document.getElementById("refl-out");
-      if (out) {
-        out.innerHTML = `<div class="reflect-out">
-          <div class="when">just now · $${esc(sym)}${source === "claude" || source === "openrouter" ? " · ✦ ÆNIGMA AI" : ""}</div>
-          <p style="margin:6px 0;color:var(--ink-2)"><b style="color:var(--accent)">ÆNIGMA:</b> ${esc(read)}</p>
-        </div>`;
-        out.scrollIntoView({ behavior: "smooth", block: "center" });
       }
-      textEl.value = "";
-      go.disabled = false;
-      go.textContent = "Generate reflection";
+      nebs = [];
+      for (let i = 0; i < 3; i++) {
+        nebs.push({
+          x: Math.random() * W, y: Math.random() * H,
+          r: 140 + Math.random() * 220,
+          ph: Math.random() * Math.PI * 2, sp: 0.05 + Math.random() * 0.06,
+          a: 0.04 + Math.random() * 0.035,
+        });
+      }
+    }
+
+    function draw(t) {
+      ctx.clearRect(0, 0, W, H);
+      const dt = Math.min(0.05, (t - last) / 1000 || 0.016); last = t;
+      // ease parallax toward target
+      px += (tpx - px) * 0.045; py += (tpy - py) * 0.045;
+      const sec = t / 1000;
+
+      // nebula blobs (behind stars)
+      for (const nb of nebs) {
+        const nx = nb.x + Math.sin(sec * nb.sp + nb.ph) * 40 + px * 0.3;
+        const ny = nb.y + Math.cos(sec * nb.sp * 0.8 + nb.ph) * 30 + py * 0.3;
+        const g = ctx.createRadialGradient(nx, ny, 0, nx, ny, nb.r);
+        g.addColorStop(0, `rgba(47,230,200,${nb.a})`);
+        g.addColorStop(1, "rgba(47,230,200,0)");
+        ctx.fillStyle = g;
+        ctx.fillRect(nx - nb.r, ny - nb.r, nb.r * 2, nb.r * 2);
+      }
+
+      // stars
+      for (const s of stars) {
+        s.x += s.vx * dt; if (s.x > W + 4) { s.x = -4; s.y = Math.random() * H; }
+        const tw = 0.55 + 0.45 * Math.sin(sec * s.sp + s.ph);
+        const al = Math.max(0, Math.min(1, s.a * tw));
+        ctx.beginPath();
+        ctx.arc(s.x + px, s.y + py, s.r, 0, Math.PI * 2);
+        ctx.fillStyle = s.teal
+          ? `rgba(120,240,215,${(al).toFixed(3)})`
+          : `rgba(235,242,248,${(al).toFixed(3)})`;
+        ctx.fill();
+      }
+
+      // shooting star every 8–15 s
+      if (!shoot && sec * 1000 > nextShoot) {
+        const sx = Math.random() * W * 0.7 + W * 0.15;
+        shoot = { x: sx, y: -20, vx: -(260 + Math.random() * 260), vy: 200 + Math.random() * 160, life: 1 };
+        nextShoot = sec * 1000 + 8000 + Math.random() * 7000;
+      }
+      if (shoot) {
+        shoot.x += shoot.vx * dt; shoot.y += shoot.vy * dt; shoot.life -= dt * 1.25;
+        if (shoot.life <= 0 || shoot.y > H + 40) shoot = null;
+        else {
+          const len = 90 * shoot.life;
+          const ang = Math.atan2(shoot.vy, shoot.vx);
+          const tx = shoot.x - Math.cos(ang) * len, ty = shoot.y - Math.sin(ang) * len;
+          const grad = ctx.createLinearGradient(shoot.x, shoot.y, tx, ty);
+          grad.addColorStop(0, `rgba(200,255,245,${(0.85 * shoot.life).toFixed(3)})`);
+          grad.addColorStop(1, "rgba(47,230,200,0)");
+          ctx.strokeStyle = grad; ctx.lineWidth = 1.6;
+          ctx.beginPath(); ctx.moveTo(shoot.x + px, shoot.y + py); ctx.lineTo(tx + px, ty + py); ctx.stroke();
+        }
+      }
+    }
+
+    function frame(t) {
+      draw(t);
+      raf = requestAnimationFrame(frame);
+    }
+    function start() { if (!raf) { last = performance.now(); raf = requestAnimationFrame(frame); } }
+    function stop() { if (raf) { cancelAnimationFrame(raf); raf = 0; } }
+
+    let rT = 0;
+    window.addEventListener("resize", () => { clearTimeout(rT); rT = setTimeout(resize, 180); });
+    window.addEventListener("pointermove", (e) => {
+      tpx = ((e.clientX / W) - 0.5) * -22; tpy = ((e.clientY / H) - 0.5) * -22;
+    }, { passive: true });
+    window.addEventListener("deviceorientation", (e) => {
+      if (e.gamma == null || e.beta == null) return;
+      tpx = Math.max(-22, Math.min(22, (e.gamma / 45) * -22));
+      tpy = Math.max(-22, Math.min(22, ((e.beta - 45) / 45) * -22));
     });
+    document.addEventListener("visibilitychange", () => { document.hidden ? stop() : start(); });
+
+    resize();
+    nextShoot = performance.now() + 5000 + Math.random() * 6000;
+    if (reduced) { draw(performance.now()); } // one static frame
+    else start();
   }
 
-  // ------------------------------------------------------------- VIEW 4 — archetype terminal
-  function relatedTheorems(a) {
-    if (!THEOREMS || !THEOREMS.theorems || !THEOREMS.theorems.length) return [];
-    const hits = THEOREMS.theorems.filter((t) => JSON.stringify(t).includes(a.sym));
-    return hits.length ? hits.slice(0, 3) : THEOREMS.theorems.slice(0, 3);
-  }
-
-  function terminalView(sym) {
-    const a = bySym(sym);
-    if (!a) return `<h1 class="page">Unknown archetype</h1><p class="lede">That signal isn't in the field.</p>`;
-    const hist = a.history;
-    const hi = Math.round(Math.max(...hist)), lo = Math.round(Math.min(...hist));
-    const intensity = a.value >= 75 ? "HIGH" : a.value >= 40 ? "ELEVATED" : "QUIET";
-    const interp = relatedTheorems(a);
-    return `
-      <p class="eyebrow">TERMINAL · CYCLE ${FIELD.cycle} · ${FIELD.date}</p>
-      <h1 class="page">The Archetype Terminal</h1>
-      <div class="chiprow">${FIELD.archetypes.map((x) =>
-        `<a class="chip ${x.sym === a.sym ? "on" : ""}" href="#/archetype/${x.sym}">$${x.sym}</a>`).join("")}</div>
-      <div class="detail-head">
-        <div>
-          <span class="domain-chip">◈ ${esc(a.domain.toUpperCase())}</span>
-          <div class="sym-title"><span class="dollar">$</span>${a.sym}: ${a.value}</div>
-          <div style="color:var(--ink-2)">${esc(a.title)}</div>
-          <p class="epigraph">“${esc(a.epigraph)}”</p>
-        </div>
-        <div class="resonance-big"><span class="num">${a.value}</span>
-          <span class="of">RESONANCE / 100</span>
-          <span class="state-chip st-${a.state}">RESONANCE: ${intensity}/${stateLabel(a)}</span></div>
-      </div>
-      ${bigChart(a)}
-      <div class="statrow">
-        <div class="stat"><div class="k">DOMAIN</div><div class="v">${esc(a.domain)}</div></div>
-        <div class="stat"><div class="k">REFLECTING NOW</div><div class="v">${esc(a.reflecting)}</div></div>
-        <div class="stat"><div class="k">STATE</div><div class="v st-${a.state}">${arrow(a.state)} ${a.state[0].toUpperCase() + a.state.slice(1)}</div></div>
-        <div class="stat"><div class="k">90-DAY HIGH / LOW</div><div class="v">${hi} / ${lo}</div></div>
-      </div>
-      <div class="panel"><h3>THE READ</h3><p style="margin:0;color:var(--ink-2)">${esc(a.read)}</p></div>
-      <h3 style="margin:22px 0 10px;font-size:15px">ÆNIGMA AI INTERPRETATION</h3>
-      <div class="stack">
-        ${interp.length ? `<div class="theorem-grid">${interp.map(theoremCard).join("")}</div>`
-          : `<div class="panel"><p style="color:var(--ink-3);margin:0">The theorem engine is offline this run — interpretation from the field read above stands on its own.</p></div>`}
-        <div><a class="btn" href="#/lab?sym=${a.sym}">🔖 Reflect on this archetype</a></div>
-      </div>
-      <h3 style="margin:22px 0 10px;font-size:15px">All ten in the field</h3>
-      <div class="panel"><div class="chiprow" style="margin:0">${FIELD.archetypes.map((x) =>
-        `<a class="chip ${x.sym === a.sym ? "on" : ""}" href="#/archetype/${x.sym}">$${x.sym} · ${x.value}</a>`).join("")}</div></div>`;
-  }
-
-  // ------------------------------------------------------------- chat (talk to ÆNIGMA)
-  const CHAT_KEY = "aenigma.chat.v1";
-  const loadChat = () => { try { return JSON.parse(localStorage.getItem(CHAT_KEY)) || []; } catch { return []; } };
-  const saveChat = (m) => localStorage.setItem(CHAT_KEY, JSON.stringify(m.slice(-40)));
-  let chatBusy = false;
-
-  const STARTERS = [
-    "What is the field showing me today?",
-    "I feel stuck, and I don't know why.",
-    "Which archetype is loudest in me right now?",
-    "Help me look at something I keep avoiding.",
-  ];
-
-  const SEEN_KEY = "aenigma.walkthrough.seen";
-  const seenWalkthrough = () => { try { return localStorage.getItem(SEEN_KEY) === "1"; } catch { return false; } };
-  const markWalkthroughSeen = () => { try { localStorage.setItem(SEEN_KEY, "1"); } catch {} };
-
-  function openWalkthrough() {
-    markWalkthroughSeen();
-    if (document.getElementById("vid-modal")) return;
-    const wrap = document.createElement("div");
-    wrap.id = "vid-modal";
-    wrap.className = "vid-modal";
-    wrap.innerHTML = `
-      <div class="vid-box" role="dialog" aria-modal="true" aria-label="ÆNIGMA walkthrough">
-        <button class="vid-close" type="button" aria-label="Close">×</button>
-        <video class="vid-player" src="/walkthrough.mp4" poster="/walkthrough-poster.jpg"
-               controls autoplay playsinline preload="metadata"></video>
-        <p class="vid-cap">ÆNIGMA — a mirror for your consciousness. 90 seconds.</p>
-      </div>`;
-    document.body.appendChild(wrap);
-    const close = () => {
-      const v = wrap.querySelector("video");
-      if (v) { try { v.pause(); } catch {} }
-      wrap.remove();
-      document.removeEventListener("keydown", onKey);
-    };
-    const onKey = (e) => { if (e.key === "Escape") close(); };
-    wrap.querySelector(".vid-close").addEventListener("click", close);
-    wrap.addEventListener("click", (e) => { if (e.target === wrap) close(); });
-    document.addEventListener("keydown", onKey);
-    const card = document.getElementById("howto-card");
-    if (card) card.remove();
-  }
-
-  function chatBubble(m) {
-    if (m.role === "user") return `<div class="bubble user">${esc(m.content)}</div>`;
-    return `<div class="bubble aenigma"><span class="bubble-mark" aria-hidden="true">◎</span><div class="bubble-body">${esc(m.content)}</div></div>`;
-  }
-
-  function chatView() {
-    const msgs = loadChat();
-    const thread = msgs.length
-      ? msgs.map(chatBubble).join("")
-      : `<div class="chat-intro">
-           <div class="chat-orb" aria-hidden="true"></div>
-           <p class="chat-hi">I'm ÆNIGMA.</p>
-           <p class="chat-sub">A mirror for your consciousness. Tell me what's moving through you — or ask me anything. I read against today's field and reflect it back to you. What you say stays on your device.</p>
-           <div class="starters">${STARTERS.map((s) => `<button class="starter" type="button" data-q="${esc(s)}">${esc(s)}</button>`).join("")}</div>
-         </div>`;
-    return `
-      <div class="chat-shell">
-        <div class="chat-head">
-          <span class="chat-id"><img class="brand-logo" src="/bear-logo.png" alt="Ms'FitZ bear logo" /> ÆNIGMA <span class="ai-badge">✦ AI</span></span>
-          <span class="chat-head-actions">
-            <button class="chat-howto" id="chat-howto" type="button" title="Watch the 90-second walkthrough">▶ How it works</button>
-            <button class="chat-clear" id="chat-clear" type="button" title="New conversation">＋ New</button>
-          </span>
-        </div>
-        <div class="pinned-row">
-          <button class="pinned-prompt" id="pin-influences" type="button" title="Your full influence reading — every layer, nothing locked">✨°Active Influences°✨</button>
-        </div>
-        ${(seenWalkthrough() || msgs.length) ? "" : `
-        <div class="howto-card" id="howto-card">
-          <img class="howto-thumb" src="/walkthrough-poster.jpg" alt="" />
-          <div class="howto-copy">
-            <p class="howto-title">New here?</p>
-            <p class="howto-sub">Watch the 90-second walkthrough — what ÆNIGMA is and how to use it.</p>
-          </div>
-          <button class="howto-play" id="howto-play" type="button">▶ Watch</button>
-          <button class="howto-x" id="howto-dismiss" type="button" aria-label="Dismiss">×</button>
-        </div>`}
-        <div class="chat-thread" id="chat-thread">${thread}</div>
-        <form class="chat-inputbar" id="chat-form">
-          <textarea id="chat-input" rows="1" placeholder="Speak to ÆNIGMA…" autocomplete="off"></textarea>
-          <button class="chat-send" id="chat-send" type="submit" aria-label="Send">→</button>
-        </form>
-        <p class="chat-disclaimer">A mirror for self-reflection &amp; wonder — not medical, legal, or psychological advice.</p>
-      </div>`;
-  }
-
-  function renderThread(msgs, typing) {
-    const t = document.getElementById("chat-thread");
-    if (!t) return;
-    t.innerHTML = msgs.map(chatBubble).join("") +
-      (typing ? `<div class="bubble aenigma typing"><span class="bubble-mark" aria-hidden="true">◎</span><div class="bubble-body"><span class="dots"><i></i><i></i><i></i></span></div></div>` : "");
-    t.scrollTop = t.scrollHeight;
-  }
-
-  async function sendChat(text) {
-    if (chatBusy) return;
-    text = text.trim();
-    if (!text) return;
-    chatBusy = true;
-    const input = document.getElementById("chat-input");
-    if (input) { input.value = ""; input.style.height = "auto"; }
-    const send = document.getElementById("chat-send");
-    if (send) send.disabled = true;
-
-    const msgs = loadChat();
-    msgs.push({ role: "user", content: text });
-    saveChat(msgs);
-    renderThread(msgs, true);
-
-    let reply, source;
-    try {
-      const r = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: msgs.map((m) => ({ role: m.role, content: m.content })) }),
-      });
-      if (r.ok) ({ reply, source } = await r.json());
-      else if (r.status === 429) { const e = await r.json(); reply = e.error; source = "busy"; }
-    } catch { /* offline */ }
-    if (!reply) { reply = "I lost the thread of the field for a moment. Say that again?"; source = "error"; }
-
-    msgs.push({ role: "assistant", content: reply, source });
-    saveChat(msgs);
-    chatBusy = false;
-    if (send) send.disabled = false;
-    renderThread(msgs, false);
-    const inp = document.getElementById("chat-input");
-    if (inp) inp.focus();
-  }
-
-  function wireChat() {
-    const form = document.getElementById("chat-form");
-    if (!form) return;
-    const input = document.getElementById("chat-input");
-    const grow = () => { input.style.height = "auto"; input.style.height = Math.min(input.scrollHeight, 140) + "px"; };
-    input.addEventListener("input", grow);
-    input.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendChat(input.value); }
-    });
-    form.addEventListener("submit", (e) => { e.preventDefault(); sendChat(input.value); });
-    view.querySelectorAll(".starter").forEach((b) =>
-      b.addEventListener("click", () => sendChat(b.dataset.q)));
-    const pin = document.getElementById("pin-influences");
-    if (pin) pin.addEventListener("click", () =>
-      sendChat("✨°Active Influences°✨ — read the currents moving through my field right now."));
-    const howto = document.getElementById("chat-howto");
-    if (howto) howto.addEventListener("click", openWalkthrough);
-    const play = document.getElementById("howto-play");
-    if (play) play.addEventListener("click", openWalkthrough);
-    const dismiss = document.getElementById("howto-dismiss");
-    if (dismiss) dismiss.addEventListener("click", () => {
-      markWalkthroughSeen();
-      const c = document.getElementById("howto-card");
-      if (c) c.remove();
-    });
-    const clear = document.getElementById("chat-clear");
-    if (clear) clear.addEventListener("click", () => {
-      if (loadChat().length && !confirm("Start a new conversation? This clears the current one.")) return;
-      localStorage.removeItem(CHAT_KEY);
-      route();
-    });
-    if (loadChat().length) renderThread(loadChat(), false);
-    if (input) input.focus({ preventScroll: true });
-  }
-
-  // ------------------------------------------------------------- slim society view
-  function societyView() {
-    return `
-      <p class="eyebrow">MEMBERSHIP · THE UNCLASSIFIED</p>
-      <h1 class="page">The Society</h1>
-      <p class="lede">Ms'FitZ Society — the ones they couldn't categorize. Beta membership is open while the field calibrates.</p>
-      <div class="grid-main">
-        <div class="stack">
-          <div class="panel">
-            <h3>WHAT MEMBERS GET</h3>
-            <p style="color:var(--ink-2)">Daily Mirror before the field opens · early access to Ms'FitZ Studio drops · Society-only reflections and cohorts · a vote on which archetypes enter the field next.</p>
-          </div>
-          <div class="panel">
-            <h3>BETA NOTES</h3>
-            <p style="color:var(--ink-2)">You're using the ÆNIGMA beta. The resonance field is simulated (deterministic per day — everyone sees the same field). Reflections never leave your device. Found something broken or brilliant? Tell us:</p>
-            <a class="btn" href="mailto:mcculloughnsons2830@gmail.com?subject=%C3%86NIGMA%20beta%20feedback">Send beta feedback</a>
-          </div>
-        </div>
-        <div class="stack">${mirrorPanel()}
-          <div class="panel"><h3>FIELD STATUS</h3>
-            <p style="color:var(--ink-2);margin:0">Cycle ${FIELD.cycle} · ${FIELD.date}<br>${FIELD.archetypes.length} archetypes live<br>Signal refreshes daily at 00:00 UTC</p>
-          </div>
-        </div>
-      </div>`;
-  }
 
 /* ============================================================
    NEW VIEWS — Reading · Corpus · Quantum · Prediction · Architect
@@ -1034,7 +362,7 @@ function barChart(probs, n, shots) {
 /* ---------------- context handoff ---------------- */
 function askArchitect(ctx) {
   try { localStorage.setItem("aenigma.architect.context", JSON.stringify(ctx)); } catch (e) {}
-  location.hash = "#/architect";
+  location.hash = "#/";
 }
 function readArchitectContext() {
   try {
@@ -1162,7 +490,7 @@ function wireReading() {
     const dob = document.getElementById("rd-dob").value;
     const tob = document.getElementById("rd-tob").value;
     const loc = document.getElementById("rd-loc").value.trim();
-    out.innerHTML = computeReading(dob, tob, loc);
+    out.innerHTML = computeReading(dob, tob, loc) + mcUpsell();
     const ask = document.getElementById("reading-ask");
     if (ask) ask.addEventListener("click", () =>
       askArchitect({ from: "reading", dob, tob, loc, summary: `Birth reading for ${dob}${loc ? " · " + loc : ""}` }));
@@ -1726,7 +1054,7 @@ function quantumView() {
       <p style="color:var(--ink-2);font-size:13px;margin:0 0 12px">Hadamard layer → RY rotations set by your BFN harmonic number → CNOT entanglement ladder. Runs on the in-browser statevector simulator; the IBM connection above validates your key against the live fleet.</p>
       <div class="form-grid">
         <label>BFN HARMONIC NUMBER (0–11)<input type="number" id="q-bfn" value="7" min="0" max="11" /></label>
-        <div><button class="btn" id="q-run" type="button">Run demo circuit</button></div>
+        <div><button class="btn" id="q-run" type="button">Run demo circuit · 5 ◈</button></div>
         <div id="q-out"></div></div></div>`;
 }
 
@@ -1791,7 +1119,8 @@ function wireQuantum() {
     backendEl.innerHTML = `<option value="">— connect first —</option>`;
     setStatus("Key forgotten on this device.", false);
   });
-  document.getElementById("q-run").addEventListener("click", () => {
+  document.getElementById("q-run").addEventListener("click", async () => {
+    if (!(await spendCredits("quantum_run", COSTS.quantum_run))) return;
     const bfn = Math.max(0, Math.min(11, parseInt(document.getElementById("q-bfn").value, 10) || 0));
     const probs = demoCircuit(bfn);
     const backend = backendEl.value || "local simulator";
@@ -1867,7 +1196,7 @@ function predictionView() {
     <div class="panel"><div class="form-grid">
       <label>YOUR QUESTION<textarea id="pr-q" rows="2" placeholder="What is moving toward me in the next cycle?"></textarea></label>
       <label>RELEVANT DATE (OPTIONAL)<input type="date" id="pr-d" /></label>
-      <div><button class="btn" id="pr-go" type="button">Run prediction</button></div>
+      <div><button class="btn" id="pr-go" type="button">Run prediction · 5 ◈</button></div>
     </div></div>
     <div id="pr-out" style="margin-top:16px"></div>`;
 }
@@ -1875,11 +1204,13 @@ function predictionView() {
 function wirePrediction() {
   const go = document.getElementById("pr-go");
   if (!go) return;
-  go.addEventListener("click", () => {
+  go.addEventListener("click", async () => {
     const q = document.getElementById("pr-q").value;
     const d = document.getElementById("pr-d").value;
     const out = document.getElementById("pr-out");
-    out.innerHTML = runPrediction(q, d);
+    if (!q.trim()) { out.innerHTML = runPrediction(q, d); return; }
+    if (!(await spendCredits("prediction_run", COSTS.prediction_run))) return;
+    out.innerHTML = runPrediction(q, d) + mcUpsell();
     const ask = document.getElementById("pred-ask");
     if (ask) ask.addEventListener("click", () =>
       askArchitect({ from: "prediction", summary: `Prediction for: "${q.slice(0, 80)}${q.length > 80 ? "…" : ""}"` }));
@@ -1932,14 +1263,19 @@ function architectReply(text) {
 }
 
 const ARCH_COLLAPSE_AT = 700;
+function archTime(ts) {
+  if (!ts) return "";
+  try { return `<time>${new Date(ts).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}</time>`; }
+  catch { return ""; }
+}
 function archBubble(m, idx) {
-  if (m.role === "user") return `<div class="bubble user">${esc(m.content)}</div>`;
+  if (m.role === "user") return `<div class="bubble user"><div class="bubble-body">${esc(m.content)}</div>${archTime(m.ts)}</div>`;
   const full = archMd(m.content);
   const needsCut = m.content.length > ARCH_COLLAPSE_AT;
   const body = needsCut
     ? `<div class="bubble-clamp" data-open="0">${full}</div><button class="collapser" data-more="${idx}" type="button">Show more ↓</button>`
     : full;
-  return `<div class="bubble aenigma"><span class="bubble-mark" aria-hidden="true">●</span><div class="bubble-body">${body}<br><button class="speak-btn" data-say="${idx}" type="button">🔊 Speak</button></div></div>`;
+  return `<div class="bubble aenigma"><span class="orb orb-xs bubble-orb" aria-hidden="true"></span><div class="bubble-body"><div class="bubble-name">ÆNIGMA</div>${body}<br><button class="speak-btn" data-say="${idx}" type="button">🔊 Speak</button></div>${archTime(m.ts)}</div>`;
 }
 
 function architectView() {
@@ -1947,18 +1283,33 @@ function architectView() {
   const msgs = loadArch();
   const thread = msgs.length
     ? msgs.map(archBubble).join("")
-    : `<div class="chat-intro glow"><p class="chat-hi">I am the Architect.</p>
-       <p class="chat-sub">Bring me raw material — a reading, a prediction, a question — and I return structure. Precise. No fluff.</p></div>`;
+    : `<div class="hero-empty">
+         <div class="hero-word"><span class="orb orb-xs" aria-hidden="true"></span>ÆNIGMA</div>
+         <span class="orb orb-lg" aria-hidden="true"></span>
+         <h2 class="hero-head"><span class="w">THE MIRROR</span><br><span class="t">SPEAKS NOW</span></h2>
+         <p class="hero-tag">A MIRROR FOR YOUR CONSCIOUSNESS</p>
+         <button class="hero-cta" id="hero-cta" type="button">TALK TO ÆNIGMA — FREE</button>
+         <a class="hero-fuel" href="https://coff.ee/mccullough2s" target="_blank" rel="noopener">Want to fuel the mission? Buy me a coffee ☕</a>
+       </div>`;
   return `
-    <p class="eyebrow">THE ARCHITECT · CONVERSATIONAL CHARACTER</p>
-    <h1 class="page">Architect</h1>
-    ${ctx ? `<div class="arch-ctx">⤷ Context loaded from <b>${esc(ctx.from)}</b>: ${esc(ctx.summary || "")}</div>` : ""}
-    <div class="chat-shell">
+    <div class="chat-shell home-shell">
+      <div class="chat-head-row">
+        <span class="orb orb-xs" aria-hidden="true"></span>
+        <span class="chat-title">ÆNIGMA</span><span class="chat-online">● online</span>
+        <button class="btn ghost sm" id="arch-new" type="button">+ New</button>
+      </div>
+      ${ctx ? `<div class="arch-ctx">⤷ Context loaded from <b>${esc(ctx.from)}</b>: ${esc(ctx.summary || "")}</div>` : ""}
       <div class="chat-thread" id="arch-thread">${thread}</div>
       <form class="chat-inputbar" id="arch-form">
-        <textarea id="arch-input" rows="1" placeholder="State what you are building…" autocomplete="off"></textarea>
-        <button class="chat-send" id="arch-send" type="submit" aria-label="Send">→</button>
+        <div class="fmt-bar" role="toolbar" aria-label="Formatting">
+          <button type="button" data-fmt="bold" title="Bold"><b>B</b></button>
+          <button type="button" data-fmt="italic" title="Italic"><i>I</i></button>
+          <button type="button" data-fmt="list" title="Bulleted list">•≡</button>
+        </div>
+        <textarea id="arch-input" rows="1" placeholder="What's on your mind?" autocomplete="off"></textarea>
+        <button class="chat-send" id="arch-send" type="submit" aria-label="Send" title="Send · 2 credits">→</button>
       </form>
+      <p class="chat-disclaimer">Free trial · 60 credits, no card required. Symbolic readings — for reflection &amp; entertainment.</p>
     </div>
     <div class="panel" style="margin-top:14px"><h3>VOICE — ELEVENLABS (YOUR KEY)</h3>
       <div class="priv-note">🔒 Your key never leaves your browser. Stored in this device's localStorage only.</div>
@@ -1970,7 +1321,7 @@ function architectView() {
           <label style="flex:1;min-width:180px">VOICE<select id="el-voice"><option value="">— save a key first —</option></select></label>
           <label style="display:flex;flex-direction:row;align-items:center;gap:8px">AUTO-SPEAK <input type="checkbox" id="el-auto" style="width:auto" /></label>
         </div>
-        <div id="el-status" style="font-size:12.5px;color:var(--ink-2)">Voice is optional — the Architect works in text regardless.</div>
+        <div id="el-status" style="font-size:12.5px;color:var(--ink-2)">Voice is optional — ÆNIGMA works in text regardless.</div>
       </div></div>`;
 }
 
@@ -2017,19 +1368,46 @@ function wireArchitect() {
     if (b) speakIdx(+b.dataset.say);
   });
 
-  form.addEventListener("submit", (e) => {
+  // formatting toolbar: wrap selection
+  form.querySelectorAll("[data-fmt]").forEach((btn) => btn.addEventListener("click", () => {
+    const { selectionStart: a, selectionEnd: b, value: v } = input;
+    const sel = v.slice(a, b) || "text";
+    let ins;
+    if (btn.dataset.fmt === "bold") ins = `**${sel}**`;
+    else if (btn.dataset.fmt === "italic") ins = `*${sel}*`;
+    else ins = sel.split("\n").map((l) => "- " + l).join("\n");
+    input.value = v.slice(0, a) + ins + v.slice(b);
+    input.focus();
+    input.setSelectionRange(a + (btn.dataset.fmt === "list" ? 0 : btn.dataset.fmt === "bold" ? 2 : 1), a + ins.length - (btn.dataset.fmt === "list" ? 0 : btn.dataset.fmt === "bold" ? 2 : 1));
+  }));
+  // textarea autogrow
+  const grow = () => { input.style.height = "auto"; input.style.height = Math.min(input.scrollHeight, 140) + "px"; };
+  input.addEventListener("input", grow); grow();
+  // hero CTA focuses the composer
+  const heroCta = document.getElementById("hero-cta");
+  if (heroCta) heroCta.addEventListener("click", () => { input.focus(); });
+  // new conversation
+  const newBtn = document.getElementById("arch-new");
+  if (newBtn) newBtn.addEventListener("click", () => {
+    if (loadArch().length && !confirm("Start a new conversation? This clears the current one.")) return;
+    try { localStorage.removeItem(ARCH_KEY); } catch {}
+    route();
+  });
+
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const text = input.value.trim();
     if (!text) return;
+    if (!(await spendCredits("architect_message", COSTS.architect_message))) return;
     input.value = "";
     const msgs = loadArch();
-    msgs.push({ role: "user", content: text });
+    msgs.push({ role: "user", content: text, ts: Date.now() });
     let reply = architectReply(text);
     if (ctx && ctx.summary && !ctxUsed) {
       reply = `(Context: ${ctx.summary})\n` + reply;
       ctxUsed = true;
     }
-    msgs.push({ role: "assistant", content: reply });
+    msgs.push({ role: "assistant", content: reply, ts: Date.now() });
     saveArch(msgs);
     render();
     const auto = document.getElementById("el-auto");
@@ -2142,46 +1520,292 @@ function wireArchitect() {
   }
 
   // ------------------------------------------------------------- router
+  /* ============================================================
+     BILLING — credit wallet (server ledger), email identity, plans
+     ============================================================ */
+  const EMAIL_LS = "aenigma.email";
+  const COSTS = { quantum_run: 5, prediction_run: 5, architect_message: 2 };
+  const CLIENT_TIERS = [
+    { id: "standard", name: "Standard", price: 22.22, credits: 222 },
+    { id: "pro", name: "Pro", price: 44.44, credits: 444 },
+    { id: "proplus", name: "Pro+", price: 88.88, credits: 888 },
+    { id: "premium", name: "Premium", price: 222.22, credits: 2222 },
+  ];
+  const getEmail = () => { try { return localStorage.getItem(EMAIL_LS) || ""; } catch { return ""; } };
+
+  async function refreshCreditPill() {
+    const pill = document.getElementById("credit-pill");
+    const n = document.getElementById("credit-n");
+    const side = document.getElementById("side-bal");
+    const setBal = document.getElementById("set-bal");
+    const email = getEmail();
+    if (!email) {
+      if (pill) pill.hidden = true;
+      if (side) side.textContent = "free trial";
+      if (setBal) setBal.textContent = "sign in for 60 free credits";
+      return;
+    }
+    try {
+      const r = await fetch("/api/billing/me?email=" + encodeURIComponent(email));
+      if (!r.ok) return;
+      const w = await r.json();
+      if (pill) pill.hidden = false;
+      if (n) n.textContent = w.balance;
+      if (side) side.textContent = "◈ " + w.balance;
+      if (setBal) setBal.textContent = "◈ " + w.balance + (w.tier && w.tier !== "trial" ? " · " + w.tier : " · free trial");
+    } catch {}
+  }
+
+  function ensureEmail() {
+    return new Promise((resolve) => {
+      const existing = getEmail();
+      if (existing) return resolve(existing);
+      const veil = document.createElement("div");
+      veil.className = "modal-veil";
+      veil.innerHTML = `<div class="modal" role="dialog" aria-label="Claim free credits">
+        <h3>YOUR FREE TRIAL</h3>
+        <p><b>60 credits</b>, no card required. Your email identifies your wallet — nothing else is stored.</p>
+        <input type="email" id="m-email" placeholder="you@example.com" autocomplete="email" />
+        <div class="mrow"><button class="btn ghost" id="m-cancel" type="button">Cancel</button>
+        <button class="btn" id="m-ok" type="button">Claim 60 credits</button></div></div>`;
+      document.body.appendChild(veil);
+      const done = (v) => { veil.remove(); resolve(v); };
+      veil.querySelector("#m-cancel").addEventListener("click", () => done(""));
+      veil.querySelector("#m-ok").addEventListener("click", () => {
+        const v = veil.querySelector("#m-email").value.trim().toLowerCase();
+        if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)) { toast("Enter a valid email."); return; }
+        try { localStorage.setItem(EMAIL_LS, v); } catch {}
+        refreshCreditPill();
+        done(v);
+      });
+      setTimeout(() => { const i = veil.querySelector("#m-email"); if (i) i.focus(); }, 50);
+    });
+  }
+
+  async function spendCredits(action, cost) {
+    const email = await ensureEmail();
+    if (!email) return false;
+    try {
+      const r = await fetch("/api/billing/consume", {
+        method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, action, cost }),
+      });
+      const j = await r.json().catch(() => ({}));
+      if (r.ok && j.ok) { refreshCreditPill(); return true; }
+      toast(`Not enough credits (${j.balance ?? 0} left, need ${cost}) — top up in Subscription.`);
+      location.hash = "#/plans";
+      return false;
+    } catch { toast("Billing unreachable — try again."); return false; }
+  }
+
+  function mcUpsell() {
+    return `<div class="upsell"><div class="up-kicker">GO DEEPER</div>
+      <div class="up-title">The Misfit Code Mastercourse <span class="up-price">$144</span></div>
+      <p class="up-sub">The full system behind the mirror — 8 modules, lifetime access, built by the founder.</p>
+      <a class="btn" href="https://payhip.com/b/iYakP" target="_blank" rel="noopener">Open the Mastercourse ↗</a></div>`;
+  }
+
+  function plansView() {
+    const cards = CLIENT_TIERS.map((t) => `
+      <article class="plan-card">
+        <div class="plan-name">${t.name}</div>
+        <div class="plan-price">$${t.price.toFixed(2)}<span>/mo</span></div>
+        <div class="plan-credits">◈ ${t.credits} credits<span>/month</span></div>
+        <button class="btn plan-choose" data-tier="${t.id}" type="button">Choose ${t.name}</button>
+      </article>`).join("");
+    return `
+    <p class="eyebrow">SUBSCRIPTION</p>
+    <h1 class="page">Plans</h1>
+    <p class="lede">Free trial · <b>60 credits</b>, no card required. Credits refill every month on a plan.</p>
+    <div class="bal-row">Current balance: <b id="plans-bal">…</b> <span class="meta" id="plans-tier"></span></div>
+    <div class="plan-grid">${cards}</div>
+    <div class="panel" style="margin-top:18px"><h3>HOW CREDITS WORK</h3>
+      <div class="cost-rows">
+        <div><span>Quantum circuit run</span><b>5 ◈</b></div>
+        <div><span>Prediction run</span><b>5 ◈</b></div>
+        <div><span>Architect message</span><b>2 ◈</b></div>
+        <div><span>Reading · Corpus · Profile</span><b>free</b></div>
+      </div>
+      <p class="meta" style="margin:10px 0 0">The BFN Super Calculator is included with every plan — it never spends credits.</p>
+    </div>
+    <div class="panel" style="margin-top:14px"><h3>SUPPORT THE BUILD</h3>
+      <p class="lede" style="margin:0 0 12px">ÆNIGMA is built solo, late at night, on conviction. If it serves you, fuel it directly.</p>
+      <a class="btn ghost" href="https://coff.ee/mccullough2s" target="_blank" rel="noopener">☕ Buy me a coffee ↗</a></div>
+    <div id="plans-note" style="margin-top:12px"></div>`;
+  }
+
+  async function wirePlans() {
+    const grid = document.querySelector(".plan-grid");
+    if (!grid) return;
+    const email = getEmail();
+    const bal = document.getElementById("plans-bal");
+    const tierEl = document.getElementById("plans-tier");
+    const note = document.getElementById("plans-note");
+    const params = new URLSearchParams((location.hash.split("?")[1] || ""));
+    if (params.get("paid") === "1" && note) {
+      note.innerHTML = `<div class="panel" style="border-color:rgba(47,230,200,.5)"><p style="margin:0;color:var(--accent)">✓ Payment received — your credits are on the way. If the balance hasn't updated in a minute, refresh.</p></div>`;
+    }
+    try {
+      const t = await (await fetch("/api/billing/tiers")).json();
+      if (!t.configured && note) {
+        note.innerHTML = `<div class="panel"><p class="meta" style="margin:0">Checkout opens after keys are set — plans activate the moment billing is connected.</p></div>`;
+      }
+    } catch {}
+    if (email) {
+      try {
+        const r = await fetch("/api/billing/me?email=" + encodeURIComponent(email));
+        if (r.ok) {
+          const w = await r.json();
+          if (bal) bal.textContent = "◈ " + w.balance;
+          if (tierEl) tierEl.textContent = w.tier && w.tier !== "trial" ? "· " + w.tier + " plan" : "· free trial";
+        }
+      } catch {}
+    } else if (bal) bal.textContent = "sign in to claim 60 free";
+    grid.querySelectorAll(".plan-choose").forEach((b) => b.addEventListener("click", async () => {
+      const em = await ensureEmail();
+      if (!em) return;
+      b.disabled = true; b.textContent = "Opening checkout…";
+      try {
+        const r = await fetch("/api/billing/checkout", {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: em, tier: b.dataset.tier }),
+        });
+        const j = await r.json().catch(() => ({}));
+        if (r.ok && j.url) { location.href = j.url; return; }
+        toast(j.error || "Checkout unavailable right now.");
+      } catch { toast("Checkout unreachable — try again."); }
+      b.disabled = false; b.textContent = "Choose " + b.dataset.tier;
+    }));
+    refreshCreditPill();
+  }
+
+  /* ============================================================
+     NEW IA — home chat · instruments · profile · settings (ORION-style)
+     ============================================================ */
+  const INST_TOOLS = [
+    ["reading", "Reading", "☽"],
+    ["corpus", "Corpus", "◈"],
+    ["quantum", "Quantum", "⚛"],
+    ["prediction", "Prediction", "◇"],
+  ];
+  function instrumentsView(tool) {
+    const t = INST_TOOLS.some(([k]) => k === tool) ? tool : "reading";
+    const tabs = INST_TOOLS.map(([k, label, icon]) =>
+      `<a href="#/instruments/${k}" class="inst-tab${k === t ? " active" : ""}"><span>${icon}</span>${label}</a>`).join("");
+    const body = t === "corpus" ? corpusView() : t === "quantum" ? quantumView()
+      : t === "prediction" ? predictionView() : readingView();
+    return `<p class="eyebrow">INSTRUMENTS</p><div class="inst-tabs" role="tablist">${tabs}</div>${body}`;
+  }
+
+  function applyAppearance() {
+    let ap = "dark", ac = "emerald";
+    try {
+      ap = localStorage.getItem("aenigma.appearance") || "dark";
+      ac = localStorage.getItem("aenigma.accent") || "emerald";
+    } catch {}
+    const dark = ap === "dark" || (ap === "system" && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    document.documentElement.dataset.appearance = dark ? "dark" : "light";
+    document.documentElement.dataset.accent = ac === "gold" ? "gold" : "emerald";
+    const mc = document.querySelector('meta[name="color-scheme"]');
+    if (mc) mc.content = dark ? "dark" : "light";
+  }
+
+  function settingsView() {
+    return `
+    <p class="eyebrow">SETTINGS</p>
+    <h1 class="page">Settings</h1>
+    <div class="set-list">
+      <a class="set-row" href="#/profile"><span class="set-ic">●</span>
+        <span class="set-tx"><b>Profile</b><small>Birth data &amp; typology — feeds every instrument</small></span>
+        <span class="set-go">→</span></a>
+      <div class="set-row"><span class="set-ic">◐</span>
+        <span class="set-tx"><b>Appearance</b><small>Dark, light, or follow the system</small></span>
+        <span class="seg" id="seg-appear">
+          <button type="button" data-v="dark">Dark</button><button type="button" data-v="light">Light</button><button type="button" data-v="system">System</button>
+        </span></div>
+      <div class="set-row"><span class="set-ic">◆</span>
+        <span class="set-tx"><b>Accent</b><small>Midnight Emerald or Legacy Gold</small></span>
+        <span class="seg" id="seg-accent">
+          <button type="button" data-v="emerald">Emerald</button><button type="button" data-v="gold">Gold</button>
+        </span></div>
+      <a class="set-row" href="#/plans"><span class="set-ic">▲</span>
+        <span class="set-tx"><b>Subscription</b><small>Credits &amp; plans · balance <b id="set-bal">…</b></small></span>
+        <span class="set-go">→</span></a>
+      <a class="set-row" href="https://coff.ee/mccullough2s" target="_blank" rel="noopener"><span class="set-ic">☕</span>
+        <span class="set-tx"><b>Support the mission</b><small>Fuel the build — buy me a coffee</small></span>
+        <span class="set-go">↗</span></a>
+      <div class="set-row"><span class="set-ic">✦</span>
+        <span class="set-tx"><b>About</b><small id="set-ver">ÆNIGMA · checking version…</small></span></div>
+    </div>
+    <div class="founder-mini">
+      <img src="/founder.jpg" alt="Joshua R. McCullough" />
+      <div><div class="fr-role">THE ARCHITECT</div>
+      <div class="fr-name">Joshua R. McCullough</div>
+      <div class="fr-sub">Founder of ÆNIGMA AI · Ms'FitZ Studio</div></div>
+    </div>
+    <p class="meta" style="margin-top:16px"><a class="link" href="#/ops">Operations</a> · anonymous aggregate stats, no personal data.</p>`;
+  }
+
+  function wireSettings() {
+    const ap = document.getElementById("seg-appear");
+    if (!ap) return;
+    let cur = "dark", acc = "emerald";
+    try {
+      cur = localStorage.getItem("aenigma.appearance") || "dark";
+      acc = localStorage.getItem("aenigma.accent") || "emerald";
+    } catch {}
+    const mark = (el, v) => el.querySelectorAll("button").forEach((b) =>
+      b.classList.toggle("on", b.dataset.v === v));
+    mark(ap, cur);
+    const ac = document.getElementById("seg-accent");
+    if (ac) mark(ac, acc);
+    ap.addEventListener("click", (e) => {
+      const b = e.target.closest("button"); if (!b) return;
+      try { localStorage.setItem("aenigma.appearance", b.dataset.v); } catch {}
+      applyAppearance(); mark(ap, b.dataset.v);
+    });
+    if (ac) ac.addEventListener("click", (e) => {
+      const b = e.target.closest("button"); if (!b) return;
+      try { localStorage.setItem("aenigma.accent", b.dataset.v); } catch {}
+      applyAppearance(); mark(ac, b.dataset.v);
+    });
+    fetch("/api/health").then((r) => r.ok ? r.json() : null).then((h) => {
+      const el = document.getElementById("set-ver");
+      if (el && h) el.textContent = `ÆNIGMA · build ${(h.version || "?").slice(0, 8)} · ${h.service || "aenigma-beta"} · up ${fmtDur(h.uptime_s || 0)}`;
+    }).catch(() => {});
+  }
+
+  // ------------------------------------------------------------- router
+  const CRUMBS = { home: "ÆNIGMA", instruments: "INSTRUMENTS", profile: "PROFILE", settings: "SETTINGS", plans: "SUBSCRIPTION", ops: "OPERATIONS" };
   function route() {
     if (window.__opsTimer) { clearInterval(window.__opsTimer); window.__opsTimer = null; }
     const hash = location.hash || "#/";
     const [pathPart, queryPart] = hash.slice(2).split("?");
     const params = new URLSearchParams(queryPart || "");
     const seg = pathPart.split("/");
-    let name = seg[0] || "landing";
+    let name = seg[0] || "home";
+    let routeKey = name;
 
     let html;
-    if (name === "archetype") {
-      const sym = (seg[1] || "").toUpperCase() || topSym();
-      name = "archetype";
-      html = terminalView(sym);
-    }
-    else if (name === "command") html = commandView();
-    else if (name === "lab") html = labView(params);
-    else if (name === "chat") html = chatView();
-    else if (name === "society") html = societyView();
-    else if (name === "reading") html = readingView();
-    else if (name === "corpus") html = corpusView();
-    else if (name === "quantum") html = quantumView();
-    else if (name === "prediction") html = predictionView();
-    else if (name === "architect") html = architectView();
+    if (name === "" || name === "home") { name = "home"; routeKey = "home"; html = architectView(); }
+    else if (name === "instruments") { html = instrumentsView(seg[1] || "reading"); routeKey = "instruments"; }
     else if (name === "profile") html = profileView();
-    else if (name === "ops") html = opsView();
-    else { name = "landing"; html = landingView(); }
+    else if (name === "settings") html = settingsView();
+    else if (name === "plans") { html = plansView(); routeKey = "settings"; }
+    else if (name === "ops") { html = opsView(); routeKey = "settings"; }
+    else { name = "home"; routeKey = "home"; html = architectView(); } // legacy routes fold home
 
     view.innerHTML = html;
     document.querySelectorAll("[data-route]").forEach((el) =>
-      el.classList.toggle("active", el.dataset.route === name));
-    document.body.classList.toggle("on-chat", name === "chat");
+      el.classList.toggle("active", el.dataset.route === routeKey));
+    const crumb = document.getElementById("crumb");
+    if (crumb) crumb.textContent = CRUMBS[name] || "ÆNIGMA";
     // RGB-split glitch bursts on the page heading
-    const h1 = view.querySelector("h1.page, .chat-hi");
+    const h1 = view.querySelector("h1.page");
     if (h1 && !h1.classList.contains("glitch")) {
       h1.classList.add("glitch");
       h1.setAttribute("data-text", h1.textContent);
     }
-    wireChartHover();
-    wireChat();
-    wireLab();
     wireReading();
     wireCorpus();
     wireQuantum();
@@ -2189,48 +1813,36 @@ function wireArchitect() {
     wireArchitect();
     wireProfile();
     wireOps();
+    wireSettings();
+    wirePlans();
+    if (typeof refreshCreditPill === "function") { try { refreshCreditPill(); } catch {} }
+    // sidebar search filter (wired once — the sidebar persists across routes)
+    const sq = document.getElementById("side-search");
+    if (sq && !sq.dataset.wired) {
+      sq.dataset.wired = "1";
+      sq.addEventListener("input", () => {
+        const q = sq.value.trim().toLowerCase();
+        document.querySelectorAll("#sidenav a").forEach((a) => {
+          a.style.display = !q || a.textContent.toLowerCase().includes(q) ? "" : "none";
+        });
+      });
+    }
     // view-hit beacon (server can't see hash routes) — anonymous, aggregates only
     fetch("/api/ops/ping?view=" + encodeURIComponent(name), { keepalive: true }).catch(() => {});
-    const play = document.getElementById("howto-play");
-    if (play && name !== "chat") play.addEventListener("click", openWalkthrough);
-    const dismiss = document.getElementById("howto-dismiss");
-    if (dismiss && name !== "chat") dismiss.addEventListener("click", () => {
-      markWalkthroughSeen();
-      const c = document.getElementById("howto-card");
-      if (c) c.remove();
-    });
 
     view.focus({ preventScroll: true });
     window.scrollTo(0, 0);
   }
 
   // ------------------------------------------------------------- boot
-  async function loadTheorems() {
-    try {
-      const r = await fetch("/api/theorems");
-      if (r.ok) THEOREMS = await r.json();
-    } catch { /* theorems stay offline; panels render their fallback */ }
+  applyAppearance();
+  if (window.matchMedia) {
+    const mq = window.matchMedia("(prefers-color-scheme: dark)");
+    if (mq.addEventListener) mq.addEventListener("change", () => {
+      try { if ((localStorage.getItem("aenigma.appearance") || "dark") === "system") applyAppearance(); } catch {}
+    });
   }
-
-  Promise.allSettled([fetch("/api/field").then((r) => r.json()), loadTheorems()])
-    .then(([fieldRes]) => {
-      if (fieldRes.status !== "fulfilled" || !fieldRes.value || !fieldRes.value.archetypes) {
-        view.innerHTML = `<h1 class="page">The field is unreachable</h1><p class="lede">Refresh to retry.</p>`;
-        return;
-      }
-      FIELD = fieldRes.value;
-      ticker();
-      const navA = document.getElementById("nav-archetype");
-      if (navA) navA.href = "#/archetype/" + topSym();
-      route();
-    })
-    .catch(() => { view.innerHTML = `<h1 class="page">The field is unreachable</h1><p class="lede">Refresh to retry.</p>`; });
-
+  initStarfield();
+  route();
   window.addEventListener("hashchange", route);
-
-  // footer actions (persistent chrome)
-  const share = document.getElementById("share-field");
-  if (share) share.addEventListener("click", shareField);
-  const footHowto = document.getElementById("foot-howto");
-  if (footHowto) footHowto.addEventListener("click", openWalkthrough);
 })();
