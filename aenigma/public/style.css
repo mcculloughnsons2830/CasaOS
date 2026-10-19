@@ -1,5 +1,6 @@
 /* ÆNIGMA AI — dark terminal aesthetic · teal #2FE6C8 + gold on near-black */
 :root {
+  color-scheme: dark;
   --bg: #07090c;
   --surface: #0d1117;
   --surface-2: #10161d;
@@ -140,10 +141,13 @@ h1.page { font-size: 26px; margin: 0 0 6px; font-weight: 700; letter-spacing: .0
 .btn.ghost { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
 .btn:disabled { opacity: .5; cursor: default; }
 .link { color: var(--accent); font-size: 12px; }
-textarea, select {
+input, textarea, select {
   width: 100%; background: var(--surface-2); color: var(--ink); border: 1px solid var(--border);
   border-radius: 8px; padding: 10px 12px; font-family: var(--mono); font-size: 13px;
+  color-scheme: dark;
 }
+input::placeholder { color: var(--ink-3); }
+input:focus, textarea:focus, select:focus { outline: none; border-color: var(--accent); }
 textarea { min-height: 110px; resize: vertical; }
 label { display: grid; gap: 6px; font-size: 11px; letter-spacing: .12em; color: var(--ink-2); }
 
