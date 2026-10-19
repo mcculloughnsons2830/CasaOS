@@ -294,6 +294,14 @@
           <a class="btn ghost" href="#/chat">Talk to ÆNIGMA</a>
         </div>
       </section>
+      <section class="founder-card">
+        <img class="founder-photo" src="/founder.jpg" alt="Joshua R. McCullough, founder of ÆNIGMA AI" />
+        <div class="founder-copy">
+          <p class="founder-eyebrow">THE ARCHITECT</p>
+          <p class="founder-name">Joshua R. McCullough</p>
+          <p class="founder-line">Founder of ÆNIGMA AI · Ms'FitZ Studio</p>
+        </div>
+      </section>
       ${(seenWalkthrough() || loadChat().length) ? "" : `
       <div class="howto-card" id="howto-card">
         <img class="howto-thumb" src="/walkthrough-poster.jpg" alt="" />
