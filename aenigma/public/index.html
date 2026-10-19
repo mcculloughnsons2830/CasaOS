@@ -2,83 +2,79 @@
 <html lang="en" data-appearance="dark" data-accent="emerald">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="color-scheme" content="dark" />
-  <title>ÆNIGMA — a mirror for your consciousness</title>
-  <meta name="description" content="ÆNIGMA (beta) — real-time resonance for the archetypes moving through you. Reflect, discover, unlock the hidden." />
-  <link rel="icon" href="/bear-logo.png" />
+  <title>ÆNIGMA AI — Precision Insight. Purposeful Guidance.</title>
+  <meta name="description" content="ÆNIGMA AI — a multidimensional reading engine. Birth architecture, harmonic synthesis, enneagram mapping, codex insights. For self-reflection and entertainment." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='46' fill='none' stroke='%23F2F2F2' stroke-width='3'/%3E%3Ccircle cx='50' cy='50' r='38' fill='none' stroke='%23F2F2F2' stroke-width='1.6'/%3E%3Cpath d='M50 12 L78 70 L22 70 Z' fill='none' stroke='%23F2F2F2' stroke-width='2'/%3E%3Cpath d='M50 88 L22 30 L78 30 Z' fill='none' stroke='%23F2F2F2' stroke-width='2'/%3E%3Ccircle cx='50' cy='50' r='7' fill='%238FBC8F'/%3E%3C/svg%3E" />
 
-  <!-- Social preview: link unfurls as the ÆNIGMA card -->
   <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="ÆNIGMA" />
-  <meta property="og:title" content="ÆNIGMA — a mirror for your consciousness" />
-  <meta property="og:description" content="Ten archetypes move through you every day. Which is loudest right now? Enter the field — free beta, no signup, in your browser." />
-  <meta property="og:image" content="https://casaos-production.up.railway.app/social-card.png" />
+  <meta property="og:site_name" content="ÆNIGMA AI" />
+  <meta property="og:title" content="ÆNIGMA AI — Precision Insight. Purposeful Guidance." />
+  <meta property="og:description" content="A multidimensional reading engine: birth architecture, harmonic synthesis, enneagram mapping, codex insights. Free to begin." />
+  <meta property="og:image" content="https://casaos-production-f40b.up.railway.app/social-card.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:url" content="https://casaos-production.up.railway.app/" />
+  <meta property="og:url" content="https://casaos-production-f40b.up.railway.app/" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="ÆNIGMA — a mirror for your consciousness" />
-  <meta name="twitter:description" content="Ten archetypes move through you every day. Which is loudest right now? Free beta." />
-  <meta name="twitter:image" content="https://casaos-production.up.railway.app/social-card.png" />
+  <meta name="twitter:title" content="ÆNIGMA AI — Precision Insight. Purposeful Guidance." />
+  <meta name="twitter:description" content="A multidimensional reading engine. Free to begin." />
+  <meta name="twitter:image" content="https://casaos-production-f40b.up.railway.app/social-card.png" />
 
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/style.css" />
 </head>
 <body>
-  <div class="geo-bg" aria-hidden="true"></div>
   <canvas id="stars" aria-hidden="true"></canvas>
 
-  <div id="beta-bar">
-    <span class="beta-chip">BETA</span>
-    <span>The field is simulated for this beta. Reflections stay on your device. For self-reflection &amp; entertainment — not medical or psychological advice.</span>
+  <div id="splash" aria-hidden="true">
+    <div class="splash-inner">
+      <span id="splash-logo"></span>
+      <div class="splash-word">ÆNIGMA</div>
+      <div class="splash-sub">AI</div>
+    </div>
   </div>
 
-  <div id="shell">
-    <nav id="iconrail" aria-label="Sections">
-      <a href="#/" class="rail-logo" data-route="home" title="ÆNIGMA — home">
-        <span class="orb orb-sm" aria-hidden="true"></span>
+  <div id="app">
+    <aside id="sidenav" aria-label="Primary">
+      <a href="#/reading" class="nav-brand" data-route="reading" title="ÆNIGMA AI">
+        <span id="nav-logo"></span>
+        <span class="nav-brand-tx"><b>ÆNIGMA</b><small>AI</small></span>
       </a>
-      <a href="#/" data-route="home" title="Chat"><span class="ri">✦</span><span class="ri-lbl">Chat</span></a>
-      <a href="#/instruments" data-route="instruments" title="Instruments"><span class="ri">◈</span><span class="ri-lbl">Tools</span></a>
-      <a href="#/settings" data-route="settings" title="Settings"><span class="ri">⚙</span><span class="ri-lbl">Setup</span></a>
-      <a href="#/profile" class="rail-avatar" data-route="profile" title="My profile"><span class="ri">●</span><span class="ri-lbl">Me</span></a>
-    </nav>
-
-    <aside id="sidebar">
-      <div class="side-head"><span class="orb orb-xs" aria-hidden="true"></span><span class="side-word">ÆNIGMA</span></div>
-      <input id="side-search" type="search" placeholder="Search" autocomplete="off" aria-label="Search sections" />
-      <nav id="sidenav" aria-label="Primary">
-        <a href="#/" data-route="home"><span class="ni">✦</span>Chat</a>
-        <a href="#/instruments" data-route="instruments"><span class="ni">◈</span>Instruments</a>
-        <a href="#/profile" data-route="profile"><span class="ni">●</span>Profile</a>
-        <a href="#/settings" data-route="settings"><span class="ni">⚙</span>Settings</a>
+      <nav class="nav-links">
+        <a href="#/reading" data-route="reading"><span class="nav-ic" data-ic="reading"></span>Reading</a>
+        <a href="#/history" data-route="history"><span class="nav-ic" data-ic="history"></span>History</a>
+        <a href="#/library" data-route="library"><span class="nav-ic" data-ic="library"></span>Library</a>
+        <a href="#/insights" data-route="insights"><span class="nav-ic" data-ic="insights"></span>Insights</a>
+        <a href="#/profile" data-route="profile"><span class="nav-ic" data-ic="profile"></span>Profile</a>
       </nav>
-      <a class="side-sub" href="#/plans"><span class="ni">▲</span><span>Subscription</span><span class="side-bal" id="side-bal">…</span></a>
+      <a class="nav-sub" href="#/plans"><span>Subscription</span><b id="nav-bal">…</b></a>
+      <div class="nav-foot">KNOWLEDGE · STRUCTURE · DISCOVERY</div>
     </aside>
 
-    <div id="content">
-      <header id="slimbar">
-        <span id="crumb">ÆNIGMA</span>
-        <span class="slim-right">
-          <a id="credit-pill" href="#/plans" hidden title="Credit balance — view plans">◈ <b id="credit-n">…</b></a>
-          <a class="gear" href="#/settings" title="Settings" aria-label="Settings">⚙</a>
+    <div id="main">
+      <header id="topbar">
+        <a href="#/reading" class="top-brand" data-route="reading"><span id="top-logo"></span><b>ÆNIGMA</b></a>
+        <span class="top-right">
+          <a id="credit-pill" href="#/plans" hidden title="Credit balance — view plans"><span class="cp-ic">◈</span><b id="credit-n">…</b></a>
         </span>
       </header>
       <main id="view" tabindex="-1"></main>
       <footer id="site-footer">
-        <div class="foot-inner slim">
-          <p class="foot-line">Developed by Joshua R. McCullough — in association with Ms'FitZ Studio</p>
-          <p class="foot-disclaimer">For self-reflection and entertainment — not medical or psychological advice.</p>
-        </div>
+        <p class="foot-line">Developed by Joshua R. McCullough — in association with Ms'FitZ Studio</p>
+        <p class="foot-disclaimer">For self-reflection and entertainment — not medical or psychological advice. Symbolic readings are computed live in your browser.</p>
       </footer>
     </div>
   </div>
 
-  <nav id="tabbar" aria-label="Primary mobile">
-    <a href="#/" data-route="home"><span class="ti">✦</span><span>Chat</span></a>
-    <a href="#/instruments" data-route="instruments"><span class="ti">◈</span><span>Tools</span></a>
-    <a href="#/settings" data-route="settings"><span class="ti">⚙</span><span>Setup</span></a>
-    <a href="#/profile" data-route="profile"><span class="ti">●</span><span>Me</span></a>
+  <nav id="tabbar" aria-label="Primary">
+    <a href="#/reading" data-route="reading"><span class="tab-ic" data-ic="reading"></span><span>Reading</span></a>
+    <a href="#/history" data-route="history"><span class="tab-ic" data-ic="history"></span><span>History</span></a>
+    <a href="#/library" data-route="library"><span class="tab-ic" data-ic="library"></span><span>Library</span></a>
+    <a href="#/insights" data-route="insights"><span class="tab-ic" data-ic="insights"></span><span>Insights</span></a>
+    <a href="#/profile" data-route="profile"><span class="tab-ic" data-ic="profile"></span><span>Profile</span></a>
   </nav>
 
   <script src="/app.js"></script>
