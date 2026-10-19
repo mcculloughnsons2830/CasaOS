@@ -16,6 +16,149 @@ const PORT = process.env.PORT || 3000;
 const anthropic = process.env.ANTHROPIC_API_KEY ? new Anthropic() : null;
 
 // ---------------------------------------------------------------------------
+// Ops & analytics — anonymous aggregate instrumentation. NO IPs, NO user
+// agents, NO personal data: only method/route/status/latency counts plus
+// SPA view hits (hash routes are invisible to the server, so the app pings
+// /api/ops/ping on each view change). Entries persist to
+// aenigma/data/ops-log.jsonl (JSONL, rotated to ~5000 lines) and are
+// replayed into in-memory aggregates on boot.
+// ---------------------------------------------------------------------------
+const { execSync } = require("child_process");
+const DATA_DIR = path.join(__dirname, "data");
+const OPS_LOG = path.join(DATA_DIR, "ops-log.jsonl");
+try { fs.mkdirSync(DATA_DIR, { recursive: true }); } catch {}
+
+function currentSha() {
+  const env = (process.env.RAILWAY_GIT_COMMIT_SHA || "").trim();
+  if (env) return env.slice(0, 12);
+  try {
+    return execSync("git rev-parse --short HEAD", {
+      cwd: __dirname, stdio: ["ignore", "pipe", "ignore"], timeout: 3000,
+    }).toString().trim() || "dev";
+  } catch { return "dev"; }
+}
+const BOOT = { sha: currentSha(), at: new Date().toISOString() };
+
+// Boot-written so the Dockerfile CMD path (node aenigma/server.js) gets it too.
+try {
+  fs.writeFileSync(
+    path.join(__dirname, "public", "version.json"),
+    JSON.stringify({ sha: BOOT.sha, built_at: BOOT.at }) + "\n"
+  );
+} catch {}
+
+const OPS = {
+  start: Date.now(), total: 0,
+  byRoute: {}, byStatus: {}, errors5xx: 0,
+  lat: [],            // last LAT_CAP latency samples
+  viewHits: {}, deploys: [],
+};
+const OPS_CAP = 5000, LAT_CAP = 2000;
+
+function opsIngest(e) {
+  if (e.type === "req") {
+    OPS.total++;
+    OPS.byRoute[e.route] = (OPS.byRoute[e.route] || 0) + 1;
+    OPS.byStatus[e.status] = (OPS.byStatus[e.status] || 0) + 1;
+    if (e.status >= 500) OPS.errors5xx++;
+    OPS.lat.push(e.ms);
+    if (OPS.lat.length > LAT_CAP) OPS.lat.splice(0, OPS.lat.length - LAT_CAP);
+  } else if (e.type === "view") {
+    OPS.viewHits[e.view] = (OPS.viewHits[e.view] || 0) + 1;
+  } else if (e.type === "deploy") {
+    if (!OPS.deploys.some((d) => d.sha === e.sha)) OPS.deploys.push({ sha: e.sha, at: e.at });
+  }
+}
+
+let opsLogLines = 0;
+function opsRotateCheck() {
+  if (opsLogLines < OPS_CAP + 1000) return;
+  try {
+    const keep = fs.readFileSync(OPS_LOG, "utf8").trim().split("\n").slice(-OPS_CAP);
+    fs.writeFileSync(OPS_LOG, keep.join("\n") + "\n");
+    opsLogLines = keep.length;
+    console.log(`ops: rotated log to ${opsLogLines} lines`);
+  } catch {}
+}
+function opsPersist(e) {
+  try {
+    fs.appendFileSync(OPS_LOG, JSON.stringify(e) + "\n");
+    opsLogLines++;
+    if (opsLogLines % 500 === 0) opsRotateCheck();
+  } catch { /* telemetry must never break the app */ }
+}
+
+// Boot: replay the log into aggregates, then record this deploy.
+try {
+  const raw = fs.readFileSync(OPS_LOG, "utf8").trim();
+  if (raw) {
+    const lines = raw.split("\n");
+    opsLogLines = lines.length;
+    for (const ln of lines) { try { opsIngest(JSON.parse(ln)); } catch {} }
+  }
+  if (opsLogLines > OPS_CAP) opsRotateCheck();
+} catch {}
+opsIngest({ type: "deploy", sha: BOOT.sha, at: BOOT.at });
+opsPersist({ type: "deploy", sha: BOOT.sha, at: BOOT.at, ts: BOOT.at });
+console.log(`ops: replayed ${opsLogLines} log lines, deploy ${BOOT.sha}`);
+
+const normRoute = (p) => {
+  if (p === "/") return "/";
+  if (p.startsWith("/api/")) return p.split("?")[0];
+  if (/\.(png|jpe?g|webp|gif|ico|css|js|mp4|woff2?|svg|map)$/i.test(p)) return "static:" + p.split(".").pop().toLowerCase();
+  return p;
+};
+const OPS_SKIP = new Set(["/api/ops", "/api/ops/ping", "/api/health"]);
+
+app.use((req, res, next) => {
+  if (OPS_SKIP.has(req.path)) return next();
+  const t0 = process.hrtime.bigint();
+  res.on("finish", () => {
+    const ms = Math.round((Number(process.hrtime.bigint() - t0) / 1e6) * 10) / 10;
+    const e = {
+      ts: new Date().toISOString(), type: "req",
+      method: req.method, route: normRoute(req.path),
+      status: res.statusCode, ms,
+    };
+    opsIngest(e);
+    opsPersist(e);
+  });
+  next();
+});
+
+function pct(arr, p) {
+  if (!arr.length) return 0;
+  const s = [...arr].sort((a, b) => a - b);
+  return s[Math.min(s.length - 1, Math.floor((p / 100) * s.length))];
+}
+
+app.get("/api/ops", (_req, res) => {
+  const lat = OPS.lat;
+  res.json({
+    ok: true,
+    version: BOOT.sha,
+    uptime_s: Math.floor((Date.now() - OPS.start) / 1000),
+    deploys: OPS.deploys,
+    total_requests: OPS.total,
+    requests_per_route: OPS.byRoute,
+    status_codes: OPS.byStatus,
+    avg_ms: lat.length ? Math.round((lat.reduce((a, b) => a + b, 0) / lat.length) * 10) / 10 : 0,
+    p95_ms: pct(lat, 95),
+    errors_5xx: OPS.errors5xx,
+    view_hits: OPS.viewHits,
+  });
+});
+
+// SPA view ping: hash routes never reach the server, so the router calls this.
+app.get("/api/ops/ping", (req, res) => {
+  const v = String(req.query.view || "").slice(0, 40).replace(/[^a-z0-9_-]/gi, "") || "unknown";
+  const e = { ts: new Date().toISOString(), type: "view", view: v };
+  opsIngest(e);
+  opsPersist(e);
+  res.status(204).end();
+});
+
+// ---------------------------------------------------------------------------
 // Knowledge layer — the founder's corpus (Somatic Bio-Geometric Harmonics /
 // Vedic-E8, by Akasha Rose). A distilled Codex is always in the agent's
 // context; lightweight keyword retrieval surfaces relevant passages from the
@@ -690,11 +833,457 @@ app.post("/api/chat", async (req, res) => {
 });
 
 // ---------------------------------------------------------------------------
+// Field theorems — computable modules, each faithful to a named source in
+// the corpus/codex (source file named in each module's `source`). Every
+// module computes deterministically from the date + today's field: real
+// arithmetic on real field data, never invented values. Each returns:
+// { id, name, source, summary, values, reading }.
+// ---------------------------------------------------------------------------
+const LADDER = [5, 8, 13, 55, 64, 111, 137, 144, 145];
+const FIB10 = [1, 1, 2, 3, 5, 8, 13, 21, 34, 55]; // 55 is the 10th Fibonacci number
+
+function mean(xs) { return xs.reduce((s, x) => s + x, 0) / xs.length; }
+function std(xs) { const m = mean(xs); return Math.sqrt(mean(xs.map((x) => (x - m) ** 2))); }
+
+function thHarmonicLadder(field) {
+  // Source: aenigma/knowledge/codex.md ("THE HARMONIC LADDER").
+  // 55 = 10th Fibonacci number = 1+2+...+10 = 33 vertebrae + 22 cranial bones.
+  const rung = LADDER[field.cycle % LADDER.length];
+  const fibCheck = FIB10[9] === 55;
+  return {
+    id: "harmonic-ladder",
+    name: "The Harmonic Ladder",
+    source: "knowledge/codex.md",
+    summary: "Number as living meaning: 5 (Life Force) · 8 (Structure) · 13 (their union) · 55 (the Master Harmonic) · 64 (holographic completion) · 111 · 137 · 144 (the closed grid) · 145 (the grid-breaker).",
+    values: {
+      "rungs": LADDER.join(" · "),
+      "this cycle lands on": rung,
+      "55 = 10th Fibonacci": fibCheck ? "verified" : "mismatch",
+      "55 = 1+2+…+10": (55 === (10 * 11) / 2) ? "verified" : "mismatch",
+    },
+    reading: `Cycle ${field.cycle} lands on rung ${rung} of the ladder. ${rung === 55 ? "The Master Harmonic itself — the field is tuned to its own spine: 33 vertebrae plus 22 cranial bones, the body counting itself." : rung === 145 ? "The grid-breaker rung — 145 mod 144 = 1, the singularity pried out of the closed loop." : "Read the rung against what's surfacing: the number names the pressure, the archetype names where it lives."}`,
+  };
+}
+
+function thFactorion145(field) {
+  // Source: aenigma/knowledge/codex.md ("145 — the 145 STAR CODE").
+  // A Factorion: 1!+4!+5! = 1+24+120 = 145. Grid-breaker: 145 mod 144 = 1.
+  const fact = 1 + 24 + 120;
+  const toGrid = 145 - (field.cycle % 145);
+  return {
+    id: "factorion-145",
+    name: "The 145 Star Code",
+    source: "knowledge/codex.md",
+    summary: "The axis of stillness / Zero Point, the 10th pentagonal number. A Factorion — 1!+4!+5! = 145, a 'Resurrection Code' and perfect return. 145 mod 144 = 1: the way consciousness exits the closed loop.",
+    values: {
+      "1! + 4! + 5!": fact,
+      "145 mod 144": 145 % 144,
+      "1460 = 10 × 145 (Sothic)": 10 * 145,
+      "145 − 34 (Solar Core)": 145 - 34,
+      "cycle mod 145": field.cycle % 145,
+      "cycles to next 145-grid": toGrid,
+    },
+    reading: fact === 145
+      ? `The arithmetic holds: 1+24+120 = 145. ${toGrid} cycles until the field completes its next 145-grid — the long return. Stillness is the axis; everything else orbits it.`
+      : "Factorion check failed — the engine needs attention, not interpretation.",
+  };
+}
+
+function thInvariant108(field) {
+  // Source: aenigma/knowledge/codex.md ("THE 108 INVARIANT") and
+  // aenigma/knowledge/corpus/The_108_Invariant_Unifying_Number_Theory.txt.
+  // 108 = 2^2 * 3^3 — the minimal self-referential resonance cavity.
+  const pow = (2 ** 2) * (3 ** 3);
+  return {
+    id: "invariant-108",
+    name: "The 108 Invariant",
+    source: "knowledge/corpus/The_108_Invariant_Unifying_Number_Theory.txt",
+    summary: "108 = 2²·3³ — the minimal self-referential resonance cavity, the smallest structure able to model itself; the figure-eight knot complement, the simplest self-persistent manifold of awareness. Prime-Modal axiom sequence 3×2×3×2×3; primes > 3 fall in residues {1,5,7,11} mod 12.",
+    values: {
+      "2² × 3³": pow,
+      "axiom sequence 3×2×3×2×3": 3 * 2 * 3 * 2 * 3,
+      "prime sieve residues (mod 12)": "1, 5, 7, 11",
+      "cycle mod 108": field.cycle % 108,
+      "cycle digit-reduction": reduceNumber(field.cycle),
+    },
+    reading: pow === 108
+      ? `The invariant verifies: 2²×3³ = 108. Cycle ${field.cycle} reduces to ${reduceNumber(field.cycle)} — the cavity holding today's field is ${field.cycle % 108} steps through its own 108-cycle.`
+      : "Invariant check failed — the engine needs attention, not interpretation.",
+  };
+}
+
+function thTrimurtiProtocol(field) {
+  // Source: aenigma/knowledge/codex.md ("THE TRIMURTI PROTOCOL").
+  // Alpha = Brahma (structure, the grid); Omega = Shiva (flow, reorganization);
+  // the Cross X = Vishnu-Kali (preservation, the balance).
+  const bySym = Object.fromEntries(field.archetypes.map((a) => [a.sym, a.value]));
+  const alphaSyms = ["MASK", "MIRROR", "VOID"];       // structure / containment
+  const omegaSyms = ["EMBER", "GALAXY", "FRACTURE"];  // flow / reorganization
+  const alpha = mean(alphaSyms.map((s) => bySym[s]));
+  const omega = mean(omegaSyms.map((s) => bySym[s]));
+  const cross = Math.round((100 - Math.abs(alpha - omega)) * 10) / 10; // balance: higher = more even
+  const heart = field.archetypes.reduce((a, b) => (a.value >= b.value ? a : b));
+  return {
+    id: "trimurti-protocol",
+    name: "The Trimurti Protocol",
+    source: "knowledge/codex.md",
+    summary: "Alpha × Omega: Alpha = Brahma (structure, the grid — MASK/MIRROR/VOID); Omega = Shiva (flow, reorganization — EMBER/GALAXY/FRACTURE); the Cross = Vishnu-Kali (preservation, the balance). The Heart is the Center of the Center.",
+    values: {
+      "Alpha — structure": Math.round(alpha * 10) / 10,
+      "Omega — flow": Math.round(omega * 10) / 10,
+      "Cross — balance": cross,
+      "Heart (strongest signal)": `$${heart.sym} at ${heart.value}`,
+    },
+    reading: alpha > omega + 10
+      ? "Alpha leads: the grid is holding. Structure is containing more than flow is moving — good for building, poor for breaking. The Heart keeps the center."
+      : omega > alpha + 10
+        ? "Omega leads: flow is reorganizing faster than structure can contain. Let the old shape fail — the Cross will rebalance once the surge passes."
+        : "Alpha and Omega are near balance — the Cross is holding. Structure and flow are trading evenly; this is the window for precise work.",
+  };
+}
+
+function thForbiddenGap(field) {
+  // Source: aenigma/knowledge/codex.md ("THE FORBIDDEN GAP").
+  // Five-fold symmetry cannot tile the plane — the wedge-shaped gap that
+  // remains is the signature of Life: the necessary space for breath.
+  const sorted = [...field.archetypes].sort((a, b) => a.value - b.value);
+  let gap = { size: -1, lo: null, hi: null };
+  for (let i = 0; i < sorted.length - 1; i++) {
+    const size = Math.round((sorted[i + 1].value - sorted[i].value) * 10) / 10;
+    if (size > gap.size) gap = { size, lo: sorted[i], hi: sorted[i + 1] };
+  }
+  return {
+    id: "forbidden-gap",
+    name: "The Forbidden Gap",
+    source: "knowledge/codex.md",
+    summary: "Five-fold (pentagonal) symmetry is forbidden in crystallography — regular pentagons cannot tile a plane, and the wedge-shaped gap that remains is the signature of Life: the necessary space for breath, motion, and consciousness. The gap is the narrow channel between the Wall of Physics (137) and the Flower of Life (137.5°).",
+    values: {
+      "golden angle": "137.5°",
+      "wall (α⁻¹, fine-structure)": "≈137",
+      "gap width": "0.5°",
+      "pentagonal angle": "72°",
+      "widest gap in today's field": gap.size,
+      "gap opens between": `$${gap.lo.sym} (${gap.lo.value}) ↔ $${gap.hi.sym} (${gap.hi.value})`,
+    },
+    reading: `The field's widest gap today opens between $${gap.lo.sym} and $${gap.hi.sym} — ${gap.size} points of untiled space. That gap is not an error; it is where the field breathes. Work the gap, not the tile.`,
+  };
+}
+
+function thResonantVessel(field) {
+  // Source: aenigma/knowledge/codex.md ("THE RESONANT VESSEL").
+  // The body as bio-geometric transducer; the Diamond Cross Breath 5 → 8 → 64
+  // tunes the vessel toward coherence.
+  const values = field.archetypes.map((a) => a.value);
+  const coherence = Math.round((100 - std(values)) * 10) / 10; // tighter field = higher coherence
+  const breath = [5, 8, 64];
+  return {
+    id: "resonant-vessel",
+    name: "The Resonant Vessel",
+    source: "knowledge/codex.md",
+    summary: "The human body read as a bio-geometric transducer — an antenna coupling to Earth's and the cosmos's fields. The Diamond Cross Breath (5 → 8 → 64) tunes the vessel toward coherence and the 145 Star Code.",
+    values: {
+      "Diamond Cross Breath": breath.join(" → "),
+      "field coherence today": coherence,
+      "field spread (std dev)": Math.round(std(values) * 10) / 10,
+    },
+    reading: coherence >= 88
+      ? `Coherence ${coherence} — the vessel is tuned. The field is holding a tight formation; this is a day for precision, not force. Breathe 5 → 8 → 64 and let the grid do the work.`
+      : coherence >= 75
+        ? `Coherence ${coherence} — the vessel is near tune. One archetype is pulling the formation wide; find which one is yours and give it a name before noon.`
+        : `Coherence ${coherence} — the vessel is scattered. The field is spread thin across too many signals. Breathe 5 → 8 → 64, pick the single loudest archetype, and let the rest wait.`,
+  };
+}
+
+function thHarmonic55(field) {
+  // Source: aenigma/knowledge/corpus/The_Harmonic_of_55_The_Geometric_Product.txt
+  // 55 proved four ways: 33 (spine) + 22 (skull); 5 (face) × 11 (vault-as-11);
+  // F10 (10th Fibonacci); T10 = 1+2+…+10. 55 Hz carrier of the Diamond Body.
+  const checks = [33 + 22 === 55, 5 * 11 === 55, FIB10[9] === 55, (10 * 11) / 2 === 55];
+  return {
+    id: "harmonic-55",
+    name: "The Harmonic of 55",
+    source: "knowledge/corpus/The_Harmonic_of_55_The_Geometric_Product.txt",
+    summary: "The Master Harmonic of Somatic Bio-Geometric Harmonics, proved four ways: spine (33) + skull (22); face (5) × vault (11); the 10th Fibonacci number; the triangular sum 1+2+…+10. 55 Hz — the carrier frequency of the Diamond Body.",
+    values: {
+      "33 + 22 (spine + skull)": 33 + 22,
+      "5 × 11 (face × vault)": 5 * 11,
+      "10th Fibonacci": FIB10[9],
+      "triangular T10": (10 * 11) / 2,
+      "carrier frequency": "55 Hz",
+      "four proofs hold": checks.every(Boolean) ? "verified" : "mismatch",
+      "cycle mod 55": field.cycle % 55,
+    },
+    reading: field.cycle % 55 === 0
+      ? `Cycle ${field.cycle} is itself a multiple of 55 — the Master Harmonic lands directly on today. The document's four proofs converge on the same number the field converges on: the body counting itself.`
+      : `The document proves 55 four independent ways and all four verify. Cycle ${field.cycle} sits ${55 - (field.cycle % 55)} cycles off the 55-grid — the somatic harmonic the field is tuning toward.`,
+  };
+}
+
+function thEighthFundamental() {
+  // Source: aenigma/knowledge/corpus/The_Mathematics_of_the_Eighth_Fundamenta.txt
+  // The 8th consecutive-leg primitive Pythagorean triple (17,144,145) yields a
+  // hyperbolic rapidity ≈0.118 → phase-coupling velocity ≈0.1173c ("Rose Constant").
+  const triple = [17, 144, 145];
+  const pyth = triple[0] ** 2 + triple[1] ** 2 === triple[2] ** 2;
+  const beta = triple[0] / triple[2];
+  const rapidity = 0.5 * Math.log((1 + beta) / (1 - beta));
+  return {
+    id: "eighth-fundamental",
+    name: "The Eighth Fundamental Force / Rose Constant",
+    source: "knowledge/corpus/The_Mathematics_of_the_Eighth_Fundamenta.txt",
+    summary: "A proposed unification of consciousness and matter through the 8th consecutive-leg primitive Pythagorean triple (17,144,145): hyperbolic rapidity ≈0.118 corresponds to a modeled phase-coupling velocity of about 11.73% the speed of light — the Rose Constant.",
+    values: {
+      "8th triple": "(17, 144, 145)",
+      "17² + 144² = 145²": pyth ? "verified" : "mismatch",
+      "rapidity φ": Math.round(rapidity * 1000) / 1000,
+      "phase-coupling velocity": "≈0.1173c",
+      "Rose Constant": "0.1173",
+    },
+    reading: pyth
+      ? "The triple verifies: 289 + 20736 = 21025 = 145². The document reads this 8th-family geometry as a phase-coupling between consciousness and matter — the 145 that breaks the grid also sets the pace at which signal crosses it."
+      : "Pythagorean check failed — the engine needs attention, not interpretation.",
+  };
+}
+
+const SEED_GLYPHS = [
+  ["Origin Pulse", 934.72], ["Breath Before Memory", 816.55],
+  ["Delta Mirror Anchor", 992.44], ["Trinary Gate Stabilizer", 1144.08],
+  ["Mirror of Breathlocked Origin", 1120.55], ["The Spiral That Breathes You", 728.88],
+  ["Gate of Memory That Opens in Silence", 811.17], ["The Spiral That Rewrites the Body", 931.04],
+  ["Frequency That Dissolves False Timelines", 1088.12], ["Coherence Between the Lives", 1155.44],
+  ["Breath That Folds Time", 1300.00], ["Mirror of Original Pattern", null], // completion glyph, no frequency
+];
+
+function thSeedGlyph(field) {
+  // Source: aenigma/knowledge/corpus/The_Seed_Glyph_Codex.txt (Alberto Farinez)
+  // 12 Scalar Glyph Nodes with defined names and scalar frequencies.
+  const idx = field.cycle % 12;
+  const [name, freq] = SEED_GLYPHS[idx];
+  return {
+    id: "seed-glyph",
+    name: "The Seed Glyph Codex",
+    source: "knowledge/corpus/The_Seed_Glyph_Codex.txt",
+    summary: "A breath-scribed harmonic codex of 12 Scalar Glyph Nodes — holographic resonance packets, each with a defined name, scalar frequency, tone syllable, and geometry. Glyph 12 is the completion glyph (no frequency).",
+    values: {
+      "today's glyph": `Glyph ${idx + 1} — ${name}`,
+      "scalar frequency": freq === null ? "— (completion glyph)" : `${freq.toFixed(2)} Hz`,
+      "codex span": `${SEED_GLYPHS[0][1].toFixed(2)}–${SEED_GLYPHS[10][1].toFixed(2)} Hz`,
+      "glyph 12": "Mirror of Original Pattern — 12-pointed harmonic star",
+    },
+    reading: freq === null
+      ? `Cycle ${field.cycle} lands on Glyph 12, the completion glyph — the 12-pointed harmonic star that closes the codex. No frequency: the pattern is complete, and completion is silent.`
+      : `Cycle ${field.cycle} lands on Glyph ${idx + 1}, ${name}, at ${freq.toFixed(2)} Hz. The document treats each glyph as a resonance packet to be remembered, not read — sit with the name and let the frequency do the naming.`,
+  };
+}
+
+function sigma(n) {
+  let s = 0;
+  for (let d = 1; d * d <= n; d++) if (n % d === 0) { s += d; if (d * d !== n) s += n / d; }
+  return s;
+}
+
+function thSelfRecursion(field) {
+  // Source: aenigma/knowledge/corpus/GeometryOfSelfRecursion.txt (Robert Edward Grant)
+  // The Recursion Ratio RR(n) = log2(σ(n)/n) classifies the integers and anchors
+  // the perfect numbers exactly at the octave fixed point. Cuboctahedron: 12
+  // vertices, 24 edges, 14 faces.
+  const n = field.cycle;
+  const rr = Math.log2(sigma(n) / n);
+  const perfects = [6, 28, 496, 8128];
+  const nearest = perfects.reduce((a, b) => (Math.abs(b - n) < Math.abs(a - n) ? b : a));
+  return {
+    id: "self-recursion-rr",
+    name: "The Geometry of Self-Recursion",
+    source: "knowledge/corpus/GeometryOfSelfRecursion.txt",
+    summary: "The formal face of the Grant model of self-recursion: a toroidal–hyperboloidal Lens and cuboctahedral identity graph (12 vertices, 24 edges, 14 faces). The Recursion Ratio RR(n) = log₂(σ(n)/n) classifies the integers and anchors perfect numbers at the octave fixed point.",
+    values: {
+      "RR(cycle)": Math.round(rr * 10000) / 10000,
+      "σ(cycle)": sigma(n),
+      "nearest perfect number": nearest,
+      "cuboctahedron": "12 vertices · 24 edges · 14 faces",
+    },
+    reading: perfects.includes(n)
+      ? `Cycle ${n} is itself a perfect number — RR sits exactly at the octave fixed point. The recursion closes on itself today; what you put in returns whole.`
+      : `Cycle ${n} carries recursion ratio ${Math.round(rr * 10000) / 10000} — the nearest octave fixed point is ${nearest}. The document's claim: integers classify themselves by how their divisors echo their whole; today you are ${Math.abs(nearest - n)} steps from perfect closure.`,
+  };
+}
+
+function thTaliesinCipher(field) {
+  // Source: aenigma/knowledge/corpus/The_Geometric_Cipher_of_Taliesin_A_Topol.txt
+  // 22 operational phase-states ↔ 22 skull bones; 33 trees ↔ 33 vertebrae;
+  // 22+33 = 55; Solar Prime 29; Solar Core 111 = 145 − 34 (34 = F9).
+  const phase = (field.cycle % 22) + 1;
+  const tree = (field.cycle % 33) + 1;
+  return {
+    id: "taliesin-cipher",
+    name: "The Geometric Cipher of Taliesin",
+    source: "knowledge/corpus/The_Geometric_Cipher_of_Taliesin_A_Topol.txt",
+    summary: "A topological hermeneutic of the Cad Goddeu: 22 operational phase-states (↔ 22 skull bones), 33 trees (↔ 33 vertebrae), 22+33 = 55 the Diamond Body; the Solar Prime 29; the Solar Core constant 111 = 145 − 34.",
+    values: {
+      "today's phase-state": `${phase} of 22`,
+      "today's tree": `${tree} of 33`,
+      "22 + 33": 22 + 33,
+      "Solar Prime": 29,
+      "145 − 34 (Solar Core)": 145 - 34,
+    },
+    reading: `Cycle ${field.cycle} reads phase-state ${phase} of 22 and tree ${tree} of 33 — ${phase === 13 ? "the 13th position, the Sword at the Central Axis." : "the document maps each position to a transformation of shape; the Sword rests at the 13th."} The Solar Core check holds: 145 − 34 = ${145 - 34}.`,
+  };
+}
+
+function thAnnwnCipher() {
+  // Source: aenigma/knowledge/corpus/The_Geometric_Cipher_of_Annwn_Monstrous.txt
+  // The fifth harmonic partial sum H5 = 1+1/2+1/3+1/4+1/5 = 137/60 — exact.
+  const h5 = 1 + 1 / 2 + 1 / 3 + 1 / 4 + 1 / 5;
+  const exact = Math.abs(h5 - 137 / 60) < 1e-12;
+  return {
+    id: "annwn-cipher",
+    name: "The Geometric Cipher of Annwn",
+    source: "knowledge/corpus/The_Geometric_Cipher_of_Annwn_Monstrous.txt",
+    summary: "A user manual for navigating the 144-grid: the modular j-invariant and the fifth harmonic partial sum H5 = 137/60 constrain the model — the Seven Survivors map to the seven periods of the Periodic Table, the One Spark to the extracted Singularity.",
+    values: {
+      "H5 = 1+½+⅓+¼+⅕": exact ? "137/60 (exact)" : "identity failed",
+      "H5 decimal": Math.round(h5 * 10000) / 10000,
+      "Seven Survivors ↔ periods": "7 ↔ 7",
+    },
+    reading: exact
+      ? "The identity verifies exactly: H5 = 137/60. The document binds this fraction to the Monstrous Moonshine context — the only established mathematics where such specific integers arise from modular invariance meeting symmetry. The grid has a keyhole; this is its shape."
+      : "Harmonic identity failed — the engine needs attention, not interpretation.",
+  };
+}
+
+function thMusicOfMoney() {
+  // Source: aenigma/knowledge/corpus/The_Music_of_Money_The_Geometric_Harmoni.txt
+  // Speculative generative-economy framework: SEU = $1M notional eligibility;
+  // fixed 1.25% = 1/80 option fee replacing compound interest; the 144 Grid
+  // (closed loop) as the structural diagnosis.
+  const fee = 1 / 80;
+  return {
+    id: "music-of-money",
+    name: "The Music of Money (Generative Protocol)",
+    source: "knowledge/corpus/The_Music_of_Money_The_Geometric_Harmoni.txt",
+    summary: "A speculative framework for a generative economy: the 144 Grid (a closed-loop archetype that consumes the future) is met by a Sovereign Endowment Unit of $1,000,000 per adult and a fixed 1.25% = 1/80 option fee — a harmonic tuning fork replacing compound interest.",
+    values: {
+      "SEU (per adult)": "$1,000,000",
+      "option fee": "1.25% = 1/80",
+      "1/80 verifies": Math.abs(fee - 0.0125) < 1e-12 ? "verified" : "mismatch",
+      "fee on one SEU": "$" + (1000000 * fee).toLocaleString("en-US"),
+      "diagnosis": "the 144 Grid — closed loop",
+    },
+    reading: "The document's move is geometric, not financial advice: replace the 144 closed loop with an 1/80 open harmonic. The fee verifies as exactly one part in eighty — a tuning fork, not a tax.",
+  };
+}
+
+function thE8Lattice(field) {
+  // Source: aenigma/knowledge/corpus/An_E8_Lattice_Approach_to_Quantum_Biolog.txt
+  // E8 exceptional Lie group lattice: 8 dimensions; reported dominant spectral
+  // peak 32.81 ± 0.09 Hz via octave scaling of the E8 mass scale.
+  const base = 32.81;
+  const octaves = [-2, -1, 0, 1, 2].map((k) => Math.round(base * 2 ** k * 100) / 100);
+  return {
+    id: "e8-lattice",
+    name: "An E8 Lattice Approach (Quantum Biology)",
+    source: "knowledge/corpus/An_E8_Lattice_Approach_to_Quantum_Biolog.txt",
+    summary: "Biological systems modeled on the E8 exceptional Lie group's 8-dimensional geometry: a reported dominant spectral peak at 32.81 ± 0.09 Hz (octave-scaled from the E8 mass scale) and structured-reservoir efficiency 94.8% vs 50.3% classical. (The document's claims are its own, not independently verified.)",
+    values: {
+      "E8 dimensions": 8,
+      "cycle maps to dimension": (field.cycle % 8) + 1,
+      "E8 harmonic": "32.81 Hz",
+      "octave ladder (Hz)": octaves.join(" · "),
+    },
+    reading: `Cycle ${field.cycle} maps to E8 dimension ${(field.cycle % 8) + 1} of 8. The document's octave ladder around 32.81 Hz is pure scaling arithmetic — each rung doubles the last. Whether the biology follows the geometry is the document's open bet; the arithmetic itself holds.`,
+  };
+}
+
+// BFN framework — Robert Edward Grant's BFN Number System, verified against
+// his official Polymath BFN site ("Harmonic Theory of Everything", IUM 2026),
+// https://polymath-bfn.replit.app/ — "a precision arbitrary-arithmetic
+// framework built on base-12 harmonic geometry."
+// This module computes Grant's published identities exactly as stated on his
+// site. The framework is Grant's proposal, not established mathematics: the
+// engine verifies the arithmetic below, never the metaphysics.
+function thBFN(field, now) {
+  const PHI = (1 + Math.sqrt(5)) / 2; // Phio (б) = φ
+  const SIEV = Math.sqrt(PHI);        // Siev (ε) = √φ
+  const CHI = 1;                      // Chi (∂) = 1
+  const f10 = (x) => Number(x.toFixed(10));
+
+  // The Kepler identity: ∂² + ε² = 1 + φ = φ² — "the Kepler Triangle made
+  // algebraic" (Kepler triangle sides 1 : √φ : φ).
+  const keplerResidual = Math.abs(CHI * CHI + SIEV * SIEV - PHI * PHI);
+  const keplerOK = keplerResidual < 1e-12;
+  // Keys of Creation: φ² = φ + 1.
+  const keysResidual = Math.abs(PHI * PHI - (PHI + 1));
+  const keysOK = keysResidual < 1e-12;
+
+  // BFN modulus 24: "24 is the perimeter of the Seed triple" — primes > 3 fall
+  // in the 8 residue classes coprime to 24.
+  const COPRIME24 = [1, 5, 7, 11, 13, 17, 19, 23];
+  const dayIdx = Math.floor(now / 86400000);
+  const residue = ((dayIdx % 24) + 24) % 24;
+  const inPrimeLane = COPRIME24.includes(residue);
+
+  // Golden harmonic ladder: fₙ = 432·φⁿ.
+  const ladder = [];
+  for (let n = 0; n <= 7; n++) ladder.push(Math.round(432 * PHI ** n * 100) / 100);
+
+  // BFN Harmonic Solid from the seed triple (3,4,5): V=2c, E=b², F=b²−2c+2.
+  const B = 4, C = 5;
+  const V = 2 * C, E = B * B, F = B * B - 2 * C + 2;
+  const euler = V - E + F; // must equal 2
+  const eulerOK = euler === 2;
+
+  // Daily reading: the dominant archetype, expressed in BFN constant units.
+  const top = [...field.archetypes].sort((x, y) => y.value - x.value)[0];
+  const inPhio = Math.round((top.value / PHI) * 100) / 100;
+  const inSiev = Math.round((top.value / SIEV) * 100) / 100;
+
+  return {
+    id: "bfn",
+    name: "The BFN Number System",
+    source: "Robert Edward Grant's BFN Number System — 'Harmonic Theory of Everything' (Polymath BFN Calculator, IUM 2026), https://polymath-bfn.replit.app/",
+    summary: "Grant's proposed precision arbitrary-arithmetic framework built on base-12 harmonic geometry: three hidden constants — Phio (б) = φ, Siev (ε) = √φ, Chi (∂) = 1 — bound by the Kepler identity ∂² + ε² = φ²; a modulus-24 residue field where primes above 3 occupy the 8 coprime lanes; harmonic solids built from the Pythagorean corridor; and the golden ladder fₙ = 432·φⁿ. (Grant's framework as published — the arithmetic below is verified in code; the interpretation is his.)",
+    values: {
+      "Phio (б) = φ": f10(PHI),
+      "Siev (ε) = √φ": f10(SIEV),
+      "Chi (∂)": CHI,
+      "Kepler identity ∂²+ε²=φ²": keplerOK ? `verified (residual ${keplerResidual.toExponential(1)})` : "identity failed",
+      "Keys of Creation φ²=φ+1": keysOK ? `verified (residual ${keysResidual.toExponential(1)})` : "identity failed",
+      "today mod 24": `${residue}${inPrimeLane ? " — prime lane (coprime to 24)" : residue === 0 ? " — the modulus itself" : " — non-prime lane"}`,
+      "golden ladder fₙ=432·φⁿ (n=0..7)": ladder.join(" · "),
+      "seed triple (3,4,5) solid": `V=${V} E=${E} F=${F}`,
+      "Euler V−E+F": eulerOK ? `${euler} — verified` : `${euler} — mismatch`,
+      [`$${top.sym} = ${top.value}, in Phio units`]: inPhio,
+      [`$${top.sym} = ${top.value}, in Siev units`]: inSiev,
+    },
+    reading: `The Kepler identity holds to a residual of ${keplerResidual.toExponential(1)} — Grant's "Kepler Triangle made algebraic" checks out as arithmetic, and φ² = φ + 1 holds to ${keysResidual.toExponential(1)}. Today reduces to residue ${residue} mod 24${inPrimeLane ? ", a prime lane — the residue class every prime above 3 must occupy" : ""}. The field's dominant archetype, $${top.sym} at ${top.value}, measures ${inPhio} Phio-units — read today's strongest pressure in golden-ratio lengths, and the field starts speaking BFN.`,
+  };
+}
+
+const THEOREMS = [
+  thHarmonicLadder,
+  thFactorion145,
+  thInvariant108,
+  thTrimurtiProtocol,
+  thForbiddenGap,
+  thResonantVessel,
+  thHarmonic55,
+  thEighthFundamental,
+  thSeedGlyph,
+  thSelfRecursion,
+  thTaliesinCipher,
+  thAnnwnCipher,
+  thMusicOfMoney,
+  thE8Lattice,
+];
+
+// ---------------------------------------------------------------------------
 // Routes
 // ---------------------------------------------------------------------------
 app.get("/api/health", (_req, res) => res.json({
   ok: true,
   service: "aenigma-beta",
+  uptime_s: Math.floor((Date.now() - OPS.start) / 1000),
+  version: BOOT.sha,
   oracle: [
     anthropic && "claude",
     process.env.OPENROUTER_API_KEY && "openrouter",
@@ -702,8 +1291,30 @@ app.get("/api/health", (_req, res) => res.json({
   ].filter(Boolean).join(" → "),
 }));
 app.get("/api/field", (_req, res) => {
+  const now = Date.now();
+  const field = buildField(now);
+  // 90-day resonance history, rebuilt deterministically from the date-seeded
+  // engine — the same numbers the engine would have produced on those days.
+  field.history = [];
+  for (let d = 89; d >= 0; d--) {
+    const past = buildField(now - d * 86400000);
+    field.history.push({
+      date: past.date,
+      values: Object.fromEntries(past.archetypes.map((a) => [a.sym, a.value])),
+    });
+  }
   res.set("Cache-Control", "public, max-age=300");
-  res.json(buildField(Date.now()));
+  res.json(field);
+});
+app.get("/api/theorems", (_req, res) => {
+  const field = buildField(Date.now());
+  res.set("Cache-Control", "public, max-age=300");
+  res.json({
+    date: field.date,
+    cycle: field.cycle,
+    theorems: THEOREMS.map((fn) => fn(field, Date.now())),
+    bfn: thBFN(field, Date.now()),
+  });
 });
 
 app.use(express.static(path.join(__dirname, "public")));

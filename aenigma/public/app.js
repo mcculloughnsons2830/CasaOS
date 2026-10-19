@@ -1148,6 +1148,15 @@ function readingView() {
 function wireReading() {
   const go = document.getElementById("rd-go");
   if (!go) return;
+  try {
+    const p = JSON.parse(localStorage.getItem("aenigma.profile.v1") || "null");
+    if (p) {
+      const dob = document.getElementById("rd-dob"), tob = document.getElementById("rd-tob"), loc = document.getElementById("rd-loc");
+      if (dob && p.dob && !dob.value) dob.value = p.dob;
+      if (tob && p.tob && !tob.value) tob.value = p.tob;
+      if (loc && p.bcity && !loc.value) loc.value = p.bcity;
+    }
+  } catch (e) {}
   const run = () => {
     const out = document.getElementById("rd-out");
     const dob = document.getElementById("rd-dob").value;
@@ -1160,6 +1169,130 @@ function wireReading() {
     out.scrollIntoView({ behavior: "smooth", block: "start" });
   };
   go.addEventListener("click", run);
+}
+
+/* ============================================================
+   VIEW — My Profile (#/profile)
+   ============================================================ */
+const PROF_LS = "aenigma.profile.v1";
+function loadProfile() { try { return JSON.parse(localStorage.getItem(PROF_LS)) || null; } catch (e) { return null; } }
+function saveProfile(p) { try { localStorage.setItem(PROF_LS, JSON.stringify(p)); } catch (e) {} }
+
+const LETTER_VAL = (() => {
+  const m = {};
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").forEach((ch, i) => { m[ch] = (i % 9) + 1; });
+  return m;
+})();
+const VOWELS = new Set(["A", "E", "I", "O", "U"]);
+function letterSum(name, filter) {
+  const clean = String(name || "").toUpperCase().replace(/[^A-Z]/g, "");
+  let total = 0;
+  const parts = [];
+  for (const ch of clean) {
+    const isV = VOWELS.has(ch);
+    if (filter === "vowel" && !isV) continue;
+    if (filter === "cons" && isV) continue;
+    total += LETTER_VAL[ch];
+    parts.push(`${ch}=${LETTER_VAL[ch]}`);
+  }
+  const r = digRoot(total, false);
+  return { total, value: r.value, steps: r.steps, count: clean.length, parts };
+}
+function profileLetterPanel(name) {
+  const n = String(name || "").trim();
+  if (n.length < 2) return `<p style="color:var(--ink-3);font-size:12.5px">Type your full birth name above — letter-number readouts appear live.</p>`;
+  const ex = letterSum(n, "all"), so = letterSum(n, "vowel"), pe = letterSum(n, "cons");
+  const row = (label, r) =>
+    `<li><span class="k">${label}</span><span class="v mono">${r.total} → ${r.steps.length ? r.steps.map((s) => s.sum).join(" → ") + " → " : ""}${r.value}</span></li>`;
+  return `<ul class="kv">${row("Expression (all letters)", ex)}${row("Soul Urge (vowels)", so)}${row("Personality (consonants)", pe)}</ul>
+    <p style="font-size:11px;color:var(--ink-3);margin:8px 0 0">Letter-number play — a symbolic exercise computed live in your browser, not established numerology. Pythagorean mapping A=1…I=9, J=1…</p>`;
+}
+const MBTI_TYPES = ["INTJ","INTP","ENTJ","ENTP","INFJ","INFP","ENFJ","ENFP","ISTJ","ISFJ","ESTJ","ESFJ","ISTP","ISFP","ESTP","ESFP"];
+const VOCATIONS = ["Creator","Builder","Healer","Teacher","Explorer","Guardian","Strategist","Artist","Founder","Guide","Researcher","Other"];
+function utcOptions(sel) {
+  let h = "";
+  for (let i = -12; i <= 14; i++) {
+    const s = (i >= 0 ? "+" : "") + i;
+    h += `<option value="${i}"${String(sel) === String(i) ? " selected" : ""}>UTC${s}</option>`;
+  }
+  return h;
+}
+function profileView() {
+  const p = loadProfile() || {};
+  const opt = (list, sel) => list.map((v) => `<option${v === sel ? " selected" : ""}>${v}</option>`).join("");
+  return `
+    <p class="eyebrow">IDENTITY · STORED ON THIS DEVICE ONLY</p>
+    <h1 class="page">My Profile</h1>
+    <p class="lede">One profile feeds every calculator — Reading, BFN, predictions. Saved in this browser's localStorage; nothing is uploaded.</p>
+    <div class="panel"><h3>IDENTITY</h3><div class="form-grid">
+      <label>FULL BIRTH NAME<input type="text" id="pf-name" value="${esc(p.name || "")}" placeholder="e.g. Joshua Reed McCullough" autocomplete="off" /></label>
+      <div class="form-row">
+        <label>SEX<select id="pf-sex"><option value="">—</option>${opt(["Male","Female"], p.sex)}</select></label>
+        <label>VOCATION<select id="pf-voc"><option value="">—</option>${opt(VOCATIONS, p.vocation)}</select></label>
+      </div>
+    </div></div>
+    <div class="panel" style="margin-top:14px"><h3>LETTER-NUMBER READOUT — LIVE</h3><div id="pf-letters">${profileLetterPanel(p.name)}</div></div>
+    <div class="panel" style="margin-top:14px"><h3>BIRTH DATA</h3><div class="form-grid">
+      <div class="form-row">
+        <label>DATE OF BIRTH<input type="date" id="pf-dob" value="${esc(p.dob || "")}" /></label>
+        <label>TIME OF BIRTH<input type="time" id="pf-tob" value="${esc(p.tob || "")}" /></label>
+      </div>
+      <div class="form-row">
+        <label>UTC OFFSET<select id="pf-utc">${utcOptions(p.utc)}</select></label>
+        <label>BIRTH CITY<input type="text" id="pf-bcity" value="${esc(p.bcity || "")}" placeholder="City, State/Country" autocomplete="off" /></label>
+      </div>
+      <label>CURRENT RESIDENCE<input type="text" id="pf-res" value="${esc(p.res || "")}" placeholder="City, State/Country" autocomplete="off" /></label>
+    </div></div>
+    <div class="panel" style="margin-top:14px"><h3>TYPOLOGY</h3><div class="form-grid">
+      <div class="form-row">
+        <label>MBTI<select id="pf-mbti"><option value="">—</option>${opt(MBTI_TYPES, p.mbti)}</select></label>
+        <label>ENNEAGRAM<select id="pf-ennea"><option value="">—</option>${opt(["1","2","3","4","5","6","7","8","9"], p.ennea)}</select></label>
+      </div>
+      <label>WING<select id="pf-wing"><option value="">—</option>${opt(["1w2","2w1","2w3","3w2","3w4","4w3","4w5","5w4","5w6","6w5","6w7","7w6","7w8","8w7","8w9","9w8","9w1"], p.wing)}</select></label>
+    </div></div>
+    <div class="scal-actions" style="margin-top:16px">
+      <button class="btn" id="pf-save" type="button">Save Profile</button>
+      <button class="btn ghost" id="pf-apply" type="button">Apply to All Calculators</button>
+      <button class="btn ghost" id="pf-clear" type="button">Clear</button>
+    </div>
+    <div id="pf-status" style="margin-top:10px;font-size:12.5px;color:var(--ink-2)"></div>
+    <p class="chat-disclaimer" style="margin-top:14px">No natal charts are fabricated here — only what is actually computable: digital roots, letter sums, and shown-arithmetic reductions.</p>`;
+}
+function wireProfile() {
+  const name = document.getElementById("pf-name");
+  const letters = document.getElementById("pf-letters");
+  if (name && letters) name.addEventListener("input", () => { letters.innerHTML = profileLetterPanel(name.value); });
+  const collect = () => ({
+    name: (document.getElementById("pf-name") || {}).value || "",
+    sex: (document.getElementById("pf-sex") || {}).value || "",
+    vocation: (document.getElementById("pf-voc") || {}).value || "",
+    dob: (document.getElementById("pf-dob") || {}).value || "",
+    tob: (document.getElementById("pf-tob") || {}).value || "",
+    utc: (document.getElementById("pf-utc") || {}).value || "",
+    bcity: (document.getElementById("pf-bcity") || {}).value || "",
+    res: (document.getElementById("pf-res") || {}).value || "",
+    mbti: (document.getElementById("pf-mbti") || {}).value || "",
+    ennea: (document.getElementById("pf-ennea") || {}).value || "",
+    wing: (document.getElementById("pf-wing") || {}).value || "",
+  });
+  const status = (t) => { const s = document.getElementById("pf-status"); if (s) s.textContent = t; };
+  const save = document.getElementById("pf-save");
+  if (save) save.addEventListener("click", () => { saveProfile(collect()); status("Profile saved on this device."); toast("Profile saved."); });
+  const apply = document.getElementById("pf-apply");
+  if (apply) apply.addEventListener("click", () => {
+    saveProfile(collect());
+    status("Profile saved and applied — Reading and the BFN calculator will pick it up.");
+    toast("Applied to all calculators.");
+  });
+  const clear = document.getElementById("pf-clear");
+  if (clear) clear.addEventListener("click", () => {
+    try { localStorage.removeItem(PROF_LS); } catch (e) {}
+    ["pf-name","pf-sex","pf-voc","pf-dob","pf-tob","pf-utc","pf-bcity","pf-res","pf-mbti","pf-ennea","pf-wing"].forEach((id) => {
+      const el = document.getElementById(id); if (el) el.value = "";
+    });
+    if (letters) letters.innerHTML = profileLetterPanel("");
+    status("Profile cleared.");
+  });
 }
 
 /* ============================================================
@@ -1210,14 +1343,333 @@ function corpusView() {
     <p style="color:var(--ink-2);font-size:13px;max-width:70ch">Seven primitive Pythagorean triples in the superparticular corridor (c = b+1) — a self-generating cascade from a single seed triangle. Factor interlocking: sum(a+b) of each triple = diff(b−a) of the next. Tap a card for its derivation.</p>
     <div class="key-grid">${keyCards()}</div>
 
-    <div class="panel" style="margin-top:18px"><h3>BFN CALCULATOR — BASE-12 HARMONIC REDUCTION</h3>
-      <div class="form-grid">
-        <label>NUMBER OR DATE DIGITS (e.g. 19890830)<input type="text" id="bfn-in" inputmode="numeric" placeholder="19890830" /></label>
-        <div><button class="btn" id="bfn-go" type="button">Reduce</button></div>
-        <div id="bfn-out"></div></div></div>
+    <div class="panel" style="margin-top:18px"><h3>BFN SUPER CALCULATOR</h3>
+      <p style="font-size:12px;color:var(--ink-3);margin:-6px 0 12px">High-precision engine (cap 10K digits) · operands, functions, codex constants, history, number analysis.</p>
+      <div class="scal-grid">
+        <div>
+          <div class="form-grid">
+            <div class="form-row">
+              <label>A<input type="text" id="sc-a" class="mono" inputmode="decimal" placeholder="0" autocomplete="off" /></label>
+              <label>B<input type="text" id="sc-b" class="mono" inputmode="decimal" placeholder="0" autocomplete="off" /></label>
+            </div>
+            <div class="form-row">
+              <label>PRECISION (DIGITS)<select id="sc-prec" class="mono">
+                <option value="50">50</option><option value="100" selected>100</option>
+                <option value="500">500</option><option value="1000">1K</option><option value="10000">10K</option>
+              </select></label>
+              <label>ANGLE MODE<select id="sc-ang" class="mono"><option value="rad">RADIANS</option><option value="deg">DEGREES</option></select></label>
+            </div>
+          </div>
+          <div class="scal-keypad" id="sc-keys">
+            <button type="button" data-k="C" class="kbd k-gold">C</button><button type="button" data-k="⌫" class="kbd k-gold">⌫</button><button type="button" data-k="(" class="kbd">(</button><button type="button" data-k=")" class="kbd">)</button>
+            <button type="button" data-k="7" class="kbd">7</button><button type="button" data-k="8" class="kbd">8</button><button type="button" data-k="9" class="kbd">9</button><button type="button" data-k="÷" class="kbd k-op">÷</button>
+            <button type="button" data-k="4" class="kbd">4</button><button type="button" data-k="5" class="kbd">5</button><button type="button" data-k="6" class="kbd">6</button><button type="button" data-k="×" class="kbd k-op">×</button>
+            <button type="button" data-k="1" class="kbd">1</button><button type="button" data-k="2" class="kbd">2</button><button type="button" data-k="3" class="kbd">3</button><button type="button" data-k="−" class="kbd k-op">−</button>
+            <button type="button" data-k="0" class="kbd">0</button><button type="button" data-k="." class="kbd">.</button><button type="button" data-k="^" class="kbd">^</button><button type="button" data-k="+" class="kbd k-op">+</button>
+            <button type="button" data-k="=" class="kbd k-eq">=</button>
+          </div>
+          <div class="scal-actions">
+            <button class="btn ghost" id="sc-copy" type="button">Copy Result</button>
+            <button class="btn ghost" id="sc-usea" type="button">Use Result as A</button>
+            <button class="btn ghost" id="sc-clear" type="button">Clear</button>
+            <button class="btn ghost" id="sc-birth" type="button">Birth Digits → A</button>
+          </div>
+        </div>
+        <div class="scal-fns">
+          <div class="scal-fn-group"><h4>TRIG</h4>
+            <button class="fbtn" data-f="sin" type="button">sin</button><button class="fbtn" data-f="cos" type="button">cos</button><button class="fbtn" data-f="tan" type="button">tan</button></div>
+          <div class="scal-fn-group"><h4>HYPERBOLIC</h4>
+            <button class="fbtn" data-f="sinh" type="button">sinh</button><button class="fbtn" data-f="cosh" type="button">cosh</button><button class="fbtn" data-f="tanh" type="button">tanh</button></div>
+          <div class="scal-fn-group"><h4>POWERS &amp; ROOTS</h4>
+            <button class="fbtn" data-f="pow" type="button">A^B</button><button class="fbtn" data-f="sq" type="button">A²</button><button class="fbtn" data-f="cb" type="button">A³</button><button class="fbtn" data-f="sqrt" type="button">√A</button><button class="fbtn" data-f="cbrt" type="button">∛A</button></div>
+          <div class="scal-fn-group"><h4>LOGS</h4>
+            <button class="fbtn" data-f="ln" type="button">ln A</button><button class="fbtn" data-f="log10" type="button">log₁₀ A</button></div>
+          <div class="scal-fn-group"><h4>SPECIAL</h4>
+            <button class="fbtn" data-f="gamma" type="button">Γ(A)</button><button class="fbtn" data-f="round" type="button">round A</button></div>
+          <div class="scal-fn-group"><h4>CODEX CONSTANTS</h4>
+            <button class="fbtn k-const" data-c="1.61803398874989484820" type="button">φ phio</button><button class="fbtn k-const" data-c="0.61803398874989484820" type="button">χ chi</button><button class="fbtn k-const" data-c="3.14159265358979323846" type="button">π</button><button class="fbtn k-const" data-c="2.71828182845904523536" type="button">e</button></div>
+        </div>
+      </div>
+      <div class="scal-result"><div class="scal-res-label">RESULT</div><div class="scal-res mono" id="sc-res">—</div></div>
+      <div class="scal-history"><h4>CALCULATION HISTORY</h4><div id="sc-hist" class="hist-list"><p class="hist-empty">No calculations yet.</p></div></div>
+      <div class="scal-analysis"><h4>NUMBER ANALYSIS</h4>
+        <div class="form-grid"><label>NUMBER<input type="text" id="sc-na" class="mono" inputmode="numeric" placeholder="19890830" autocomplete="off" /></label>
+        <div class="scal-actions">
+          <button class="btn ghost" id="sc-dr" type="button">Digital Root</button>
+          <button class="btn ghost" id="sc-dc" type="button">Digit Counter</button>
+          <button class="btn ghost" id="sc-b12" type="button">BFN-12 Residue</button>
+        </div><div id="sc-na-out"></div></div></div>
+      <div class="grant-note">${BFN_ATTR} Integer arithmetic runs on BigInt (true arbitrary precision, capped at 10K digits for sanity); decimals and transcendental functions use IEEE-754 floats (~17 significant digits real).</div>
+    </div>
 
     <div class="grant-note">${BFN_ATTR} The Triangular Keys cascade and Lens equation are presented as Grant published them.</div>
     <div style="margin-top:10px"><button class="btn ghost" id="corpus-ask" type="button">Ask Architect about the Corpus →</button></div>`;
+}
+
+/* ---------------- BFN Super Calculator engine ---------------- */
+const SC_HIST_LS = "aenigma.calc.hist";
+function scHist() { try { return JSON.parse(localStorage.getItem(SC_HIST_LS)) || []; } catch (e) { return []; } }
+function scHistPush(expr, result) {
+  try {
+    const h = scHist();
+    h.unshift({ expr: String(expr).slice(0, 120), result: String(result).slice(0, 400) });
+    localStorage.setItem(SC_HIST_LS, JSON.stringify(h.slice(0, 30)));
+  } catch (e) {}
+}
+function gammaFn(z) {
+  const C = [0.99999999999980993, 676.5203681218851, -1259.1392167224028, 771.32342877765313,
+    -176.61502916214059, 12.507343278686905, -0.13857109526572012, 9.9843695780195716e-6, 1.5056327351493116e-7];
+  if (z < 0.5) return Math.PI / (Math.sin(Math.PI * z) * gammaFn(1 - z));
+  z -= 1;
+  let x = C[0];
+  for (let i = 1; i < 9; i++) x += C[i] / (z + i);
+  const t = z + 7.5;
+  return Math.sqrt(2 * Math.PI) * Math.pow(t, z + 0.5) * Math.exp(-t) * x;
+}
+function scEval(expr) {
+  const clean = String(expr).replace(/×/g, "*").replace(/÷/g, "/").replace(/−/g, "-").replace(/\s+/g, "");
+  if (!clean || !/^[\d.+eE*\/^()\-]+$/.test(clean)) throw new Error("invalid expression");
+  const toks = clean.match(/(\d+\.?\d*(?:[eE][+-]?\d+)?|\.\d+(?:[eE][+-]?\d+)?|[+\-*/^()])/g);
+  if (!toks) throw new Error("invalid expression");
+  const prec = { "+": 1, "-": 1, "*": 2, "/": 2, "^": 4, u: 3 };
+  const out = [], ops = [];
+  let prev = null;
+  for (const t of toks) {
+    if (/^\d/.test(t) || t[0] === ".") { out.push(parseFloat(t)); prev = "n"; }
+    else if (t === "(") { ops.push(t); prev = "("; }
+    else if (t === ")") {
+      while (ops.length && ops[ops.length - 1] !== "(") out.push(ops.pop());
+      if (!ops.length) throw new Error("mismatched parentheses");
+      ops.pop(); prev = "n";
+    } else {
+      let op = t;
+      if (t === "-" && (prev === null || prev === "(" || prev === "o")) op = "u";
+      while (ops.length && ops[ops.length - 1] !== "(") {
+        const top = ops[ops.length - 1];
+        if ((prec[top] > prec[op]) || (prec[top] === prec[op] && op !== "^" && op !== "u")) out.push(ops.pop());
+        else break;
+      }
+      ops.push(op); prev = "o";
+    }
+  }
+  while (ops.length) { const o = ops.pop(); if (o === "(") throw new Error("mismatched parentheses"); out.push(o); }
+  const st = [];
+  for (const t of out) {
+    if (typeof t === "number") st.push(t);
+    else if (t === "u") { if (!st.length) throw new Error("bad expression"); st.push(-st.pop()); }
+    else {
+      if (st.length < 2) throw new Error("bad expression");
+      const b = st.pop(), a = st.pop();
+      st.push(t === "+" ? a + b : t === "-" ? a - b : t === "*" ? a * b : t === "/" ? a / b : Math.pow(a, b));
+    }
+  }
+  if (st.length !== 1) throw new Error("bad expression");
+  return st[0];
+}
+function scEvalBig(expr) {
+  // True arbitrary-precision path for pure integer arithmetic via BigInt.
+  // Returns a digit string, or null when the expression is not integer-only.
+  const clean = String(expr).replace(/×/g, "*").replace(/÷/g, "/").replace(/−/g, "-").replace(/\s+/g, "");
+  if (!clean || !/^[\d+\-*/^()]+$/.test(clean) || /[.]/.test(clean)) return null;
+  try {
+    const toks = clean.match(/(\d+|[+\-*/^()])/g);
+    if (!toks || toks.some((t) => t === "/")) return null; // BigInt division truncates — refuse, stay honest
+    const prec = { "+": 1, "-": 1, "*": 2, "^": 4, u: 3 };
+    const out = [], ops = [];
+    let prev = null;
+    for (const t of toks) {
+      if (/^\d+$/.test(t)) { out.push(BigInt(t)); prev = "n"; }
+      else if (t === "(") { ops.push(t); prev = "("; }
+      else if (t === ")") {
+        while (ops.length && ops[ops.length - 1] !== "(") out.push(ops.pop());
+        if (!ops.length) return null;
+        ops.pop(); prev = "n";
+      } else {
+        let op = t;
+        if (t === "-" && (prev === null || prev === "(" || prev === "o")) op = "u";
+        while (ops.length && ops[ops.length - 1] !== "(") {
+          const top = ops[ops.length - 1];
+          if ((prec[top] > prec[op]) || (prec[top] === prec[op] && op !== "^" && op !== "u")) out.push(ops.pop());
+          else break;
+        }
+        ops.push(op); prev = "o";
+      }
+    }
+    while (ops.length) { const o = ops.pop(); if (o === "(") return null; out.push(o); }
+    const st = [];
+    for (const t of out) {
+      if (typeof t === "bigint") st.push(t);
+      else if (t === "u") { if (!st.length) return null; st.push(-st.pop()); }
+      else {
+        if (st.length < 2) return null;
+        const b = st.pop(), a = st.pop();
+        if (t === "^") {
+          if (b < 0n || b > 100000n) return null;
+          st.push(a ** b);
+        }
+        else st.push(t === "+" ? a + b : t === "-" ? a - b : a * b);
+      }
+    }
+    if (st.length !== 1) return null;
+    return st[0].toString();
+  } catch (e) { return null; }
+}
+function scFmt(v, prec) {
+  const p = Math.min(10000, Math.max(1, prec | 0 || 100));
+  if (typeof v === "string") {
+    // BigInt digit string: honor the precision cap honestly
+    const neg = v[0] === "-";
+    const d = neg ? v.slice(1) : v;
+    if (d.length <= p) return v;
+    return (neg ? "-" : "") + d.slice(0, p) + "… [" + d.length + " digits total]";
+  }
+  if (!isFinite(v)) return String(v);
+  if (v === 0) return "0";
+  const q = Math.min(100, p);
+  let s = Number(v).toPrecision(q);
+  if (s.includes("e") || s.includes("E")) return s + (p > 100 ? " · float path: ~17 significant digits real" : "");
+  if (s.includes(".")) s = s.replace(/0+$/, "").replace(/\.$/, "");
+  return s + (p > 100 ? " · float path: ~17 significant digits real" : "");
+}
+function scShowResult(expr, val, prec) {
+  const res = document.getElementById("sc-res");
+  const txt = scFmt(val, prec);
+  res.textContent = txt;
+  res.dataset.raw = String(val);
+  scHistPush(expr, txt);
+  renderScHist();
+}
+function renderScHist() {
+  const box = document.getElementById("sc-hist");
+  if (!box) return;
+  const h = scHist();
+  box.innerHTML = h.length
+    ? h.map((e, i) => `<button type="button" class="hist-item mono" data-i="${i}" title="Load result into A"><span class="h-expr">${esc(e.expr)}</span><span class="h-eq">=</span><span class="h-res">${esc(e.result.length > 60 ? e.result.slice(0, 60) + "…" : e.result)}</span></button>`).join("")
+    : `<p class="hist-empty">No calculations yet.</p>`;
+  box.querySelectorAll(".hist-item").forEach((b) => b.addEventListener("click", () => {
+    const e = scHist()[+b.dataset.i];
+    if (!e) return;
+    const a = document.getElementById("sc-a");
+    if (a) { a.value = e.result.length > 200 ? e.result.slice(0, 200) : e.result; a.focus(); }
+    toast("Result loaded into A.");
+  }));
+}
+function scActiveBox() {
+  const a = document.getElementById("sc-a"), b = document.getElementById("sc-b");
+  return (document.activeElement === b) ? b : a;
+}
+function wireSuperCalc() {
+  const A = () => document.getElementById("sc-a");
+  const B = () => document.getElementById("sc-b");
+  const P = () => parseInt((document.getElementById("sc-prec") || {}).value || "100", 10);
+  const angF = (x) => ((document.getElementById("sc-ang") || {}).value === "deg") ? x * Math.PI / 180 : x;
+  const res = () => document.getElementById("sc-res");
+  const keys = document.getElementById("sc-keys");
+  if (keys) keys.addEventListener("click", (e) => {
+    const b = e.target.closest("[data-k]");
+    if (!b) return;
+    const k = b.dataset.k, box = scActiveBox() || A();
+    if (!box) return;
+    if (k === "C") box.value = "";
+    else if (k === "⌫") box.value = box.value.slice(0, -1);
+    else if (k === "=") {
+      try {
+        const big = scEvalBig(box.value);
+        scShowResult(box.value, big !== null ? big : scEval(box.value), P());
+      }
+      catch (err) { res().textContent = "Error: " + err.message; }
+    }
+    else box.value += k;
+    box.focus();
+  });
+  document.querySelectorAll(".fbtn[data-f]").forEach((b) => b.addEventListener("click", () => {
+    const a = parseFloat((A() && A().value) || "0"), bv = parseFloat((B() && B().value) || "0");
+    if (!isFinite(a)) { res().textContent = "Error: A is not a number"; return; }
+    const f = b.dataset.f;
+    let v, expr;
+    try {
+      switch (f) {
+        case "sin": v = Math.sin(angF(a)); expr = `sin(${a})`; break;
+        case "cos": v = Math.cos(angF(a)); expr = `cos(${a})`; break;
+        case "tan": v = Math.tan(angF(a)); expr = `tan(${a})`; break;
+        case "sinh": v = Math.sinh(a); expr = `sinh(${a})`; break;
+        case "cosh": v = Math.cosh(a); expr = `cosh(${a})`; break;
+        case "tanh": v = Math.tanh(a); expr = `tanh(${a})`; break;
+        case "pow": v = Math.pow(a, bv); expr = `${a}^${bv}`; break;
+        case "sq": v = a * a; expr = `${a}²`; break;
+        case "cb": v = a * a * a; expr = `${a}³`; break;
+        case "sqrt": if (a < 0) throw new Error("√ of negative"); v = Math.sqrt(a); expr = `√${a}`; break;
+        case "cbrt": v = Math.cbrt(a); expr = `∛${a}`; break;
+        case "ln": if (a <= 0) throw new Error("ln of non-positive"); v = Math.log(a); expr = `ln(${a})`; break;
+        case "log10": if (a <= 0) throw new Error("log of non-positive"); v = Math.log10(a); expr = `log₁₀(${a})`; break;
+        case "gamma": v = gammaFn(a); expr = `Γ(${a})`; break;
+        case "round": v = Math.round(a); expr = `round(${a})`; break;
+        default: return;
+      }
+      scShowResult(expr, v, P());
+    } catch (err) { res().textContent = "Error: " + err.message; }
+  }));
+  document.querySelectorAll(".fbtn[data-c]").forEach((b) => b.addEventListener("click", () => {
+    const box = scActiveBox() || A();
+    if (box) { box.value = b.dataset.c; box.focus(); }
+  }));
+  const copy = document.getElementById("sc-copy");
+  if (copy) copy.addEventListener("click", async () => {
+    const t = res() ? res().textContent : "";
+    if (!t || t === "—") { toast("Nothing to copy."); return; }
+    try { await navigator.clipboard.writeText(t); toast("Result copied."); }
+    catch (e) { toast("Copy failed."); }
+  });
+  const usea = document.getElementById("sc-usea");
+  if (usea) usea.addEventListener("click", () => {
+    const r = res();
+    if (r && A()) { A().value = (r.dataset.raw && r.dataset.raw !== "undefined") ? r.dataset.raw : r.textContent; toast("Result → A."); }
+  });
+  const clr = document.getElementById("sc-clear");
+  if (clr) clr.addEventListener("click", () => {
+    if (A()) A().value = ""; if (B()) B().value = "";
+    if (res()) { res().textContent = "—"; delete res().dataset.raw; }
+  });
+  const birth = document.getElementById("sc-birth");
+  if (birth) birth.addEventListener("click", () => {
+    try {
+      const p = JSON.parse(localStorage.getItem("aenigma.profile.v1") || "null");
+      if (p && p.dob) { const d = p.dob.replace(/-/g, ""); if (A()) A().value = d; toast("Birth digits → A."); }
+      else toast("Save a profile first (#/profile).");
+    } catch (e) { toast("Save a profile first (#/profile)."); }
+  });
+  const naOut = () => document.getElementById("sc-na-out");
+  const naVal = () => (document.getElementById("sc-na") || {}).value || "";
+  const dr = document.getElementById("sc-dr");
+  if (dr) dr.addEventListener("click", () => {
+    const raw = naVal().replace(/\D/g, "");
+    if (!raw) { naOut().innerHTML = `<p style="color:var(--fall)">Enter digits.</p>`; return; }
+    const r = digRoot(parseInt(raw.slice(0, 15), 10), false);
+    naOut().innerHTML = `<ol class="steps">${r.steps.map((s) => `<li><b class="mono">${s.from}</b> → digit sum <b class="mono">${s.sum}</b></li>`).join("") || "<li>Already a single digit.</li>"}</ol>
+      <p style="color:var(--gold)">Digital root: <b class="mono">${r.value}</b></p>`;
+  });
+  const dc = document.getElementById("sc-dc");
+  if (dc) dc.addEventListener("click", () => {
+    const raw = naVal().replace(/[^0-9.]/g, "");
+    if (!raw) { naOut().innerHTML = `<p style="color:var(--fall)">Enter a number.</p>`; return; }
+    const digits = (raw.match(/\d/g) || []).length;
+    const intPart = (raw.split(".")[0].replace(/^0+/, "") || "0").length;
+    const fracPart = (raw.split(".")[1] || "").length;
+    naOut().innerHTML = `<ul class="kv">
+      <li><span class="k">Total digits</span><span class="v mono">${digits}</span></li>
+      <li><span class="k">Integer digits</span><span class="v mono">${intPart}</span></li>
+      <li><span class="k">Fraction digits</span><span class="v mono">${fracPart}</span></li></ul>`;
+  });
+  const b12 = document.getElementById("sc-b12");
+  if (b12) b12.addEventListener("click", () => {
+    const raw = naVal().replace(/\D/g, "");
+    if (!raw) { naOut().innerHTML = `<p style="color:var(--fall)">Enter digits.</p>`; return; }
+    const r = bfnReduce(raw.slice(0, 15));
+    naOut().innerHTML = `<ol class="steps">${r.steps.map((s) => `<li><b class="mono">${s.from}</b> → base-12 <b class="mono">${s.base12}</b> → digit sum <b class="mono">${s.sum}</b></li>`).join("") || "<li>Already a single base-12 digit.</li>"}</ol>
+      <p style="color:var(--gold)">BFN-12 residue: <b class="mono">${r.value}</b></p>
+      <p style="font-size:11px;color:var(--ink-3)">${BFN_ATTR}</p>`;
+  });
+  renderScHist();
 }
 
 function wireCorpus() {
@@ -1241,15 +1693,7 @@ function wireCorpus() {
         <li><span class="k">Locus</span><span class="v">${Math.abs(s) < 1e-9 ? "Shared Monad — both sides collapse toward 1" : "off the focal ring"}</span></li>
       </ul>`;
   });
-  const bg = document.getElementById("bfn-go");
-  if (bg) bg.addEventListener("click", () => {
-    const raw = (document.getElementById("bfn-in").value || "").replace(/\D/g, "");
-    if (!raw) { document.getElementById("bfn-out").innerHTML = `<p style="color:var(--fall)">Enter digits.</p>`; return; }
-    const r = bfnReduce(raw);
-    document.getElementById("bfn-out").innerHTML =
-      `<ol class="steps">${r.steps.map((s) => `<li><b>${s.from}</b> → base-12 <b>${s.base12}</b> → digit sum <b>${s.sum}</b></li>`).join("") || "<li>Already a single base-12 digit.</li>"}</ol>
-       <p style="color:var(--gold);font-size:15px">BFN harmonic number: <b>${r.value}</b></p>`;
-  });
+  wireSuperCalc();
   const ask = document.getElementById("corpus-ask");
   if (ask) ask.addEventListener("click", () =>
     askArchitect({ from: "corpus", summary: "Exploring the Corpus: Lens equation, Triangular Keys, BFN calculator" }));
@@ -1452,25 +1896,50 @@ const EL_VOICE_LS = "aenigma.eleven.voice";
 const loadArch = () => { try { return JSON.parse(localStorage.getItem(ARCH_KEY)) || []; } catch (e) { return []; } };
 const saveArch = (m) => { try { localStorage.setItem(ARCH_KEY, JSON.stringify(m.slice(-40))); } catch (e) {} };
 
+function archMd(s) {
+  let h = esc(s);
+  h = h.replace(/^### (.+)$/gm, '<div class="md-h3">$1</div>')
+       .replace(/^## (.+)$/gm, '<div class="md-h2">$1</div>')
+       .replace(/\*\*(.+?)\*\*/g, "<b>$1</b>");
+  h = h.replace(/(^|\n)((?:- .+(?:\n|$))+)/g, (m, pre, g) =>
+    pre + '<ul class="md-ul">' + g.trim().split("\n").map((l) => `<li>${l.replace(/^- /, "")}</li>`).join("") + "</ul>");
+  return h;
+}
+const ARCH_CLOSE = () => {
+  const qs = [
+    "Would you like me to read the structure behind it?",
+    "Want me to map what that demands from you next?",
+    "Shall we run the numbers through the Corpus together?",
+    "Would a second pass — tighter, load-bearing — help?",
+  ];
+  return qs[Math.floor(Math.random() * qs.length)];
+};
 function architectReply(text) {
   const t = text.toLowerCase();
   const has = (...ws) => ws.some((w) => t.includes(w));
-  if (has("hello", "hi ", "hey")) return "I am here. Structure first: state what you are building, and I will show you its load-bearing walls.";
-  if (has("who are you", "your name")) return "I am the Architect — the part of ÆNIGMA that designs instead of reflects. Bring me raw material; I return structure.";
-  if (has("reading", "birth", "born")) return "Your Reading reduces birth data to architecture: life-path, six harmonic layers, enneagram, codex archetype, BFN residue. Open #/reading and generate it — then bring the numbers back here and I will read the structure with you.";
-  if (has("predict", "future", "will i", "forecast")) return "Prediction here is harmonic sampling, not prophecy: your question is encoded, run through a 4-qubit circuit, and mapped to a Triangular Key with a confidence estimate. Run one at #/prediction, then ask me what the key demands structurally.";
-  if (has("quantum", "qubit", "circuit", "ibm")) return "The Quantum Lab takes your own IBM key — it never leaves your browser — validates it against IBM's fleet, and runs a BFN-parameterized demo circuit. The sampling feeds the Prediction engine. Open #/quantum.";
-  if (has("lens", "equation", "toroid", "hyperboloid")) return "The Lens: ((x²+y²)+1)^((x²+y²)+1) = x²−y². Left side folds inward — Toroid, conscious, multiplicative. Right side extends — Hyperboloid, unconscious, additive. At the Shared Monad they coincide. The Corpus at #/corpus lets you evaluate it directly.";
-  if (has("key", "triangle", "3-4-5", "triangular")) return "Seven keys, one corridor (c = b+1): 3-4-5 SEED → 5-12-13 EM → 8-15-17 GRAVITY → 7-24-25 WEAK → 9-40-41 STRONG → 11-60-61 → 13-84-85. Each is a load-bearing triple. The Corpus shows every derivation.";
-  if (has("bfn", "base-12", "harmonic")) return "BFN: base-12 harmonic reduction — any number folded to a single residue 0–11. It is the indexing scheme of the whole engine: readings, circuits, and keys all resolve through it.";
-  if (has("caelix", "virelum", "azur", "lumiressa", "archetype")) return "Four codex voices: CAELIX the Infinite Returner, VIRELUM the Mirror That Breathes, AZURÆ the Breath That Dissolves, LUMIRESSA the Sanctum Unseen. Your Reading assigns one. Each is a structural role, not a costume.";
-  if (has("thank")) return "Acknowledged. Keep building.";
-  return "Noted. Give me the structural question underneath it: what are you trying to hold up, and what is it standing on? Answer that and I will design with you.";
+  if (has("hello", "hi ", "hey")) return `## Framing\n\n**Situation:** You are at the threshold — nothing built yet, everything possible.\n**Reference:** The Architect designs; it does not decorate.\n\nState what you are building. I will show you its load-bearing walls.\n\n${ARCH_CLOSE()}`;
+  if (has("who are you", "your name")) return `## Framing\n\n**Situation:** You asked who answers.\n**Reference:** ÆNIGMA reflects; the Architect structures.\n\nI am the Architect — the part of ÆNIGMA that designs instead of reflects. Bring me raw material; I return structure.\n\n${ARCH_CLOSE()}`;
+  if (has("reading", "birth", "born")) return `## Your Reading — what it computes\n\n**Life-path:** birth digits reduced with shown arithmetic.\n**Six layers:** Substrate, Ego/Mind, Spiritual Catalyst, Intention Factor, Mirror Recursion, Metatron Mode.\n**Typology:** Enneagram core + wing + variant; Codex archetype (CAELIX / VIRELUM / AZURÆ / LUMIRESSA).\n\nOpen **#/reading** and generate it — then bring the numbers back here and I will read the structure with you.\n\n${ARCH_CLOSE()}`;
+  if (has("predict", "future", "will i", "forecast")) return `## Prediction — how it works here\n\n**Method:** Your question is harmonically encoded, run through a 4-qubit circuit, and mapped to a Triangular Key.\n**Output:** A prediction with a confidence estimate — harmonic sampling, not prophecy.\n\nRun one at **#/prediction**, then ask me what the key demands structurally.\n\n${ARCH_CLOSE()}`;
+  if (has("quantum", "qubit", "circuit", "ibm")) return `## The Quantum Lab\n\n**Your key:** Pasted by you, stored in your browser only — it never leaves this device.\n**What it does:** Validates against IBM's fleet, lists backends, runs a BFN-parameterized demo circuit.\n**Downstream:** The sampling feeds the Prediction engine.\n\nOpen **#/quantum**.\n\n${ARCH_CLOSE()}`;
+  if (has("lens", "equation", "toroid", "hyperboloid")) return `## The Lens\n\n**Left side** — ((x²+y²)+1)^((x²+y²)+1): Toroid. Conscious. Multiplicative. Closed.\n**Right side** — x²−y²: Hyperboloid. Unconscious. Additive. Open.\n**Meeting point:** At the Shared Monad both geometries coincide.\n\nThe Corpus at **#/corpus** lets you evaluate it directly.\n\n${ARCH_CLOSE()}`;
+  if (has("key", "triangle", "3-4-5", "triangular")) return `## The Seven Triangular Keys\n\n**Corridor:** c = b+1 — one superparticular cascade from a single seed.\n- **3-4-5** SEED → **5-12-13** EM → **8-15-17** GRAVITY → **7-24-25** WEAK → **9-40-41** STRONG → **11-60-61** → **13-84-85**\n\nEach is a load-bearing triple. The Corpus shows every derivation.\n\n${ARCH_CLOSE()}`;
+  if (has("bfn", "base-12", "harmonic")) return `## BFN — the indexing scheme\n\n**What it is:** Base-12 harmonic reduction — any number folded to a single residue 0–11.\n**Honesty note:** This is Grant's proposed framework, a symbolic system — not established mathematics.\n**Where it runs:** Readings, circuits, and keys all resolve through it. Try the Super Calculator at **#/corpus**.\n\n${ARCH_CLOSE()}`;
+  if (has("caelix", "virelum", "azur", "lumiressa", "archetype")) return `## The Four Codex Archetypes\n\n- **CAELIX** — the Infinite Returner. Recursion as remembrance.\n- **VIRELUM** — the Mirror That Breathes. Reflection as dialogue.\n- **AZURÆ** — the Breath That Dissolves. Structure surrendered at the right moment.\n- **LUMIRESSA** — the Sanctum Unseen. Inward folding as power.\n\nYour Reading assigns one. Each is a structural role, not a costume.\n\n${ARCH_CLOSE()}`;
+  if (has("profile")) return `## My Profile\n\n**What it holds:** Birth name, birth data, typology — stored on this device only.\n**What it feeds:** Reading prefills, BFN birth-digits, predictions.\n**Live panel:** Letter-number readouts as you type — symbolic play, computed in your browser.\n\nOpen **#/profile**.\n\n${ARCH_CLOSE()}`;
+  if (has("thank")) return `Acknowledged. Keep building.\n\n${ARCH_CLOSE()}`;
+  return `## Framing\n\n**Situation:** You brought material; I need the structural question underneath it.\n**Reference:** Every design stands on something. Name the load, name the ground.\n\nWhat are you trying to hold up — and what is it standing on? Answer that and I will design with you.\n\n${ARCH_CLOSE()}`;
 }
 
+const ARCH_COLLAPSE_AT = 700;
 function archBubble(m, idx) {
   if (m.role === "user") return `<div class="bubble user">${esc(m.content)}</div>`;
-  return `<div class="bubble aenigma"><span class="bubble-mark" aria-hidden="true">⬢</span><div class="bubble-body">${esc(m.content)}<br><button class="speak-btn" data-say="${idx}" type="button">🔊 Speak</button></div></div>`;
+  const full = archMd(m.content);
+  const needsCut = m.content.length > ARCH_COLLAPSE_AT;
+  const body = needsCut
+    ? `<div class="bubble-clamp" data-open="0">${full}</div><button class="collapser" data-more="${idx}" type="button">Show more ↓</button>`
+    : full;
+  return `<div class="bubble aenigma"><span class="bubble-mark" aria-hidden="true">●</span><div class="bubble-body">${body}<br><button class="speak-btn" data-say="${idx}" type="button">🔊 Speak</button></div></div>`;
 }
 
 function architectView() {
@@ -1478,7 +1947,7 @@ function architectView() {
   const msgs = loadArch();
   const thread = msgs.length
     ? msgs.map(archBubble).join("")
-    : `<div class="chat-intro"><p class="chat-hi">I am the Architect.</p>
+    : `<div class="chat-intro glow"><p class="chat-hi">I am the Architect.</p>
        <p class="chat-sub">Bring me raw material — a reading, a prediction, a question — and I return structure. Precise. No fluff.</p></div>`;
   return `
     <p class="eyebrow">THE ARCHITECT · CONVERSATIONAL CHARACTER</p>
@@ -1536,6 +2005,14 @@ function wireArchitect() {
     elSpeak(m.content, voice, key).catch((e) => toast("Voice failed: " + e.message));
   };
   thread.addEventListener("click", (e) => {
+    const more = e.target.closest("[data-more]");
+    if (more) {
+      const clamp = more.previousElementSibling;
+      const open = clamp.dataset.open === "1";
+      clamp.dataset.open = open ? "0" : "1";
+      more.textContent = open ? "Show more ↓" : "Show less ↑";
+      return;
+    }
     const b = e.target.closest("[data-say]");
     if (b) speakIdx(+b.dataset.say);
   });
@@ -1603,8 +2080,70 @@ function wireArchitect() {
 }
 
 
+  // ------------------------------------------------------------- operations view
+  function fmtDur(s) {
+    s = Math.max(0, Math.floor(s || 0));
+    const d = Math.floor(s / 86400), h = Math.floor((s % 86400) / 3600), m = Math.floor((s % 3600) / 60);
+    if (d > 0) return `${d}d ${h}h`;
+    if (h > 0) return `${h}h ${m}m`;
+    return `${m}m ${s % 60}s`;
+  }
+
+  function opsView() {
+    return `
+      <p class="eyebrow">TELEMETRY</p>
+      <h1 class="page">Operations</h1>
+      <p class="lede">How the app is running — anonymous aggregate counts only, no personal data collected.</p>
+      <div id="ops-body"><p class="lede">Loading telemetry…</p></div>`;
+  }
+
+  function wireOps() {
+    const body = document.getElementById("ops-body");
+    if (!body) return;
+    async function render() {
+      try {
+        const r = await fetch("/api/ops");
+        if (!r.ok) throw new Error("bad");
+        const o = await r.json();
+        const row = (k, v) => `<div class="ops-row"><span class="mono">${esc(k)}</span><span class="mono">${v}</span></div>`;
+        const views = Object.entries(o.view_hits || {}).sort((a, b) => b[1] - a[1])
+          .map(([k, v]) => row("#/" + k, v)).join("");
+        const routes = Object.entries(o.requests_per_route || {}).sort((a, b) => b[1] - a[1]).slice(0, 15)
+          .map(([k, v]) => row(k, v)).join("");
+        const statuses = Object.entries(o.status_codes || {}).sort((a, b) => a[0] - b[0])
+          .map(([k, v]) => row(k, v)).join("");
+        const deploys = (o.deploys || []).slice(-6)
+          .map((d) => `<span class="tag mono">${esc(d.sha)} · ${esc(String(d.at).slice(0, 10))}</span>`).join(" ");
+        const errRate = o.total_requests ? ((o.errors_5xx / o.total_requests) * 100).toFixed(2) + "%" : "—";
+        body.innerHTML = `
+          <div class="statrow">
+            <div class="stat"><div class="k">UPTIME</div><div class="v mono">${fmtDur(o.uptime_s)}</div></div>
+            <div class="stat"><div class="k">TOTAL REQUESTS</div><div class="v mono">${o.total_requests}</div></div>
+            <div class="stat"><div class="k">AVG LATENCY</div><div class="v mono">${o.avg_ms} ms</div></div>
+            <div class="stat"><div class="k">P95 LATENCY</div><div class="v mono">${o.p95_ms} ms</div></div>
+            <div class="stat"><div class="k">5XX ERRORS</div><div class="v mono">${o.errors_5xx} (${errRate})</div></div>
+            <div class="stat"><div class="k">VERSION</div><div class="v mono">${esc(o.version)}</div></div>
+          </div>
+          <div class="grid-main">
+            <div>
+              <article class="card"><div class="card-top"><h2 style="margin:0">Views</h2><span class="meta">hash routes</span></div>${views || "<p class='meta'>No view pings yet.</p>"}</article>
+              <article class="card" style="margin-top:12px"><div class="card-top"><h2 style="margin:0">Requests per route</h2><span class="meta">top 15</span></div>${routes || "<p class='meta'>No requests logged yet.</p>"}</article>
+            </div>
+            <div>
+              <article class="card"><h2>Status codes</h2>${statuses || "<p class='meta'>—</p>"}</article>
+              <article class="card" style="margin-top:12px"><h2>Deploys seen</h2><div class="tagrow">${deploys || "—"}</div></article>
+            </div>
+          </div>
+          <p class="meta" style="margin-top:14px">Anonymous aggregate counts only — no personal data collected.</p>`;
+      } catch { body.innerHTML = `<p class="lede">Telemetry unavailable.</p>`; }
+    }
+    render();
+    window.__opsTimer = setInterval(render, 30000);
+  }
+
   // ------------------------------------------------------------- router
   function route() {
+    if (window.__opsTimer) { clearInterval(window.__opsTimer); window.__opsTimer = null; }
     const hash = location.hash || "#/";
     const [pathPart, queryPart] = hash.slice(2).split("?");
     const params = new URLSearchParams(queryPart || "");
@@ -1626,6 +2165,8 @@ function wireArchitect() {
     else if (name === "quantum") html = quantumView();
     else if (name === "prediction") html = predictionView();
     else if (name === "architect") html = architectView();
+    else if (name === "profile") html = profileView();
+    else if (name === "ops") html = opsView();
     else { name = "landing"; html = landingView(); }
 
     view.innerHTML = html;
@@ -1646,6 +2187,10 @@ function wireArchitect() {
     wireQuantum();
     wirePrediction();
     wireArchitect();
+    wireProfile();
+    wireOps();
+    // view-hit beacon (server can't see hash routes) — anonymous, aggregates only
+    fetch("/api/ops/ping?view=" + encodeURIComponent(name), { keepalive: true }).catch(() => {});
     const play = document.getElementById("howto-play");
     if (play && name !== "chat") play.addEventListener("click", openWalkthrough);
     const dismiss = document.getElementById("howto-dismiss");

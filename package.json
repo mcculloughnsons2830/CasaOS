@@ -5,7 +5,7 @@
   "description": "ÆNIGMA — a mirror for your consciousness (beta). Real-time resonance for the archetypes moving through you.",
   "main": "aenigma/server.js",
   "scripts": {
-    "start": "node aenigma/server.js"
+    "start": "node aenigma/scripts/write-version.js && node aenigma/server.js"
   },
   "engines": {
     "node": ">=18"
