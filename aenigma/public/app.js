@@ -585,6 +585,25 @@
   };
 
   /* ================= READING ================= */
+  /* ---- demo-before-ask: fixed-input sample reading, clearly labeled ---- */
+  function renderDemoReading() {
+    let r = null;
+    try { r = computeFullReading("15/06/1990", "09:30", "Cairo, Egypt"); } catch (e) { r = null; }
+    if (!r || r.error) return "";
+    const a = r.architecture, e = r.enneagram, c = r.codex;
+    return `<div class="card demo-card">
+      <div class="demo-head"><span class="badge badge-accent">Demo reading</span>
+        <span class="demo-sub">a sample, computed live &mdash; yours takes 60 seconds</span></div>
+      <div class="grid2">
+        <div class="grid-cell"><div class="gc-label">Life Path</div><div class="gc-num">${esc(a.lifePath.value)}</div></div>
+        <div class="grid-cell"><div class="gc-label">Enneagram</div><div class="gc-num">${esc(e.type)}</div></div>
+      </div>
+      <div class="grid-cell demo-codex"><div class="gc-label">Codex</div><div class="gc-num gc-codex">${esc(c.primary)}</div><div class="gc-steps">${esc(c.title)}</div></div>
+      <p class="interpret">${esc(a.summary)}</p>
+      <p class="fine-note">${SYMBOLIC}</p>
+      <button class="btn btn-primary btn-lg btn-block" id="demo-cta">Get my 60-second reading</button>
+    </div>`;
+  }
   function renderReadingInput() {
     const prof = loadProfile() || {};
     const v = { date: prof.date || "", time: prof.time || "", loc: prof.loc || "" };
@@ -593,8 +612,10 @@
         <div class="onboard-logo" id="onboard-logo">${LOGO_SVG(88)}</div>
         <h1 class="onboard-title">ÆNIGMA <span class="thin">AI</span></h1>
         <p class="tagline">PRECISION INSIGHT. PURPOSEFUL GUIDANCE.</p>
+        <p class="hero-line">See yourself clearly in <b>60 seconds</b>. Free.</p>
       </div>
-      <div class="card">
+      ${renderDemoReading()}
+      <div class="card" id="rd-form-card">
         <div class="form-grid">
           <label class="field"><span class="flabel">Date of Birth</span>
             <input id="rd-date" class="input" type="text" inputmode="numeric" placeholder="DD/MM/YYYY" value="${esc(v.date)}" /></label>
@@ -610,6 +631,11 @@
     </div>`;
   }
   function wireReadingInput() {
+    const demo = document.getElementById("demo-cta");
+    if (demo) demo.addEventListener("click", () => {
+      const f = document.getElementById("rd-date");
+      if (f) { f.scrollIntoView({ behavior: "smooth", block: "center" }); setTimeout(() => f.focus({ preventScroll: true }), 450); }
+    });
     const go = document.getElementById("rd-go");
     if (!go) return;
     go.addEventListener("click", () => {
@@ -726,6 +752,101 @@
     if (s && r) s.addEventListener("click", () => saveToLibrary(r));
   }
 
+  /* ================= DECODE (Channel-DNA Prompt Pack) ================= */
+  const DECODE_INTRO = "The master-prompt method for studying what works \u2014 decode a channel\u2019s winning structure, then rebuild original work on it. Four copy-paste prompts, zero cost, no account needed.";
+  const DECODE_PROMPTS = [
+    { title: "The Channel-DNA Decode",
+      blurb: "Paste into NotebookLM (notebooklm.google.com) or Claude with the transcripts \u2014 or YouTube URLs, NotebookLM only \u2014 of 10\u201315 top-performing videos from ONE channel.",
+      text: `You are a YouTube format analyst. I have loaded the transcripts of [N] top-performing videos from the channel [CHANNEL NAME] in the [NICHE] niche. These are your ONLY sources \u2014 ground every claim in them and cite which video each pattern comes from.
+
+Decode this channel's winning formula and return it in exactly these sections:
+
+1. AUDIENCE \u2014 who is this made for? Name the specific person (age, situation, wound, want), not a demographic.
+2. HOOK ARCHITECTURE \u2014 quote the opening line pattern of the 5 best performers. What do the first 10 seconds always do? (claim, question, scene, confession?)
+3. SCRIPT SHAPE \u2014 map the skeleton: how many beats, what each beat does, where retention loops or open questions land, how it closes.
+4. PACING \u2014 average time per beat/section; where do visual or topic changes happen?
+5. TITLE + PACKAGING GRAMMAR \u2014 the title formula (length, capitalization, numbers, emotional words), thumbnail/first-frame conventions.
+6. TONE \u2014 5 adjectives for the voice, plus 3 phrases this channel would NEVER say.
+7. REPEATABLE MOVES \u2014 the 5 most portable structural moves, each in one sentence, stripped of this channel's topic.
+
+Rules: analyze STRUCTURE only. Do not copy their topics, phrases, branding, or identity. Flag anything that looks like a one-off outlier rather than a pattern.` },
+    { title: "Idea Generation from the DNA",
+      blurb: "Run after Prompt 1, in the same chat, to turn the decoded structure into original ideas for your own channel.",
+      text: `Using the channel-DNA reference above, generate 10 ORIGINAL video ideas for MY channel. My channel: Ms'FitZ Society \u2014 first-person masculine, raw/direct/dignified, home for the misunderstood and outcast; the green rabbit king myth; never generic motivation, hustle-bro language, guru theatrics, or spiritual-influencer framing.
+
+Each idea: a hook title (\u226450 chars, keyword-front), the ONE reframe it delivers (pain \u2192 reinterpretation), and which DNA move (from section 7) it uses. All ideas must be original to my voice \u2014 my myth, their grammar.` },
+    { title: "The Four-Part Production Brief",
+      blurb: "Fill in per production. The STYLE BLOCK repeats verbatim for every shot so the piece never drifts.",
+      text: `STYLE BLOCK (repeat verbatim for every shot/asset):
+Cinematic urban-graffiti-cyberpunk; green rabbit king (crowned, muscular, torn dark hoodie) as central character; [PALETTE]; [SETTING]; watermark bottom-right keyed.
+
+PRODUCTION RULES:
+- Anchor image: [PATH] \u2014 every scene restyles against this frame; no style drift.
+- Clip motion: zoompan alternating in/out per clip, 1080x1920, 30fps; 2\u20133 video effects per video, never orbit or 3D tilt.
+- Text: burned captions large center (clear top 80px / bottom 200px); NO AI-generated on-image text \u2014 all text added in the edit.
+- Hook in first 1\u20132s; visual change every 1\u20133s; cut every dead second.
+
+SOUND + TEXT:
+- VO: masculine; spoken brand form "Misfits", written form "Ms'FitZ".
+- Music: original synth beat, [BPM] BPM, [KEY] key.
+- Like & Subscribe pill ~5s mid-video; 3s end-card.
+
+BEAT TABLE (script lines timed against clips):
+| # | Script line | Clip/visual | Duration |
+|---|-------------|-------------|----------|
+| 1 | [hook line] | [visual] | 0\u20132s |
+| \u2026 | \u2026 | \u2026 | \u2026 |` },
+    { title: "The Four-Trait Story Filter",
+      blurb: "A topic passes only if all four hold. Use it to gate long-form ideas before you build.",
+      text: `1. Real \u2014 verifiably real subject, not invented.
+2. One hero vs. something bigger \u2014 a single figure against a larger force.
+3. One-sentence twist \u2014 the turn sayable in a single sentence.
+4. Showable moments \u2014 scenes that can be shown, not just explained.` },
+  ];
+  const DECODE_HONEST = {
+    title: "Honest-notes rule",
+    blurb: "Whenever a video or description quotes earnings, views, or subscriber claims, append this on the record.",
+    text: `Honest notes: [figures] are [my measured result / a third-party estimate / an illustrative example], not a promise. [Tool] free tiers used: [limits].` };
+  function renderDecode() {
+    const blocks = DECODE_PROMPTS.map((p, i) => `
+      <div class="card">
+        <div class="prompt-head"><div class="card-title">Prompt ${i + 1} \u2014 ${esc(p.title)}</div>
+          <button class="btn btn-secondary btn-sm copy-btn" data-prompt="${i}">Copy</button></div>
+        <p class="interpret">${esc(p.blurb)}</p>
+        <pre class="mono-block prompt-text">${esc(p.text)}</pre>
+      </div>`).join("");
+    return `<div class="col narrow">
+      <div class="sticky-head"><span class="wordmark">\u00C6NIGMA</span><span class="badge">Decode</span></div>
+      <h2 class="page-title">Channel-DNA Prompt Pack</h2>
+      <p class="page-sub">${esc(DECODE_INTRO)}</p>
+      ${blocks}
+      <div class="card">
+        <div class="prompt-head"><div class="card-title">${esc(DECODE_HONEST.title)}</div>
+          <button class="btn btn-secondary btn-sm copy-btn" data-prompt="honest">Copy</button></div>
+        <p class="interpret">${esc(DECODE_HONEST.blurb)}</p>
+        <pre class="mono-block prompt-text">${esc(DECODE_HONEST.text)}</pre>
+      </div>
+      <p class="fine-note">Static document \u2014 no account, no credits, nothing leaves your device. For self-reflection and entertainment.</p>
+    </div>`;
+  }
+  function fallbackCopy(text, done) {
+    const ta = document.createElement("textarea");
+    ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand("copy"); } catch (e) { /* noop */ }
+    document.body.removeChild(ta); done();
+  }
+  function wireDecode() {
+    document.querySelectorAll(".copy-btn").forEach((b) => b.addEventListener("click", () => {
+      const key = b.getAttribute("data-prompt");
+      const p = key === "honest" ? DECODE_HONEST : DECODE_PROMPTS[+key];
+      const done = () => { b.textContent = "Copied"; setTimeout(() => { b.textContent = "Copy"; }, 1600); };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(p.text).then(done).catch(() => fallbackCopy(p.text, done));
+      } else fallbackCopy(p.text, done);
+    }));
+  }
+
   /* ================= HISTORY ================= */
   function renderHistory() {
     const h = lsGet(HIST_LS);
@@ -810,6 +931,9 @@
         <div id="bfn-err" class="err" hidden></div>
         <button class="btn btn-primary btn-block" id="bfn-go">Reduce to Base-12</button>
         <div id="bfn-out" class="mono-block" hidden style="margin-top:12px"></div></div>
+      <div class="card"><div class="card-title">Channel-DNA Prompt Pack</div>
+        <p class="interpret">Four production prompts: decode a channel's winning structure, generate original ideas on it, brief a shoot, and gate film topics &mdash; plus the honest-notes packaging rule.</p>
+        <a class="btn btn-secondary btn-block" href="#/decode">Open Prompt Pack</a></div>
     </div>`;
   }
   function wireBfn() {
@@ -1331,6 +1455,7 @@
     else if (root === "profile") { html = renderProfile(sub); wire = wireProfile; }
     else if (root === "plans") { html = renderPlans(); wire = wirePlans; }
     else if (root === "explore") { html = renderExplore(); wire = wireExplore; }
+    else if (root === "decode") { html = renderDecode(); wire = wireDecode; }
     else if (root === "ops") { html = renderOps(); wire = wireOps; }
     else { html = renderReadingInput(); wire = wireReadingInput; }
     view.innerHTML = html;

@@ -1501,6 +1501,7 @@ function stripeWebhook(req, res) {
 }
 
 app.use(express.static(path.join(__dirname, "public")));
+app.get("/decode", (_req, res) => res.redirect("/#/decode"));
 app.get("*", (_req, res) => res.sendFile(path.join(__dirname, "public", "index.html")));
 
 app.listen(PORT, "0.0.0.0", () => {
