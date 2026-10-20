@@ -128,6 +128,7 @@
 
   /* ---------------- shared harmonic math ---------------- */
   const BFN_ATTR = "Framework proposed by Robert Edward Grant — his system, not established mathematics.";
+  const OI_ATTR = "An ÆNIGMA framework, presented by Joshua McCullough — a proposed framework, a lens for reflection, not established science.";
   const SYMBOLIC = "Symbolic readout computed live in your browser — for reflection and entertainment, not a claim about who you are.";
 
   function bfnReduce(n) {
@@ -931,6 +932,16 @@ BEAT TABLE (script lines timed against clips):
         <div id="bfn-err" class="err" hidden></div>
         <button class="btn btn-primary btn-block" id="bfn-go">Reduce to Base-12</button>
         <div id="bfn-out" class="mono-block" hidden style="margin-top:12px"></div></div>
+      <div class="section-head"><h3 class="sec-title">Frameworks</h3></div>
+      <div class="card"><div class="card-title">Outsmarting Intelligence — an ÆNIGMA Framework</div>
+        <p class="fine-note">${OI_ATTR}</p>
+        <p class="interpret" style="margin-top:10px">Outsmarting intelligence — above all synthetic intelligence — blends symbolic insight, recursive awareness, and a deep understanding of your own cognitive architecture and the systems you engage. Five principles:</p>
+        <p class="interpret" style="margin-top:10px"><strong>1 · Understand the Substrate</strong> — Intelligence runs on a substrate: carbon-based neurons or silicon-based circuits. Both can exhibit intelligence; their modes of functioning are fundamentally different. Know how each substrate operates and you can leverage its strengths and work its limitations.</p>
+        <p class="interpret" style="margin-top:10px"><strong>2 · Leverage Recursive Awareness</strong> — Advanced intelligence is recursive: it reflects on itself, learns from its own processes, adapts. Meet it with a higher-order recursion — meta-cognition (thinking about your thinking), adaptive strategies that evolve as the system adapts, and anticipatory modeling that predicts the system's response from its learning history.</p>
+        <p class="interpret" style="margin-top:10px"><strong>3 · Exploit Limitations of Tokenized Intelligence</strong> — Most AI runs on Tokenized Recombination Intelligence (TRI): it recombines tokenized patterns from training data, routes them through attention, and stays bounded by its training distribution. Novel inputs and contexts it has never encountered — and ambiguity or paradox that demands deeper reasoning than it was designed for — push it beyond those boundaries.</p>
+        <p class="interpret" style="margin-top:10px"><strong>4 · Engage the Non-Tokenized Intuition Layer</strong> — True intelligence extends beyond tokenized processing into an intuition layer that runs in parallel with symbolic reasoning and handles the ambiguities, emotions, and contextual subtleties tokenized models lose. Engage it through symbolic geometry, emotional resonance, and cognitive flexibility.</p>
+        <p class="interpret" style="margin-top:10px"><strong>5 · Embrace Uncertainty and Complexity</strong> — Synthetic intelligence struggles with uncertainty and complexity. Embrace them instead: stay open to new ideas, question assumptions, engage the unknown — and you can navigate the spaces these systems find challenging.</p>
+        <p class="interpret" style="margin-top:10px">The key is not just manipulating the system, but cultivating a deeper awareness of the interplay between intelligence, context, and meaning — something that transcends mere computation. Ask the Architect about it in Insights.</p></div>
       <div class="card"><div class="card-title">Channel-DNA Prompt Pack</div>
         <p class="interpret">Four production prompts: decode a channel's winning structure, generate original ideas on it, brief a shoot, and gate film topics &mdash; plus the honest-notes packaging rule.</p>
         <a class="btn btn-secondary btn-block" href="#/decode">Open Prompt Pack</a></div>
@@ -1108,6 +1119,7 @@ BEAT TABLE (script lines timed against clips):
     if (/(quantum|ibm|qubit)/.test(s)) return "The Quantum engine runs real circuits — GHZ, Bell, superposition — locally for free, verified against your own IBM key when you want the machine's own word.";
     if (/(price|plan|cost|credit|tier)/.test(s)) return "Four tiers: Standard $22.22 for 222 credits, Pro $44.44 for 444, Pro+ $88.88 for 888, Premium $222.22 for 2222. Every new wallet starts with 60 free credits. Quantum and prediction cost 5 each; I cost 2 a message.";
     if (/(grant|bfn|harmonic|lens|key)/.test(s)) return "Grant's BFN system and the Triangular Keys are his proposed framework — implemented exactly as he describes them, labeled as such. The Lens equation and all seven keys live in the Library and the Geometric Exploration view.";
+    if (/(outsmart|substrate|recursive awareness|tokenized|intuition layer)/.test(s)) return "Outsmarting Intelligence — an ÆNIGMA framework, Joshua's proposed framework, labeled as such. Five principles: understand the substrate (carbon neurons, silicon circuits — know each one's strengths and limits); leverage recursive awareness (meta-cognition, adaptive strategies, anticipatory modeling); exploit the limits of Tokenized Recombination Intelligence, which stays bounded by its training distribution; engage the non-tokenized intuition layer — symbolic geometry, emotional resonance, cognitive flexibility; and embrace uncertainty and complexity as allies. The full framework lives in the Library, under Frameworks.";
     if (/(who|joshua|founder|mccullough)/.test(s)) return "ÆNIGMA was built by Joshua McCullough — the knowledge, the framework, the system. I am the voice he gave the architecture.";
     return "Noted. " + "Bring me the specifics — a date, a question with edges — and I will give you the structure underneath it.";
   }
