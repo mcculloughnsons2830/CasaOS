@@ -50,8 +50,11 @@ Missing/invalid keys → `401`. Keys carry scopes: `forecast:read`,
 
 **Key management (ÆNIGMA side):** keys are minted with
 `aenigma/scripts/seed-partner-key.js` or seeded via the `AENIGMA_PARTNER_KEYS`
-environment variable (JSON array of `{name, keyHash, scopes}`). Revocation
-sets `revokedAt`; revoked keys fail auth immediately.
+environment variable (JSON array of `{name, keyHash, scopes}`). Keys are
+loaded at app start — after seeding the data file, restart the app (env-var
+keys are the recommended production path for exactly this reason).
+Revocation sets `revokedAt`; revoked keys fail auth immediately on the next
+app start (env-seeded revocations take effect on the next deploy/restart).
 
 ## Endpoints
 
