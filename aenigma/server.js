@@ -1500,6 +1500,13 @@ function stripeWebhook(req, res) {
   res.json({ received: true });
 }
 
+// ---------------------------------------------------------------------------
+// Circles — relationship forecasts (additive module: aenigma/circles.js).
+// Registered before the static catch-all; adds /api/circles/* and
+// /api/partner/v1/* only — no existing route behavior changes.
+// ---------------------------------------------------------------------------
+require("./circles").registerCircles(app, { runChain, retrieveCorpus, Credits, AENIGMA_AGENT });
+
 app.use(express.static(path.join(__dirname, "public")));
 app.get("/decode", (_req, res) => res.redirect("/#/decode"));
 app.get("*", (_req, res) => res.sendFile(path.join(__dirname, "public", "index.html")));

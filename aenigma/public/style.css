@@ -291,3 +291,10 @@ input[type="range"] { width: 100%; accent-color: var(--accent); }
 .gc-codex { font-size: 18px; }
 .prompt-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 6px; }
 .prompt-text { white-space: pre-wrap; word-break: break-word; }
+
+/* ---- Circles: relationship forecasts (2026-10-21) ---- */
+.circle-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.circle-badges { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px; }
+.link-row { display: flex; gap: 8px; align-items: center; margin-top: 12px; }
+.link-row .circle-link { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ask-out { margin-top: 12px; }

@@ -31,6 +31,7 @@
     library: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 4.5h3.4V19.5H5zM10.3 4.5h3.4v15h-3.4zM15.6 4.5H19v15h-3.4z"/></svg>',
     insights: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3.5l1.9 6.6 6.6 1.9-6.6 1.9L12 20.5l-1.9-6.6-6.6-1.9 6.6-1.9z"/></svg>',
     profile: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="3.4"/><path d="M5 20c1.4-3.6 3.9-5.2 7-5.2s5.6 1.6 7 5.2"/></svg>',
+    circles: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="12" r="5.6"/><circle cx="15" cy="12" r="5.6"/></svg>',
   };
   function mountLogos() {
     const slots = [["splash-logo", 96], ["nav-logo", 40], ["top-logo", 30]];
@@ -628,10 +629,29 @@
         <div id="rd-error" class="err" hidden></div>
         <button class="btn btn-primary btn-lg btn-block" id="rd-go">Generate Architecture</button>
       </div>
+      <div id="home-circles"></div>
       <p class="fine-note">${SYMBOLIC}</p>
     </div>`;
   }
+  // Morning forecast strip on the home view — appears only when the user
+  // has circle members sharing forecasts. Filled async; silent when empty.
+  async function fillHomeCircles() {
+    const slot = document.getElementById("home-circles");
+    const email = localStorage.getItem("aenigma.email");
+    if (!slot || !email) return;
+    try {
+      const r = await fetch("/api/circles?email=" + encodeURIComponent(email));
+      if (!r.ok) return;
+      const j = await r.json();
+      const live = (j.members || []).filter((m) => m.forecastable && m.forecast);
+      if (!live.length || !document.getElementById("home-circles")) return;
+      slot.innerHTML = `<div class="card"><div class="card-title">Your Circle This Morning</div>
+        ${live.slice(0, 3).map((m) => `<div class="harm-row"><span class="hr-label">${esc(m.displayName)}</span><span class="hr-num" style="font-size:12px">${esc(m.forecast.headline)}</span></div>`).join("")}
+        <a class="btn btn-secondary btn-block" href="#/circles" style="margin-top:12px">Open Circles</a></div>`;
+    } catch (e) { /* the strip is an enhancement — never break home */ }
+  }
   function wireReadingInput() {
+    fillHomeCircles();
     const demo = document.getElementById("demo-cta");
     if (demo) demo.addEventListener("click", () => {
       const f = document.getElementById("rd-date");
@@ -1434,6 +1454,288 @@ BEAT TABLE (script lines timed against clips):
     }
   }
 
+  /* ================= CIRCLES (relationship forecasts) ================= */
+  const CIRCLE_FRAMING = "A symbolic read through the ÆNIGMA lens — likelihood, not certainty; a lens, not a diagnosis. A person is not their pattern.";
+  const ROLE_LABEL = { child: "Your child", parent: "Your parent", partner: "Your partner", family: "Family" };
+  function circleEmail() { return localStorage.getItem("aenigma.email") || ""; }
+  function fullInviteUrl(path) { return location.origin + location.pathname + path; }
+
+  function renderCircles() {
+    return `<div class="col narrow">
+      <div class="sticky-head"><span class="wordmark">ÆNIGMA</span><span class="badge">Circles</span></div>
+      <h2 class="page-title">Circles</h2>
+      <p class="page-sub">The morning weather of the people you love — read from their ÆNIGMA profile and today's cycles.</p>
+      <div id="circles-body"><div class="empty-card center"><p class="empty-title">Loading your circle…</p></div></div>
+    </div>`;
+  }
+
+  function memberCard(m) {
+    const first = esc(String(m.displayName || "").split(/\s+/)[0] || m.displayName);
+    const role = ROLE_LABEL[m.role] || m.role;
+    let inner = `<div class="circle-top"><div><div class="rc-label">${esc(m.displayName)}</div>
+      <div class="rc-meta">${esc(role)}</div></div>
+      ${m.forecast ? `<span class="badge badge-accent">Personal Day ${m.forecast.personalDay}</span>` : `<span class="badge">${esc(m.consentStatus)}</span>`}</div>`;
+    if (m.forecastable && m.forecast) {
+      const f = m.forecast, s = m.snapshot || {};
+      inner += `<p class="interpret" style="margin-top:10px"><strong>${esc(f.headline)}.</strong> ${esc(f.outlook)}</p>
+        <dl class="dl" style="margin-top:10px"><dt>Lands well</dt><dd>${esc(f.landsWell)}</dd>
+        <dt>Go gently</dt><dd>${esc(f.goGently)}</dd></dl>
+        <div class="circle-badges">
+          ${s.lifePath ? `<span class="badge badge-outline">Life Path ${s.lifePath}</span>` : ""}
+          ${s.enneagram ? `<span class="badge badge-outline">${esc(s.enneagram.type)} · ${esc(s.enneagram.label)}</span>` : ""}
+          ${s.codex ? `<span class="badge badge-outline">${esc(s.codex)}</span>` : ""}
+        </div>
+        <div class="chat-input" style="margin-top:14px"><input class="input ask-in" type="text" maxlength="500" placeholder="How would ${first} likely react to…" />
+          <button class="btn btn-primary ask-btn">Ask</button></div>
+        <div class="ask-out"></div>`;
+    } else if (m.consentStatus === "invited") {
+      inner += `<p class="interpret" style="margin-top:10px">Invitation waiting — ${first} hasn't accepted yet. Forecasts begin the moment they accept and add their own birth date.</p>`;
+    } else if (m.consentStatus === "revoked") {
+      inner += `<p class="interpret dim" style="margin-top:10px">Sharing is off. No forecasts are being made for ${first}.</p>`;
+    }
+    if (m.consentStatus === "managed") {
+      inner += `<p class="fine-note" style="margin-top:12px">Parent-managed profile — you hold it until ${first} is ready to claim it and control what's shared.</p>`;
+    }
+    if (m.invitePath) {
+      const label = m.consentStatus === "managed" ? "Claim link for " + first : "Invite link for " + first;
+      inner += `<div class="link-row"><span class="mono-block circle-link">${esc(fullInviteUrl(m.invitePath))}</span>
+        <button class="btn btn-secondary btn-sm copy-link">${m.consentStatus === "managed" ? "Copy claim link" : "Copy invite link"}</button></div>
+        <p class="fine-note">${esc(label)} — one link, theirs to accept or revoke.</p>`;
+    }
+    if (m.consentStatus !== "revoked") {
+      inner += `<div class="btn-row" style="margin-top:12px"><button class="btn btn-ghost btn-sm revoke-btn">Stop sharing</button></div>`;
+    }
+    return `<div class="card circle-card" data-mid="${esc(m.id)}">${inner}</div>`;
+  }
+
+  function circlesForms() {
+    return `<div class="section-head"><h3 class="sec-title">Grow your circle</h3></div>
+      <div class="card"><div class="card-title">Add your child</div>
+        <p class="interpret">Name and birth date — that's all it takes. Their first forecast appears immediately, parent-managed until they claim it.</p>
+        <div class="form-grid" style="margin-top:12px">
+          <label class="field"><span class="flabel">Child's name</span><input id="cc-name" class="input" type="text" placeholder="First name is fine" /></label>
+          <label class="field"><span class="flabel">Date of Birth</span><input id="cc-dob" class="input" type="date" /></label>
+          <label class="field"><span class="flabel">Time of Birth (optional)</span><input id="cc-time" class="input" type="text" placeholder="HH:MM" /></label>
+          <label class="field"><span class="flabel">Birthplace (optional)</span><input id="cc-loc" class="input" type="text" placeholder="City, Country" /></label>
+        </div>
+        <div id="cc-err" class="err" hidden></div>
+        <button class="btn btn-primary btn-block" id="cc-add">Add &amp; see today's forecast</button></div>
+      <div class="card"><div class="card-title">Invite a partner or family</div>
+        <p class="interpret">They get one link, see exactly what would be shared — forecast text only, never birth data — and accept with their own birth date. Nothing is shared before they tap accept.</p>
+        <div class="form-grid" style="margin-top:12px">
+          <label class="field"><span class="flabel">Their name</span><input id="ci-name" class="input" type="text" placeholder="As you'll see them in your circle" /></label>
+          <label class="field"><span class="flabel">Circle</span><select id="ci-type" class="input">
+            <option value="partner">Partner</option><option value="family">Family</option></select></label>
+        </div>
+        <div id="ci-err" class="err" hidden></div>
+        <button class="btn btn-primary btn-block" id="ci-add">Create invite link</button>
+        <div id="ci-out" style="margin-top:12px"></div></div>
+      <p class="fine-note">${CIRCLE_FRAMING}</p>`;
+  }
+
+  async function loadCircles() {
+    const body = document.getElementById("circles-body");
+    if (!body) return;
+    const email = circleEmail();
+    if (!email) {
+      body.innerHTML = `<div class="empty-card center"><p class="empty-title">One step first.</p>
+        <p class="empty-sub">Circles live with your wallet identity. Link your email in Profile, then come back — your circle will be waiting.</p>
+        <a class="btn btn-primary btn-block" href="#/profile">Link my email</a></div>`;
+      return;
+    }
+    try {
+      const r = await fetch("/api/circles?email=" + encodeURIComponent(email));
+      const j = await r.json();
+      if (!r.ok) throw new Error(j.error || r.status);
+      const members = j.members || [];
+      const live = members.filter((m) => m.forecastable);
+      const rest = members.filter((m) => !m.forecastable);
+      body.innerHTML =
+        (live.length ? `<div class="section-head"><h3 class="sec-title">This morning in your circle</h3></div>` + live.map(memberCard).join("") : "") +
+        (rest.length ? rest.map(memberCard).join("") : "") +
+        (!members.length ? `<div class="empty-card center"><p class="empty-title">Your circle is empty.</p>
+          <p class="empty-sub">Add your child below and see their first morning forecast in under a minute.</p></div>` : "") +
+        circlesForms();
+      wireCirclesBody();
+    } catch (e) {
+      body.innerHTML = `<div class="empty-card center"><p class="empty-title">Circles unreachable.</p>
+        <p class="empty-sub">${esc(e.message || "")}</p></div>`;
+    }
+  }
+
+  function wireCirclesBody() {
+    const email = circleEmail();
+    document.querySelectorAll(".copy-link").forEach((b) => b.addEventListener("click", () => {
+      const url = b.closest(".circle-card, .card").querySelector(".circle-link").textContent.trim();
+      const done = () => { b.textContent = "Copied"; setTimeout(() => { b.textContent = "Copy link"; }, 1600); };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(done).catch(() => fallbackCopy(url, done));
+      else fallbackCopy(url, done);
+    }));
+    document.querySelectorAll(".circle-card").forEach((card) => {
+      const mid = card.dataset.mid;
+      const askBtn = card.querySelector(".ask-btn");
+      if (askBtn) askBtn.addEventListener("click", async () => {
+        const inp = card.querySelector(".ask-in");
+        const out = card.querySelector(".ask-out");
+        const q = inp.value.trim();
+        if (!q) return;
+        askBtn.disabled = true; askBtn.textContent = "Asking…";
+        try {
+          const prof = loadProfile() || {};
+          const r = await fetch(`/api/circles/members/${mid}/ask`, {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, circumstance: q, ownerBirthDate: prof.date || "" }),
+          });
+          const j = await r.json();
+          if (r.status === 402) { out.innerHTML = `<p class="fine-note">That reading costs 2 credits, like an Architect message — and the wallet is short. See Plans.</p>`; }
+          else if (!r.ok) { out.innerHTML = `<p class="fine-note">${esc(j.error || "The ask didn't land — try again.")}</p>`; }
+          else {
+            out.innerHTML = `<div class="msg-a"><div class="bubble">${esc(j.reply)}</div></div>`;
+            if (j.balance != null) { wallet.credits = j.balance; paintWallet(); }
+            inp.value = "";
+          }
+        } catch (e) { out.innerHTML = `<p class="fine-note">ÆNIGMA is unreachable right now — try again in a moment.</p>`; }
+        askBtn.disabled = false; askBtn.textContent = "Ask";
+      });
+      const rev = card.querySelector(".revoke-btn");
+      if (rev) rev.addEventListener("click", async () => {
+        if (!confirm("Stop sharing for this member? Forecasts end immediately, everywhere.")) return;
+        try {
+          const r = await fetch(`/api/circles/members/${mid}/revoke`, {
+            method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email }),
+          });
+          if (!r.ok) { const j = await r.json(); toast(j.error || "Revoke failed."); return; }
+          toast("Sharing stopped.");
+          loadCircles();
+        } catch (e) { toast("Unreachable — try again."); }
+      });
+    });
+    const ccAdd = document.getElementById("cc-add");
+    if (ccAdd) ccAdd.addEventListener("click", async () => {
+      const err = document.getElementById("cc-err");
+      const name = document.getElementById("cc-name").value.trim();
+      const dob = document.getElementById("cc-dob").value;
+      if (!name || !dob) { err.hidden = false; err.textContent = "A name and a birth date are all it takes."; return; }
+      err.hidden = true;
+      ccAdd.disabled = true; ccAdd.textContent = "Adding…";
+      try {
+        const r = await fetch("/api/circles/members", {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, type: "parent_child", role: "child", displayName: name, birthDate: dob,
+            birthTime: document.getElementById("cc-time").value.trim(), birthPlace: document.getElementById("cc-loc").value.trim() }),
+        });
+        const j = await r.json();
+        if (!r.ok) { err.hidden = false; err.textContent = j.error || "Couldn't add — try again."; }
+        else { toast("Added — today's forecast is in your circle."); loadCircles(); }
+      } catch (e) { err.hidden = false; err.textContent = "Unreachable — try again."; }
+      ccAdd.disabled = false; ccAdd.textContent = "Add & see today's forecast";
+    });
+    const ciAdd = document.getElementById("ci-add");
+    if (ciAdd) ciAdd.addEventListener("click", async () => {
+      const err = document.getElementById("ci-err");
+      const name = document.getElementById("ci-name").value.trim();
+      const type = document.getElementById("ci-type").value;
+      if (!name) { err.hidden = false; err.textContent = "Add their name so you recognize them in your circle."; return; }
+      err.hidden = true;
+      ciAdd.disabled = true; ciAdd.textContent = "Creating…";
+      try {
+        const r = await fetch("/api/circles/members", {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, type, role: type, displayName: name }),
+        });
+        const j = await r.json();
+        if (!r.ok) { err.hidden = false; err.textContent = j.error || "Couldn't create the invite."; }
+        else {
+          document.getElementById("ci-out").innerHTML = `<p class="interpret">Invite ready for ${esc(name)} — send them this link:</p>
+            <div class="link-row"><span class="mono-block circle-link">${esc(fullInviteUrl(j.member.invitePath))}</span>
+            <button class="btn btn-secondary btn-sm" id="ci-copy">Copy</button></div>`;
+          const cp = document.getElementById("ci-copy");
+          cp.addEventListener("click", () => {
+            const url = document.querySelector("#ci-out .circle-link").textContent.trim();
+            const done = () => { cp.textContent = "Copied"; setTimeout(() => { cp.textContent = "Copy"; }, 1600); };
+            if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(done).catch(() => fallbackCopy(url, done));
+            else fallbackCopy(url, done);
+          });
+          toast("Invite created — it also appears in your circle above.");
+          loadCircles();
+        }
+      } catch (e) { err.hidden = false; err.textContent = "Unreachable — try again."; }
+      ciAdd.disabled = false; ciAdd.textContent = "Create invite link";
+    });
+  }
+  function wireCircles() { loadCircles(); }
+
+  /* ---- invite / claim page (the member's side of the link) ---- */
+  function renderInvite() {
+    return `<div class="col narrow">
+      <div class="sticky-head"><span class="wordmark">ÆNIGMA</span><span class="badge">Circles</span></div>
+      <h2 class="page-title">A Circle Invitation</h2>
+      <div id="invite-body"><div class="empty-card center"><p class="empty-title">Opening your invitation…</p></div></div>
+    </div>`;
+  }
+  async function wireInvite(token) {
+    const body = document.getElementById("invite-body");
+    if (!body || !token) { if (body) body.innerHTML = `<div class="empty-card center"><p class="empty-title">This invite link doesn't look right.</p></div>`; return; }
+    let info = null;
+    try {
+      const r = await fetch("/api/circles/invite/" + encodeURIComponent(token));
+      info = await r.json();
+      if (!r.ok) throw new Error(info.error || r.status);
+    } catch (e) {
+      body.innerHTML = `<div class="empty-card center"><p class="empty-title">This invite link doesn't look right.</p>
+        <p class="empty-sub">Ask for a fresh link from the person who invited you.</p></div>`;
+      return;
+    }
+    const paint = () => {
+      const st = info.consentStatus;
+      if (st === "revoked") {
+        body.innerHTML = `<div class="card"><div class="card-title">Sharing is off</div>
+          <p class="interpret">Nothing about you is being forecast or shared through this link.</p></div>`;
+        return;
+      }
+      if (st === "accepted") {
+        body.innerHTML = `<div class="card"><div class="card-title">You're in the circle</div>
+          <p class="interpret">${esc(info.inviterLabel)} sees your daily forecast <strong>text only</strong> — never your birth data. That stays yours.</p>
+          <div class="btn-row" style="margin-top:12px"><button class="btn btn-ghost" id="inv-revoke">Stop sharing my forecast</button></div>
+          <p class="fine-note">${esc(info.framing || CIRCLE_FRAMING)}</p></div>`;
+        document.getElementById("inv-revoke").addEventListener("click", async () => {
+          await fetch("/api/circles/invite/" + encodeURIComponent(token) + "/revoke", { method: "POST", headers: { "Content-Type": "application/json" }, body: "{}" }).catch(() => {});
+          info.consentStatus = "revoked"; paint();
+        });
+        return;
+      }
+      const claiming = st === "managed";
+      body.innerHTML = `<div class="card"><div class="card-title">${claiming ? "Claim your profile" : "You've been invited"}</div>
+        <p class="interpret">${claiming
+          ? `${esc(info.inviterLabel)} set up an ÆNIGMA profile for you, parent-managed. Claim it now and it becomes yours: confirm your birth date, and from then on you control whether your daily forecast is shared — stop anytime from this page.`
+          : `${esc(info.inviterLabel)} would like you in their ÆNIGMA circle. Accept, and ÆNIGMA reads your birth date into a short symbolic forecast of your day — <strong>only that forecast text is shared</strong> with ${esc(info.inviterLabel)}. Your birth data itself is never shared, and you can stop sharing anytime from this page.`}</p>
+        <div class="form-grid" style="margin-top:12px">
+          <label class="field"><span class="flabel">Your date of birth</span><input id="inv-dob" class="input" type="date" /></label>
+          <label class="field"><span class="flabel">Time of birth (optional)</span><input id="inv-time" class="input" type="text" placeholder="HH:MM" /></label>
+          <label class="field"><span class="flabel">Birthplace (optional)</span><input id="inv-loc" class="input" type="text" placeholder="City, Country" /></label>
+        </div>
+        <div id="inv-err" class="err" hidden></div>
+        <button class="btn btn-primary btn-block" id="inv-accept">${claiming ? "Claim my profile" : "Accept & share my forecast"}</button>
+        <p class="fine-note">${esc(info.framing || CIRCLE_FRAMING)}</p></div>`;
+      document.getElementById("inv-accept").addEventListener("click", async () => {
+        const err = document.getElementById("inv-err");
+        const dob = document.getElementById("inv-dob").value;
+        if (!dob) { err.hidden = false; err.textContent = "Your birth date is what the forecast is read from."; return; }
+        err.hidden = true;
+        try {
+          const r = await fetch("/api/circles/invite/" + encodeURIComponent(token) + "/accept", {
+            method: "POST", headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ birthDate: dob, birthTime: document.getElementById("inv-time").value.trim(), birthPlace: document.getElementById("inv-loc").value.trim() }),
+          });
+          const j = await r.json();
+          if (!r.ok) { err.hidden = false; err.textContent = j.error || "That didn't land — try again."; return; }
+          info.consentStatus = "accepted"; paint();
+        } catch (e) { err.hidden = false; err.textContent = "Unreachable — try again."; }
+      });
+    };
+    paint();
+  }
+
   /* ================= ROUTER ================= */
   const TABS = [
     ["#/reading", "READING", "reading"],
@@ -1469,6 +1771,8 @@ BEAT TABLE (script lines timed against clips):
     else if (root === "explore") { html = renderExplore(); wire = wireExplore; }
     else if (root === "decode") { html = renderDecode(); wire = wireDecode; }
     else if (root === "ops") { html = renderOps(); wire = wireOps; }
+    else if (root === "circles" && sub === "invite") { html = renderInvite(); wire = () => wireInvite(parts[2]); }
+    else if (root === "circles") { html = renderCircles(); wire = wireCircles; }
     else { html = renderReadingInput(); wire = wireReadingInput; }
     view.innerHTML = html;
     const lg = document.getElementById("onboard-logo");
