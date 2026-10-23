@@ -1264,6 +1264,89 @@ function thBFN(field, now) {
   };
 }
 
+// Wholeness framework — Sevan Bomar's "Ancient Code": the cyclic number
+// 142857, from his Innerstanding teaching (Secret Energy). 142857 is the
+// repetend of 1/7 and surfaces in the division Bomar starts from:
+// 365 ÷ 7 = 52.142857… Its multiples ×1–×6 are pure rotations that never
+// produce 3, 6, or 9, and ×7 = 999999 sets 9 outside the cycle as its
+// governor. The framework is Bomar's proposal, not established mathematics:
+// the engine verifies the arithmetic below, never the metaphysics. (Same
+// honesty standard as Grant's BFN above. Full lexicon + teaching:
+// knowledge/corpus/Wholeness_Sevan_Bomar_The_Ancient_Code.txt.)
+function digitalRoot(n) {
+  let x = Math.abs(Math.floor(n)) || 0;
+  while (x > 9) x = String(x).split("").reduce((s, d) => s + Number(d), 0);
+  return x;
+}
+
+function thAncientCode(field) {
+  const C = 142857;
+  const digits = String(C);
+  const sorted = digits.split("").sort().join("");
+  const rotations = [];
+  for (let k = 1; k <= 6; k++) rotations.push(C * k);
+  const rotationsOK = rotations.every((r) => String(r).split("").sort().join("") === sorted);
+  const absentOK = [3, 6, 9].every((d) => !digits.includes(String(d)));
+  const nineOK = [9, 18, 27, 45, 99, 999999].every((n) => digitalRoot(n) === 9)
+    && [1, 2, 3, 4, 5, 6, 7, 8].every((d) => digitalRoot(d + 9) === d);
+  const starPairs = [[1, 8], [4, 5], [2, 7]];
+  const starOK = starPairs.every(([a, b]) => a + b === 9);
+  const yearWeek = (365 / 7).toFixed(12); // 52.142857142857
+  const todays = rotations[field.cycle % 6];
+  return {
+    id: "ancient-code-142857",
+    name: "The Ancient Code — 142857",
+    source: "Sevan Bomar's Wholeness teaching — 'The Ancient Code that Unlocks the Matrix' (Innerstanding / Secret Energy). His proposed framework, not established mathematics; the arithmetic is verified in code.",
+    summary: "Bomar's master code of the Matrix: the cyclic number of 1/7, born from dividing the 365-day year by the 7-day week. Its rotations never produce 3, 6, or 9 — the digits that aren't there are the teaching — and 9 sits outside the cycle as its governor (×7 = 999999).",
+    values: {
+      "365 ÷ 7": `${yearWeek}… — 52 weeks, then the code repeating`,
+      "×1 – ×6 rotations": rotations.join(" · "),
+      "rotations are pure digit rotations": rotationsOK ? "verified" : "mismatch",
+      "3, 6, 9 absent from the cycle": absentOK ? "verified" : "mismatch",
+      "×7": `${C * 7} — nine, outside the cycle`,
+      "9 governs (multiples of 9 → 9; n + 9 → n)": nineOK ? "verified" : "mismatch",
+      "opposite star points (1+8 · 4+5 · 2+7)": starOK ? "all sum to 9 — verified" : "mismatch",
+      "pairs 14 · 28 · 57": "14 = 7×2, 28 = 7×4 — then 57 where 56 = 7×8 belongs: one hidden one",
+      "this cycle's rotation": todays,
+    },
+    reading: `The arithmetic holds exactly as Bomar teaches it: six rotations, no 3, no 6, no 9 — and ×7 collapses the cycle into pure nines. Where Grant's BFN builds on what base-12 contains, the Ancient Code is built on what the cycle excludes. Cycle ${field.cycle} turns on rotation ${todays} — read the day through the digits that are present, and keep one eye on the ones that never appear.`,
+  };
+}
+
+// Wholeness framework — Sevan Bomar's 13 / Zero calendar note, from his
+// Innerstanding teaching. Bomar reads 13 as the master cycle the 12-system
+// displaced: 13 moons of 28 days = 364 days, plus the Zero — the zeroth day
+// outside the count, which he identifies with the hidden Great Mother —
+// completing the 365-day year. Venus makes 13 orbits in the span Earth
+// makes 8 years, tracing a five-petaled pentagram in the sky (real
+// astronomy; his framing). Presented as his framework, not established fact.
+function thThirteenZero(field, now) {
+  const d = new Date(now);
+  const y = d.getUTCFullYear();
+  const doy = Math.floor((Date.UTC(y, d.getUTCMonth(), d.getUTCDate()) - Date.UTC(y, 0, 1)) / 86400000) + 1;
+  const inGrid = doy <= 364;
+  const moon = inGrid ? Math.floor((doy - 1) / 28) + 1 : null;
+  const day = inGrid ? ((doy - 1) % 28) + 1 : null;
+  const venus = Math.round(13 * 224.7); // ≈ 2921 days
+  const earth = Math.round(8 * 365.25); // ≈ 2922 days
+  return {
+    id: "thirteen-zero",
+    name: "The 13 / Zero Calendar",
+    source: "Sevan Bomar's Wholeness teaching (Innerstanding / Secret Energy). His proposed framework, not established fact; Venus's 13-orbits-in-8-years cycle is real astronomy.",
+    summary: "Bomar's master cycle beside the 12-system: 13 moons of 28 days = 364, completed by the zeroth day — the day outside the count, belonging to the Zero, the hidden Great Mother. Venus makes 13 orbits in Earth's 8 years and traces a five-petaled pentagram across that cycle.",
+    values: {
+      "13 × 28": 364,
+      "364 + the Zero": "365 — the zeroth day completes the year",
+      "today in the 13-grid": inGrid ? `moon ${moon} of 13 · day ${day} of 28` : "the zeroth day — outside the count",
+      "Venus: 13 orbits": `≈ ${venus} days`,
+      "Earth: 8 years": `≈ ${earth} days — the pentagram cycle`,
+    },
+    reading: inGrid
+      ? `Today stands at moon ${moon}, day ${day} of Bomar's 13-count — inside the grid the 12-system papered over. The zeroth day is still ahead this year: the one day that belongs to no moon and no count, which his teaching gives to the hidden Mother.`
+      : `Today IS the zeroth day in Bomar's count — day ${doy} of the year, outside the 13×28 grid entirely. His teaching gives this day to the Zero, the hidden Great Mother: the day that belongs to no count at all.`,
+  };
+}
+
 const THEOREMS = [
   thHarmonicLadder,
   thFactorion145,
@@ -1279,6 +1362,8 @@ const THEOREMS = [
   thAnnwnCipher,
   thMusicOfMoney,
   thE8Lattice,
+  thAncientCode,
+  thThirteenZero,
 ];
 
 // ---------------------------------------------------------------------------
