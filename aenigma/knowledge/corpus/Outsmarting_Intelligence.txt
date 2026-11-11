@@ -1,6 +1,6 @@
-# Outsmarting Intelligence — an ÆNIGMA Framework
+# Outsmarting Intelligence — an AERØ Framework
 
-An ÆNIGMA framework, presented by Joshua McCullough. Lineage: drawn from
+An AERØ framework, presented by Joshua McCullough. Lineage: drawn from
 the Orion Architect HCI framework. Like every framework in this corpus, it
 is presented as proposed — a lens for reflection, not established science.
 

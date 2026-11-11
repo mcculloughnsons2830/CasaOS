@@ -1,8 +1,8 @@
-// ÆNIGMA Circles — relationship forecasts (additive module).
+// AERØ Circles — relationship forecasts (additive module).
 //
 // A user ("owner") keeps a small circle of loved ones. For each member the
 // app computes a daily "emotional weather" forecast from that member's
-// ÆNIGMA profile + personal cycles (Personal Year/Month/Day) — deterministic,
+// AERØ profile + personal cycles (Personal Year/Month/Day) — deterministic,
 // no LLM call, likelihood language, symbolic lens. NEVER a diagnosis.
 //
 // Consent model (enforced server-side, here):
@@ -32,7 +32,7 @@ const crypto = require("crypto");
 const DATA_DIR = path.join(__dirname, "data");
 const CIRCLES_FILE = path.join(DATA_DIR, "circles.json");
 
-const FRAMING = "A symbolic read through the ÆNIGMA lens. Grant's BFN framework is a proposed framework, and personal cycles are a language for reflection — likelihood, not certainty; a lens, not a diagnosis. A person is not their pattern.";
+const FRAMING = "A symbolic read through the AERØ lens. Grant's BFN framework is a proposed framework, and personal cycles are a language for reflection — likelihood, not certainty; a lens, not a diagnosis. A person is not their pattern.";
 const FORECASTABLE = new Set(["managed", "accepted"]);
 const CIRCLE_TYPES = new Set(["parent_child", "partner", "family"]);
 const ROLES = new Set(["child", "parent", "partner", "family"]);
@@ -119,7 +119,7 @@ const ENNEA_CORE = {
 };
 const CODEX_ORDER = ["CAELIX", "VIRELUM", "AZURÆ", "LUMIRESSA"];
 
-// The computed ÆNIGMA values for one person's birth data (stored snapshot).
+// The computed AERØ values for one person's birth data (stored snapshot).
 function computeSnapshot(birth, displayName) {
   const { y, m, d } = birth;
   const stamp = y * 10000 + m * 100 + d;
@@ -322,7 +322,7 @@ function tooMany(id, limit, windowMs) {
 }
 
 // ---------------------------------------------------------------------------
-// Ask ÆNIGMA — local fallback (deterministic, used when the oracle chain is
+// Ask AERØ — local fallback (deterministic, used when the oracle chain is
 // resting, exactly like localRead/localChat in server.js).
 // ---------------------------------------------------------------------------
 function localAsk(member, fc, circumstance) {
@@ -432,7 +432,7 @@ function registerCircles(app, deps) {
     res.json({ member: publicMember(m, isoDate(new Date())) });
   });
 
-  // ---- Ask ÆNIGMA about a member --------------------------------------------
+  // ---- Ask AERØ about a member --------------------------------------------
   app.post("/api/circles/members/:id/ask", async (req, res) => {
     const { email, circumstance, ownerBirthDate } = req.body || {};
     if (!Credits.validEmail(email)) return res.status(400).json({ error: "valid email required" });
@@ -463,7 +463,7 @@ function registerCircles(app, deps) {
     const registry = passages.length ? `RELEVANT PASSAGES FROM THE REGISTRY:\n${passages.join("\n— — —\n")}` : "";
     const system = [
       AENIGMA_AGENT,
-      `CIRCLES — REACTION READING. The user keeps a circle of loved ones in ÆNIGMA and asks how one member would LIKELY react to a circumstance. Answer about the MEMBER (third person), warmly and concretely, 120–220 words, conversational prose (no headers, no lists). Ground every claim in the member's profile, today's cycles, and today's forecast given below. Use likelihood language throughout ("likely", "tends to") — this is a symbolic lens, NEVER a prediction, a diagnosis, or a claim about their mental health. End with one gentle, practical suggestion for how the user might approach them today. If the circumstance suggests the member may be in crisis or at risk of harm, drop the symbolic framing and respond plainly and caringly, encouraging real-world support (in the US, call or text 988).`,
+      `CIRCLES — REACTION READING. The user keeps a circle of loved ones in AERØ and asks how one member would LIKELY react to a circumstance. Answer about the MEMBER (third person), warmly and concretely, 120–220 words, conversational prose (no headers, no lists). Ground every claim in the member's profile, today's cycles, and today's forecast given below. Use likelihood language throughout ("likely", "tends to") — this is a symbolic lens, NEVER a prediction, a diagnosis, or a claim about their mental health. End with one gentle, practical suggestion for how the user might approach them today. If the circumstance suggests the member may be in crisis or at risk of harm, drop the symbolic framing and respond plainly and caringly, encouraging real-world support (in the US, call or text 988).`,
       `MEMBER PROFILE (computed, exact): ${memberSummary(m)}`,
       fc ? `TODAY'S FORECAST FOR ${firstName(m.displayName).toUpperCase()} (${today}, Personal Year ${fc.personalYear}, Month ${fc.personalMonth}, Day ${fc.personalDay} — ${NUM_MEANING[fc.personalDay] || ""}): headline "${fc.headline}". ${fc.outlook} Lands well: ${fc.landsWell} Go gently: ${fc.goGently}` : "",
       synastry,

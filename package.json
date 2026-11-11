@@ -1,8 +1,8 @@
 {
-  "name": "aenigma",
+  "name": "aero",
   "version": "0.1.0-beta",
   "private": true,
-  "description": "ÆNIGMA — a mirror for your consciousness (beta). Real-time resonance for the archetypes moving through you.",
+  "description": "AERØ — a mirror for your consciousness (beta). Real-time resonance for the archetypes moving through you.",
   "main": "aenigma/server.js",
   "scripts": {
     "start": "node aenigma/scripts/write-version.js && node aenigma/server.js"

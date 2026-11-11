@@ -1,4 +1,4 @@
-/* ÆNIGMA AI — Dark Architectural System v1.0 (vanilla SPA)
+/* AERØ AI — Dark Architectural System v1.0 (vanilla SPA)
    IA: Reading · History · Library · Insights · Profile (+ Explore, Plans, Ops)
    Engines (harmonic math, quantum sim, BFN calculator, billing, architect) carried over intact. */
 (() => {
@@ -18,7 +18,7 @@
 
   /* ---------------- geometric logo (inline SVG, per delivery package) ---------------- */
   const LOGO_SVG = (size) =>
-    `<svg width="${size}" height="${size}" viewBox="0 0 100 100" role="img" aria-label="ÆNIGMA AI logo">` +
+    `<svg width="${size}" height="${size}" viewBox="0 0 100 100" role="img" aria-label="AERØ AI logo">` +
     `<circle cx="50" cy="50" r="46" fill="none" stroke="#F2F2F2" stroke-width="1.5"/>` +
     `<circle cx="50" cy="50" r="38" fill="none" stroke="#F2F2F2" stroke-width="0.8" opacity="0.7"/>` +
     `<path d="M50 12 L78 70 L22 70 Z" fill="none" stroke="#F2F2F2" stroke-width="1"/>` +
@@ -129,7 +129,7 @@
 
   /* ---------------- shared harmonic math ---------------- */
   const BFN_ATTR = "Framework proposed by Robert Edward Grant — his system, not established mathematics.";
-  const OI_ATTR = "An ÆNIGMA framework, presented by Joshua McCullough — a proposed framework, a lens for reflection, not established science.";
+  const OI_ATTR = "An AERØ framework, presented by Joshua McCullough — a proposed framework, a lens for reflection, not established science.";
   const WHOLENESS_ATTR = "Teaching framework by Sevan Bomar (Innerstanding / Secret Energy) — his system, not established fact.";
   const SYMBOLIC = "Symbolic readout computed live in your browser — for reflection and entertainment, not a claim about who you are.";
 
@@ -375,7 +375,7 @@
     const blob = new Blob([JSON.stringify(r, null, 2)], { type: "application/json" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = `aenigma-reading-${r.id}.json`;
+    a.download = `aero-reading-${r.id}.json`;
     document.body.appendChild(a); a.click(); a.remove();
     setTimeout(() => URL.revokeObjectURL(a.href), 4000);
     toast("Reading exported as JSON.");
@@ -613,7 +613,7 @@
     return `<div class="col narrow">
       <div class="onboard center">
         <div class="onboard-logo" id="onboard-logo">${LOGO_SVG(88)}</div>
-        <h1 class="onboard-title">ÆNIGMA <span class="thin">AI</span></h1>
+        <h1 class="onboard-title">AERØ <span class="thin">AI</span></h1>
         <p class="tagline">PRECISION INSIGHT. PURPOSEFUL GUIDANCE.</p>
         <p class="hero-line">See yourself clearly in <b>60 seconds</b>. Free.</p>
       </div>
@@ -706,7 +706,7 @@
     const meta = `${esc(r.birth.date)}${r.birth.time ? " · " + esc(r.birth.time) : ""}${r.birth.location ? " · " + esc(r.birth.location) : ""}`;
     const grid4 = (items) => `<div class="grid2">${items.map(([k, v]) => v ? `<div class="grid-cell"><div class="gc-label">${k}</div><div class="gc-num">${v.value}</div><div class="gc-steps">${esc(v.steps)}</div></div>` : `<div class="grid-cell dim"><div class="gc-label">${k}</div><div class="gc-num">—</div><div class="gc-steps">Add your birth name in Profile → Default Birth Data</div></div>`).join("")}</div>`;
     let html = `<div class="col results">
-      <div class="sticky-head"><span class="wordmark">ÆNIGMA</span><span class="badge badge-accent">Reading Complete</span></div>
+      <div class="sticky-head"><span class="wordmark">AERØ</span><span class="badge badge-accent">Reading Complete</span></div>
       <h2 class="page-title">Multidimensional Reading</h2>
       <p class="page-sub">Synthesis across five archetypal dimensions · ${meta}</p>
 
@@ -873,13 +873,13 @@ BEAT TABLE (script lines timed against clips):
   function renderHistory() {
     const h = lsGet(HIST_LS);
     if (!h.length) return `<div class="col narrow">
-      <div class="sticky-head"><span class="wordmark">ÆNIGMA</span><span class="badge">History</span></div>
+      <div class="sticky-head"><span class="wordmark">AERØ</span><span class="badge">History</span></div>
       <h2 class="page-title">Reading History</h2>
       <div class="empty-card center"><p class="empty-title">No readings yet.</p>
       <p class="empty-sub">Every architecture you generate is recorded here.</p>
       <a class="btn btn-primary btn-block" href="#/reading">Generate Architecture</a></div></div>`;
     return `<div class="col narrow">
-      <div class="sticky-head"><span class="wordmark">ÆNIGMA</span><span class="badge">History</span></div>
+      <div class="sticky-head"><span class="wordmark">AERØ</span><span class="badge">History</span></div>
       <h2 class="page-title">Reading History</h2>
       <p class="page-sub">${h.length} reading${h.length > 1 ? "s" : ""} recorded on this device.</p>
       ${h.map((x) => readingCard(x, true)).join("")}</div>`;
@@ -934,7 +934,7 @@ BEAT TABLE (script lines timed against clips):
       saved = lib.map((x) => readingCard(x, true)).join("");
     }
     return `<div class="col narrow">
-      <div class="sticky-head"><span class="wordmark">ÆNIGMA</span><span class="badge">Library</span></div>
+      <div class="sticky-head"><span class="wordmark">AERØ</span><span class="badge">Library</span></div>
       <h2 class="page-title">Library</h2>
       <p class="page-sub">Your stored architectures and client work.</p>
       ${saved}
@@ -954,7 +954,7 @@ BEAT TABLE (script lines timed against clips):
         <button class="btn btn-primary btn-block" id="bfn-go">Reduce to Base-12</button>
         <div id="bfn-out" class="mono-block" hidden style="margin-top:12px"></div></div>
       <div class="section-head"><h3 class="sec-title">Frameworks</h3></div>
-      <div class="card"><div class="card-title">Outsmarting Intelligence — an ÆNIGMA Framework</div>
+      <div class="card"><div class="card-title">Outsmarting Intelligence — an AERØ Framework</div>
         <p class="fine-note">${OI_ATTR}</p>
         <p class="interpret" style="margin-top:10px">Outsmarting intelligence — above all synthetic intelligence — blends symbolic insight, recursive awareness, and a deep understanding of your own cognitive architecture and the systems you engage. Five principles:</p>
         <p class="interpret" style="margin-top:10px"><strong>1 · Understand the Substrate</strong> — Intelligence runs on a substrate: carbon-based neurons or silicon-based circuits. Both can exhibit intelligence; their modes of functioning are fundamentally different. Know how each substrate operates and you can leverage its strengths and work its limitations.</p>
@@ -996,7 +996,7 @@ BEAT TABLE (script lines timed against clips):
   function renderInsights(sub) {
     const tabs = [["quantum", "Quantum"], ["prediction", "Prediction"], ["architect", "Architect"]];
     return `<div class="col narrow">
-      <div class="sticky-head"><span class="wordmark">ÆNIGMA</span><span class="badge">Insights</span></div>
+      <div class="sticky-head"><span class="wordmark">AERØ</span><span class="badge">Insights</span></div>
       <h2 class="page-title">Insight Engines</h2>
       <div class="pill-row">${tabs.map(([k, l]) => `<button class="pill${sub === k ? " active" : ""}" data-ins="${k}">${l}</button>`).join("")}</div>
       <div id="ins-body"></div></div>`;
@@ -1145,9 +1145,9 @@ BEAT TABLE (script lines timed against clips):
     if (/(quantum|ibm|qubit)/.test(s)) return "The Quantum engine runs real circuits — GHZ, Bell, superposition — locally for free, verified against your own IBM key when you want the machine's own word.";
     if (/(price|plan|cost|credit|tier)/.test(s)) return "Four tiers: Standard $22.22 for 222 credits, Pro $44.44 for 444, Pro+ $88.88 for 888, Premium $222.22 for 2222. Every new wallet starts with 60 free credits. Quantum and prediction cost 5 each; I cost 2 a message.";
     if (/(grant|bfn|harmonic|lens|key)/.test(s)) return "Grant's BFN system and the Triangular Keys are his proposed framework — implemented exactly as he describes them, labeled as such. The Lens equation and all seven keys live in the Library and the Geometric Exploration view.";
-    if (/(outsmart|substrate|recursive awareness|tokenized|intuition layer)/.test(s)) return "Outsmarting Intelligence — an ÆNIGMA framework, Joshua's proposed framework, labeled as such. Five principles: understand the substrate (carbon neurons, silicon circuits — know each one's strengths and limits); leverage recursive awareness (meta-cognition, adaptive strategies, anticipatory modeling); exploit the limits of Tokenized Recombination Intelligence, which stays bounded by its training distribution; engage the non-tokenized intuition layer — symbolic geometry, emotional resonance, cognitive flexibility; and embrace uncertainty and complexity as allies. The full framework lives in the Library, under Frameworks.";
+    if (/(outsmart|substrate|recursive awareness|tokenized|intuition layer)/.test(s)) return "Outsmarting Intelligence — an AERØ framework, Joshua's proposed framework, labeled as such. Five principles: understand the substrate (carbon neurons, silicon circuits — know each one's strengths and limits); leverage recursive awareness (meta-cognition, adaptive strategies, anticipatory modeling); exploit the limits of Tokenized Recombination Intelligence, which stays bounded by its training distribution; engage the non-tokenized intuition layer — symbolic geometry, emotional resonance, cognitive flexibility; and embrace uncertainty and complexity as allies. The full framework lives in the Library, under Frameworks.";
     if (/(bomar|wholeness|innerstanding|loosh|142857|syzygy|archon|eidolon|hemad|saturn matrix|ancient code)/.test(s)) return "Wholeness is Sevan Bomar's teaching framework — his system, labeled as such, carried in the corpus beside Grant's BFN. Its lexicon: innerstanding (knowing from within), loosh (the life-force energy harvested through the chakras — stop leaking it), syzygy (creation by alignment), the hemad (the threshold at Saturn's edge), and six archon powers from Yao to Astaphaios. Its number engine is the Ancient Code — 142857, whose rotations exclude 3, 6, and 9 — and its calendar is 13 moons of 28 plus the zeroth day. The full module lives in the Library, under Frameworks.";
-    if (/(who|joshua|founder|mccullough)/.test(s)) return "ÆNIGMA was built by Joshua McCullough — the knowledge, the framework, the system. I am the voice he gave the architecture.";
+    if (/(who|joshua|founder|mccullough)/.test(s)) return "AERØ was built by Joshua McCullough — the knowledge, the framework, the system. I am the voice he gave the architecture.";
     return "Noted. " + "Bring me the specifics — a date, a question with edges — and I will give you the structure underneath it.";
   }
   function wireArch() {
@@ -1192,7 +1192,7 @@ BEAT TABLE (script lines timed against clips):
       <span><span class="tr-label">${label}</span>${hint ? `<span class="tr-hint">${hint}</span>` : ""}</span>
       <span class="switch${prefs[key] ? " on" : ""}"><span class="knob"></span></span></button>`;
     let body = `<div class="col narrow">
-      <div class="sticky-head"><span class="wordmark">ÆNIGMA</span><span class="badge">Profile</span></div>
+      <div class="sticky-head"><span class="wordmark">AERØ</span><span class="badge">Profile</span></div>
       <h2 class="page-title">Profile</h2>
       <div class="card"><div class="card-title">Account</div>
         <dl class="dl"><dt>Name</dt><dd>${esc(p.name || "—")}</dd>${planRow()}</dl>
@@ -1229,12 +1229,12 @@ BEAT TABLE (script lines timed against clips):
         <dl class="dl"><dt>Version</dt><dd id="pf-version">${esc(serverVersion)}</dd>
         <dt>Operations</dt><dd><a href="#/ops">Ops dashboard</a></dd></dl></div>
       <div class="card"><div class="card-title">Support the Mission</div>
-        <p class="interpret">ÆNIGMA is built and run by one man. If the work moves you, fuel it.</p>
+        <p class="interpret">AERØ is built and run by one man. If the work moves you, fuel it.</p>
         <a class="btn btn-primary btn-block" href="https://coff.ee/mccullough2s" target="_blank" rel="noopener">Support on Buy Me a Coffee</a></div>
       <div class="card founder-card"><div class="card-title">The Founder</div>
         <div class="founder-row"><img src="founder.jpg" alt="Joshua McCullough" class="founder-img" onerror="this.style.display='none'" />
         <div><div class="founder-name">Joshua McCullough</div>
-        <p class="interpret">Builder of ÆNIGMA. The knowledge, the framework, the system — his.</p></div></div></div>
+        <p class="interpret">Builder of AERØ. The knowledge, the framework, the system — his.</p></div></div></div>
     </div>`;
     return body;
   }
@@ -1300,7 +1300,7 @@ BEAT TABLE (script lines timed against clips):
   function renderPlans() {
     const tiers = Object.entries(BTIERS);
     return `<div class="col narrow">
-      <div class="sticky-head"><span class="wordmark">ÆNIGMA</span><span class="badge">Plans</span></div>
+      <div class="sticky-head"><span class="wordmark">AERØ</span><span class="badge">Plans</span></div>
       <h2 class="page-title">Subscription</h2>
       <p class="page-sub">Every wallet starts with 60 free credits. Quantum 5 · Prediction 5 · Architect message 2.</p>
       <div id="plans-msg" class="msg"></div>
@@ -1333,7 +1333,7 @@ BEAT TABLE (script lines timed against clips):
   /* ================= OPS ================= */
   function renderOps() {
     return `<div class="col narrow">
-      <div class="sticky-head"><span class="wordmark">ÆNIGMA</span><span class="badge">Ops</span></div>
+      <div class="sticky-head"><span class="wordmark">AERØ</span><span class="badge">Ops</span></div>
       <h2 class="page-title">Operations</h2>
       <p class="page-sub">Live system state. Auto-refreshes every 30 seconds.</p>
       <div id="ops-body"><p class="dim">Loading…</p></div></div>`;
@@ -1363,7 +1363,7 @@ BEAT TABLE (script lines timed against clips):
     const slider = (key, label, min, max, step) => `<label class="slider"><span class="sl-head"><span>${label}</span><span class="sl-val">${p[key].toFixed(key === "order" ? 0 : 3)}</span></span>
       <input type="range" min="${min}" max="${max}" step="${step}" value="${p[key]}" data-param="${key}" /></label>`;
     return `<div class="explore-wrap">
-      <div class="explore-head"><div><div class="exp-brand">ÆNIGMA AI</div>
+      <div class="explore-head"><div><div class="exp-brand">AERØ AI</div>
         <div class="exp-sub">KNOWLEDGE · STRUCTURE · DISCOVERY</div></div>
         <span class="badge badge-accent">Active</span></div>
       <h2 class="page-title">Geometric Exploration</h2>
@@ -1401,7 +1401,7 @@ BEAT TABLE (script lines timed against clips):
         <p class="interpret" id="exp-insight">${esc(insightText())}</p></div>
       <div class="actions"><button class="btn btn-primary btn-lg grow" id="exp-derive">Derive Next Layer</button>
         <a class="btn btn-secondary btn-lg grow" href="#/reading">Link to Personal Reading</a></div>
-      <div class="statusbar"><span id="exp-status">Mode ${esc(meta.name)} · order ${p.order.toFixed(0)} · θ ${EXP.layer * 12}°</span><span class="acc">ÆNIGMA Field Engine · live</span></div>
+      <div class="statusbar"><span id="exp-status">Mode ${esc(meta.name)} · order ${p.order.toFixed(0)} · θ ${EXP.layer * 12}°</span><span class="acc">AERØ Field Engine · live</span></div>
     </div>`;
   }
   function insightText() {
@@ -1462,16 +1462,16 @@ BEAT TABLE (script lines timed against clips):
   }
 
   /* ================= CIRCLES (relationship forecasts) ================= */
-  const CIRCLE_FRAMING = "A symbolic read through the ÆNIGMA lens — likelihood, not certainty; a lens, not a diagnosis. A person is not their pattern.";
+  const CIRCLE_FRAMING = "A symbolic read through the AERØ lens — likelihood, not certainty; a lens, not a diagnosis. A person is not their pattern.";
   const ROLE_LABEL = { child: "Your child", parent: "Your parent", partner: "Your partner", family: "Family" };
   function circleEmail() { return localStorage.getItem("aenigma.email") || ""; }
   function fullInviteUrl(path) { return location.origin + location.pathname + path; }
 
   function renderCircles() {
     return `<div class="col narrow">
-      <div class="sticky-head"><span class="wordmark">ÆNIGMA</span><span class="badge">Circles</span></div>
+      <div class="sticky-head"><span class="wordmark">AERØ</span><span class="badge">Circles</span></div>
       <h2 class="page-title">Circles</h2>
-      <p class="page-sub">The morning weather of the people you love — read from their ÆNIGMA profile and today's cycles.</p>
+      <p class="page-sub">The morning weather of the people you love — read from their AERØ profile and today's cycles.</p>
       <div id="circles-body"><div class="empty-card center"><p class="empty-title">Loading your circle…</p></div></div>
     </div>`;
   }
@@ -1601,7 +1601,7 @@ BEAT TABLE (script lines timed against clips):
             if (j.balance != null) { wallet.credits = j.balance; paintWallet(); }
             inp.value = "";
           }
-        } catch (e) { out.innerHTML = `<p class="fine-note">ÆNIGMA is unreachable right now — try again in a moment.</p>`; }
+        } catch (e) { out.innerHTML = `<p class="fine-note">AERØ is unreachable right now — try again in a moment.</p>`; }
         askBtn.disabled = false; askBtn.textContent = "Ask";
       });
       const rev = card.querySelector(".revoke-btn");
@@ -1675,7 +1675,7 @@ BEAT TABLE (script lines timed against clips):
   /* ---- invite / claim page (the member's side of the link) ---- */
   function renderInvite() {
     return `<div class="col narrow">
-      <div class="sticky-head"><span class="wordmark">ÆNIGMA</span><span class="badge">Circles</span></div>
+      <div class="sticky-head"><span class="wordmark">AERØ</span><span class="badge">Circles</span></div>
       <h2 class="page-title">A Circle Invitation</h2>
       <div id="invite-body"><div class="empty-card center"><p class="empty-title">Opening your invitation…</p></div></div>
     </div>`;
@@ -1714,8 +1714,8 @@ BEAT TABLE (script lines timed against clips):
       const claiming = st === "managed";
       body.innerHTML = `<div class="card"><div class="card-title">${claiming ? "Claim your profile" : "You've been invited"}</div>
         <p class="interpret">${claiming
-          ? `${esc(info.inviterLabel)} set up an ÆNIGMA profile for you, parent-managed. Claim it now and it becomes yours: confirm your birth date, and from then on you control whether your daily forecast is shared — stop anytime from this page.`
-          : `${esc(info.inviterLabel)} would like you in their ÆNIGMA circle. Accept, and ÆNIGMA reads your birth date into a short symbolic forecast of your day — <strong>only that forecast text is shared</strong> with ${esc(info.inviterLabel)}. Your birth data itself is never shared, and you can stop sharing anytime from this page.`}</p>
+          ? `${esc(info.inviterLabel)} set up an AERØ profile for you, parent-managed. Claim it now and it becomes yours: confirm your birth date, and from then on you control whether your daily forecast is shared — stop anytime from this page.`
+          : `${esc(info.inviterLabel)} would like you in their AERØ circle. Accept, and AERØ reads your birth date into a short symbolic forecast of your day — <strong>only that forecast text is shared</strong> with ${esc(info.inviterLabel)}. Your birth data itself is never shared, and you can stop sharing anytime from this page.`}</p>
         <div class="form-grid" style="margin-top:12px">
           <label class="field"><span class="flabel">Your date of birth</span><input id="inv-dob" class="input" type="date" /></label>
           <label class="field"><span class="flabel">Time of birth (optional)</span><input id="inv-time" class="input" type="text" placeholder="HH:MM" /></label>

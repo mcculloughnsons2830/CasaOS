@@ -1,10 +1,10 @@
-# ÆNIGMA Circles — Partner API (v1)
+# AERØ Circles — Partner API (v1)
 
-ÆNIGMA Circles lets a user keep a small circle of loved ones — parent & child
+AERØ Circles lets a user keep a small circle of loved ones — parent & child
 first, then partners and family — and receive a daily **emotional-weather
 forecast** for each member: how that person is *likely* to be running today,
 what tends to land well, and what to go gently on. Forecasts are computed
-deterministically from the member's ÆNIGMA profile and personal cycles
+deterministically from the member's AERØ profile and personal cycles
 (Personal Year / Month / Day).
 
 This API is the integration surface for partner platforms (family-safety,
@@ -34,7 +34,7 @@ This is the heart of the offer, and it is contractual, not cosmetic:
 ## Authentication
 
 Each partner receives one API key (`aen_pk_…`), shown once at creation and
-stored only as a SHA-256 hash on ÆNIGMA's side.
+stored only as a SHA-256 hash on AERØ's side.
 
 Send it on every request, either way:
 
@@ -48,7 +48,7 @@ Missing/invalid keys → `401`. Keys carry scopes: `forecast:read`,
 
 **Rate limit:** 120 requests per 5 minutes per key → `429`.
 
-**Key management (ÆNIGMA side):** keys are minted with
+**Key management (AERØ side):** keys are minted with
 `aenigma/scripts/seed-partner-key.js` or seeded via the `AENIGMA_PARTNER_KEYS`
 environment variable (JSON array of `{name, keyHash, scopes}`). Keys are
 loaded at app start — after seeding the data file, restart the app (env-var
@@ -64,7 +64,7 @@ Today's (or a given date's) forecast for one consented member.
 
 | Query param | Required | Notes |
 |---|---|---|
-| `memberRef` | yes | Opaque member reference issued by ÆNIGMA |
+| `memberRef` | yes | Opaque member reference issued by AERØ |
 | `date` | no | `YYYY-MM-DD`; defaults to today (UTC) |
 
 **200**
@@ -76,7 +76,7 @@ Today's (or a given date's) forecast for one consented member.
   "outlook": "Alex is likely turned inward today — reflective, observant, needing more quiet than company. Inside a personal month of reflection, that thinks before it speaks.",
   "landsWell": "Space without interrogation — be nearby, not probing.",
   "goGently": "Don't read quiet as a problem to fix or a mood to punish.",
-  "framing": "A symbolic read through the ÆNIGMA lens. Grant's BFN framework is a proposed framework, and personal cycles are a language for reflection — likelihood, not certainty; a lens, not a diagnosis. A person is not their pattern."
+  "framing": "A symbolic read through the AERØ lens. Grant's BFN framework is a proposed framework, and personal cycles are a language for reflection — likelihood, not certainty; a lens, not a diagnosis. A person is not their pattern."
 }
 ```
 
@@ -107,7 +107,7 @@ member's forecast card.
 ## Consent semantics (for partner product teams)
 
 - **Parent & child (lead use case):** a parent creates a *managed* profile
-  for their child inside ÆNIGMA — forecasts flow. The child receives a claim
+  for their child inside AERØ — forecasts flow. The child receives a claim
   link; claiming moves the profile to `accepted` under the child's own
   control, and the child can revoke from that same link at any time. The
   parent is told plainly in-product that the profile is parent-managed.
@@ -135,5 +135,5 @@ with the text.
 - Push delivery of the morning forecast (in-app only in v1).
 - Member-facing mobile claim/revoke pages beyond the link flow.
 - Per-partner member provisioning webhooks (consent-change events).
-- Ask ÆNIGMA reaction queries (`POST` — how would this member likely react
+- Ask AERØ reaction queries (`POST` — how would this member likely react
   to X?) under a `ask:read` scope.

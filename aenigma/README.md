@@ -1,4 +1,4 @@
-# ÆNIGMA (beta)
+# AERØ (beta)
 
 *A mirror for your consciousness.* Real-time resonance for the archetypes
 moving through you — reflect, discover, unlock the hidden.
@@ -7,7 +7,7 @@ moving through you — reflect, discover, unlock the hidden.
 
 A self-contained web app: an Express server that computes a deterministic,
 date-seeded "resonance field" for 10 archetypes, plus a static single-page
-app that renders it in the ÆNIGMA terminal aesthetic.
+app that renders it in the AERØ terminal aesthetic.
 
 - **Every tester sees the same field on the same day** — the data is seeded
   from the date, so the field feels like a shared living market and advances
@@ -59,5 +59,5 @@ public domain under Service → Settings → Networking.
 
 ## Disclaimer
 
-The field is simulated. ÆNIGMA is for self-reflection and entertainment —
+The field is simulated. AERØ is for self-reflection and entertainment —
 not medical or psychological advice.

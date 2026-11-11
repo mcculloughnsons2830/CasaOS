@@ -1,4 +1,4 @@
-# ÆNIGMA beta — explicit Docker build so Railway ignores the legacy Go code
+# AERØ beta — explicit Docker build so Railway ignores the legacy Go code
 FROM node:22-alpine
 WORKDIR /app
 ENV NODE_ENV=production

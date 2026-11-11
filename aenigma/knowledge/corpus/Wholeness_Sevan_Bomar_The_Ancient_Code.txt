@@ -120,7 +120,7 @@ multiple of 9 reduces back to 9, and adding 9 to a number mirrors the
 number back (9 + 5 = 14, and 1 + 4 = 5). Mapped on the six-pointed star,
 opposite points sum to 9 (1+8, 4+5, 2+7). Inside the sequence the pairs
 run 14 = 7×2, 28 = 7×4, then where 56 = 7×8 belongs stands 57 — one
-extra, the one hidden one always watching. The ÆNIGMA engine computes all
+extra, the one hidden one always watching. The AERØ engine computes all
 of this live (The Ancient Code theorem), beside Grant's BFN: two systems
 built on the digits that aren't there — 142857 excludes 3, 6, and 9; BFN
 works mod 24 in base 12.
@@ -135,6 +135,6 @@ carved on the turtle's back: 13 segments, 28 notches around the edge. In
 the sky, Venus makes 13 orbits in the same span Earth makes 8 years —
 13 × 224.7 days ≈ 2921 days against 8 × 365.25 ≈ 2922 — and across that
 8-year cycle Venus traces a five-petaled pentagram against the stars
-(real astronomy; the reading is his). The ÆNIGMA engine carries this as
+(real astronomy; the reading is his). The AERØ engine carries this as
 The 13 / Zero Calendar theorem, next to the Personal Day/Month machinery:
 13 moons of 28, and one day that belongs to no count at all.

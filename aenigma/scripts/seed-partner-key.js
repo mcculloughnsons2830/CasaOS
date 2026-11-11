@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Seed / list / revoke ÆNIGMA Circles partner API keys.
+// Seed / list / revoke AERØ Circles partner API keys.
 //
 //   node scripts/seed-partner-key.js "Partner Name"     → mint a key (printed ONCE)
 //   node scripts/seed-partner-key.js --list             → list key records (no secrets)
